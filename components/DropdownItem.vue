@@ -1,6 +1,6 @@
 <template>
   <div class="group relative pr-16 pl-5">
-    <a href="/">
+    <a :href="link">
       <span
         class="bg-background absolute -inset-1 -inset-y-5 rounded transition scale-95 opacity-0 group-hover:opacity-50 group-hover:shadow"
       />
@@ -31,6 +31,7 @@ const props = withDefaults(
     subtext: string;
     image?: string;
     icon?: string;
+    link?: string;
   }>(),
   {
     title: "Title",
