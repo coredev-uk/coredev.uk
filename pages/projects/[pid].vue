@@ -1,5 +1,5 @@
 <template>
-  <div class="grid p-2 place-items-center bg-zinc-800 min-h-screen ">
+  <div class="grid p-2 place-items-center bg-background min-h-screen ">
     <ProjectBox :data="project"/>
   </div>
 </template>

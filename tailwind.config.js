@@ -11,7 +11,8 @@ export default {
   theme: {
     extend: {
         colors: {
-            background: '#180700',
+            background: '#1D1D20',
+            accent: '#c04830',
         }
     },
   },

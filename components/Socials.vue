@@ -4,8 +4,8 @@
   >
     <SocialsButton icon="fa-brands fa-discord" tooltip="Discord" link="///discord.com/users/546426958465073163" />
     <SocialsButton icon="fa-brands fa-github" tooltip="GitHub" link="///github.com/coredev-uk" />
-    <SocialsButton icon="fa-brands fa-linkedin" tooltip="LinkedIn" link="///linkedin.com/in/paul-thompson-693114193" />
     <SocialsButton icon="fa-brands fa-x-twitter" tooltip="X" link="///twitter.com/core_hdd" />
+    <SocialsButton icon="fa-brands fa-lastfm" tooltip="Last.fm" link="///last.fm/user/core_hdd" />
   </div>
 </template>
 
