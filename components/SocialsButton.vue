@@ -3,15 +3,15 @@
     <font-awesome-icon
       v-if="!isImage"
       :icon="icon"
-      :class="color"
-      class="text-2xl group-hover:text-accent transition duration-200"
+      class="text-2xl text-white transition duration-200"
+      :class="color ? `group-hover:${color}` : 'group-hover:text-accent'"
     />
     <NuxtImg
       v-else
       :src="icon"
-      :class="color"
       :width="width"
-      class="w-8 h-8 group-hover:opacity-70 transition duration-200"
+      class="text-2xl text-white transition duration-200"
+      :class="color ? `group-hover:${color}` : 'group-hover:text-accent'"
     />
     <Tooltip :text="tooltip" />
   </a>
@@ -28,7 +28,6 @@ const props = withDefaults(
     width?: number;
   }>(),
   {
-    color: "text-white",
     isImage: false,
   }
 );

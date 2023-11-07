@@ -15,7 +15,7 @@
       leave-to-class="translate-y-1 opacity-0"
     >
       <PopoverPanel class="absolute z-10 right-0 mt-3">
-        <div class="flex flex-col bg-black/40 py-7 px-2 pr-0 rounded gap-9 shadow">
+        <div class="flex flex-col bg-black/40 py-7 px-2 rounded gap-9 shadow">
           <DropdownItem
             title="Cider 2"
             subtext="Vue 3, Electron and Tauri"
