@@ -12,10 +12,10 @@
 import GlitchedWriter from "vue-glitched-writer";
 
 const phrases = ref([
-    "TypeScript enjoyer",
+    "DevOps engineer",
     "Cider developer",
     "Full stack developer",
-    "Amateur graphic designer",
+    "Graphic designer",
     "Texture artist"
 ])
 
