@@ -62,6 +62,6 @@ useHead({
     <div class="min-h-screen grid place-items-center bg-background font-sans">
         <Socials />
         <TitleContainer />
-        <ProjectDropdown />
+        <!-- <ProjectDropdown /> -->
     </div>
 </template>
