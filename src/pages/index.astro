@@ -1,11 +1,63 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+const experience = await getCollection("experience");
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
 ---
 
 <Layout>
-	<Welcome />
+  <Header />
+
+  <section class="flex min-h-[800px]] justify-center px-4 py-10">
+    <div class="flex max-w-[800px] place-items-center gap-8">
+      <div class="space-y-4">
+        <h1 class="text-3xl">Hey! I'm Paul.</h1>
+        <p>
+          I'm a software engineer and web developer based in the UK. I'm
+          passionate about building things that make a difference.
+        </p>
+        <a
+          href="/portfolio"
+          class="bg-primary text-background rounded px-3 py-2">My Portfolio</a
+        >
+        <a href="/blog" class="bg-primary text-background rounded px-3 py-2"
+          >My Blog</a
+        >
+      </div>
+      <Image
+        src="https://placehold.co/300"
+        width="300"
+        height="300"
+        alt="A placeholder image"
+        class="rounded-full"
+      />
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="flex justify-center px-4 py-8">
+    {
+      experience.map(async (job) => {
+        const { Content } = await job.render();
+        return (
+          <div class="flex max-w-[800px] place-items-center gap-8">
+            <div class="space-y-4">
+              <h2 class="text-2xl">{job.data.title}</h2>
+              <p>{job.data.company}</p>
+              <p>{formatDate(job.data.startDate)}</p>
+              <Content />
+            </div>
+          </div>
+        );
+      })
+    }
+  </section>
 </Layout>
