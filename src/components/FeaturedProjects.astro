@@ -24,9 +24,6 @@ const { projects } = Astro.props;
     <div class="flex flex-wrap justify-center gap-8 mb-16 max-w-7xl mx-auto">
       {projects.map((project, index) => (
       <div class={`project-card animate-slide-up-${index + 1} w-full md:w-80 lg:w-96 max-w-sm`}>
-        <div class="project-image-placeholder">
-          <div class="text-white text-xl font-bold text-center px-4">{project.data.title}</div>
-        </div>
         <div class="p-6">
           <div class="flex items-start justify-between mb-3">
             <h3 class="text-xl font-bold text-gray-900 dark:text-white">{project.data.title}</h3>
