@@ -1,17 +1,50 @@
 ---
-import "./src/styles/global.css";
+import '../styles/global.css'
+import { ClientRouter } from 'astro:transitions';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Personal portfolio of Core - Full-stack developer and software engineer specializing in Vue.js, TypeScript, Node.js, and DevOps" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Core's Website</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Core - Software Engineer" />
+    <meta name="keywords" content="software engineer, full-stack developer, Vue.js, TypeScript, Node.js, DevOps, UK" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://coredev.uk" />
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/64542347?v=4" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@core_hdd" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/64542347?v=4" />
+    
+    <title>{title}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+<ClientRouter />
   </head>
-  <body class="font-sans antialiased">
+  <body class="font-sans transition-colors duration-300 overflow-x-hidden">
     <slot />
   </body>
 </html>

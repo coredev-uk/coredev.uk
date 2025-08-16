@@ -1,39 +1,33 @@
 import { defineCollection, z } from "astro:content";
 
 const blog = defineCollection({
-    type: "content",
-    // Type-check frontmatter using a schema
-    schema: z.object({
-        title: z.string(),
-        description: z.string(),
-        pubDate: z.coerce.date(),
-        updatedDate: z.coerce.date().optional(),
-        heroImage: z.string().optional(),
-        tags: z.string().array().optional(),
-    }),
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishDate: z.string(),
+    author: z.string(),
+    tags: z.array(z.string()).optional(),
+    featured: z.boolean().optional(),
+    draft: z.boolean().optional(),
+  }),
 });
 
-const project = defineCollection({
-    type: "content",
-    schema: z.object({
-        title: z.string(),
-        description: z.string(),
-        tech: z.string().array().optional(),
-        github: z.string().optional(),
-        url: z.string().optional(),
-        loadFactor: z.number(),
-    }),
+const projects = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.string().optional(),
+    technologies: z.array(z.string()).optional(),
+    github: z.string().optional(),
+    demo: z.string().optional(),
+    featured: z.boolean().optional(),
+    status: z.enum(["departed", "archived", "active"]).optional(),
+  }),
 });
 
-const experience = defineCollection({
-    type: "content",
-    schema: z.object({
-        startDate: z.coerce.date(),
-        endDate: z.coerce.date().optional(),
-        company: z.string(),
-        title: z.string(),
-        tech: z.string().array().optional(),
-    }),
-});
-
-export const collections = { blog, project, experience };
+export const collections = {
+  blog,
+  projects,
+};
