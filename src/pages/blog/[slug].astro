@@ -46,68 +46,50 @@ const { Content } = await post.render();
       </div>
 
       <!-- Article header -->
-      <header class="mb-12">
-        <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
-          <time>{publishDate}</time>
-          <span>•</span>
-          <span>By {post.data.author}</span>
-          {post.data.featured && (
-            <>
-              <span>•</span>
-              <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full text-xs font-semibold">
-                Featured
-              </span>
-            </>
+      <header class="mb-16">
+        <div class="text-center">
+          <div class="flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-6">
+            <time>{publishDate}</time>
+            {post.data.featured && (
+              <>
+                <span>•</span>
+                <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full text-xs font-semibold">
+                  Featured
+                </span>
+              </>
+            )}
+          </div>
+          
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-8 leading-tight">
+            {title}
+          </h1>
+          
+          <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+            {post.data.description}
+          </p>
+          
+          {post.data.tags && (
+            <div class="flex flex-wrap justify-center gap-3 mb-8">
+              {post.data.tags.map((tag: string) => (
+                <span class="px-4 py-2 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full font-medium text-sm">
+                  {tag}
+                </span>
+              ))}
+            </div>
           )}
-        </div>
-        
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
-          {title}
-        </h1>
-        
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
-          {post.data.description}
-        </p>
-        
-        {post.data.tags && (
-          <div class="flex flex-wrap gap-2 mb-8">
-            {post.data.tags.map((tag: string) => (
-              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full font-medium">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-        
-        <div class="flex items-center">
-          <div class="w-12 h-12 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-            C
-          </div>
-          <div class="ml-4">
-            <div class="font-semibold text-gray-900 dark:text-gray-100">{post.data.author}</div>
-            <div class="text-gray-600 dark:text-gray-400">Full-Stack Developer</div>
-          </div>
         </div>
       </header>
 
       <!-- Article content -->
-      <article class="prose prose-lg prose-slate dark:prose-invert max-w-none">
-        <Content />
+      <article class="prose prose-lg prose-slate dark:prose-invert max-w-none prose-headings:scroll-mt-24">
+        <div class="blog-content">
+          <Content />
+        </div>
       </article>
 
       <!-- Article footer -->
       <footer class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <div class="w-12 h-12 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-              C
-            </div>
-            <div class="ml-4">
-              <div class="font-semibold text-gray-900 dark:text-gray-100">{post.data.author}</div>
-              <div class="text-gray-600 dark:text-gray-400">Full-Stack Developer passionate about clean code and modern technologies</div>
-            </div>
-          </div>
-          
+        <div class="flex justify-center">
           <div class="flex space-x-4">
             <a 
               href="https://github.com/coredev-uk" 
@@ -150,3 +132,50 @@ const { Content } = await post.render();
 
   <Footer />
 </Layout>
+
+<style>
+  @reference "tailwindcss";
+  
+  /* Hide the first h1 in blog content since we display the title in the header */
+  .blog-content > :global(h1:first-child) {
+    display: none;
+  }
+  
+  /* Improve spacing for the first element after removing h1 */
+  .blog-content > :global(*:first-child) {
+    margin-top: 0;
+  }
+  
+  /* Better prose styling */
+  .prose :global(h2) {
+    @apply text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mt-12 mb-6 border-b border-gray-200 dark:border-gray-700 pb-2;
+  }
+  
+  .prose :global(h3) {
+    @apply text-xl md:text-2xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4;
+  }
+  
+  .prose :global(h4) {
+    @apply text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100 mt-6 mb-3;
+  }
+  
+  .prose :global(p) {
+    @apply mb-6 leading-relaxed;
+  }
+  
+  .prose :global(blockquote) {
+    @apply border-l-4 border-blue-500 pl-6 my-8 italic text-gray-700 dark:text-gray-300;
+  }
+  
+  .prose :global(code) {
+    @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm;
+  }
+  
+  .prose :global(pre) {
+    @apply bg-gray-900 dark:bg-gray-800 rounded-lg p-6 overflow-x-auto my-8;
+  }
+  
+  .prose :global(pre code) {
+    @apply bg-transparent p-0;
+  }
+</style>

@@ -2,11 +2,11 @@
 title: "Building Cross-Platform Desktop Apps with Electron: Lessons from Cider"
 description: "Deep dive into the challenges and solutions of building a cross-platform music application that serves thousands of users worldwide"
 publishDate: "2024-01-15"
-author: "Paul Thompson"
 tags: ["Electron", "Vue.js", "Cross-Platform", "Desktop Development", "Performance"]
 featured: true
 draft: true
 ---
+
 
 # Building Cross-Platform Desktop Apps with Electron: Lessons from Cider
 

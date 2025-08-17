@@ -39,8 +39,6 @@ const sortedPosts = blogPosts.sort((a, b) => {
             <article class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 hover:shadow-lg transition-all duration-300">
               <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
                 <time>{publishDate}</time>
-                <span>•</span>
-                <span>By {post.data.author}</span>
                 {post.data.featured && (
                   <>
                     <span>•</span>

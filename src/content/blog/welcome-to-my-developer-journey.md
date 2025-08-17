@@ -2,7 +2,6 @@
 title: "Welcome to My Developer Journey"
 description: "A brief introduction to my blog and what you can expect to find here"
 publishDate: "2024-01-10"
-author: "Paul Thompson"
 tags: ["Introduction", "Personal", "Development"]
 featured: false
 draft: true
