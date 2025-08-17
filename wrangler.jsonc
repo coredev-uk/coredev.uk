@@ -1,0 +1,8 @@
+{
+  "name": "coredev-web",
+  "compatibility_date": "2025-08-15",
+  "assets": {
+    "directory": "./dist"
+  },
+  "preview_urls": true
+}
