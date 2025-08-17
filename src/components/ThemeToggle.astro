@@ -2,15 +2,13 @@
 ---
 
 <button 
-  id="theme-toggle" 
+  class="theme-toggle p-2 text-slate-500 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-slate-100 dark:hover:bg-slate-800/30 rounded-lg transition-all duration-200 group active:scale-95"
   type="button"
-  class="p-2 text-slate-500 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-slate-100 dark:hover:bg-slate-800/30 rounded-lg transition-all duration-200 group active:scale-95"
   aria-label="Toggle theme"
 >
   <!-- Sun icon (visible in dark mode) -->
   <svg 
-    id="theme-toggle-sun-icon"
-    class="w-5 h-5 group-hover:scale-110 transition-all duration-200 hidden dark:block group-active:rotate-180" 
+    class="theme-sun-icon w-5 h-5 group-hover:scale-110 transition-all duration-200 hidden dark:block group-active:rotate-180" 
     fill="currentColor" 
     viewBox="0 0 20 20"
   >
@@ -19,8 +17,7 @@
   
   <!-- Moon icon (visible in light mode) -->
   <svg 
-    id="theme-toggle-moon-icon"
-    class="w-5 h-5 group-hover:scale-110 transition-all duration-200 block dark:hidden group-active:-rotate-12" 
+    class="theme-moon-icon w-5 h-5 group-hover:scale-110 transition-all duration-200 block dark:hidden group-active:-rotate-12" 
     fill="currentColor" 
     viewBox="0 0 20 20"
   >
@@ -69,14 +66,14 @@
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
 
-    // Add visual feedback
-    const button = document.getElementById('theme-toggle');
-    if (button) {
+    // Add visual feedback to all toggle buttons
+    const buttons = document.querySelectorAll('.theme-toggle');
+    buttons.forEach(button => {
       button.style.transform = 'scale(0.95)';
       setTimeout(() => {
         button.style.transform = '';
       }, 150);
-    }
+    });
   }
 
   function initTheme() {
@@ -84,11 +81,11 @@
     const theme = getCurrentTheme();
     setTheme(theme);
 
-    // Bind theme toggle button
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-      themeToggle.addEventListener('click', toggleTheme);
-    }
+    // Bind theme toggle buttons
+    const themeToggles = document.querySelectorAll('.theme-toggle');
+    themeToggles.forEach(toggle => {
+      toggle.addEventListener('click', toggleTheme);
+    });
 
     // Listen for system theme changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
