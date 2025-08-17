@@ -1,5 +1,5 @@
 {
-  "name": "coredev-uk-portfolio",
+  "name": "coredev-web",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -15,5 +15,8 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16"
-  }
+  },
+  "trustedDependencies": [
+    "@tailwindcss/oxide"
+  ]
 }
