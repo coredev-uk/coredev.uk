@@ -123,8 +123,26 @@
     border-color: var(--color-dark-700);
   }
 
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   html {
     scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   body {
@@ -180,7 +198,42 @@
   /* Focus styles */
   :focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-primary-500);
+    box-shadow: 0 0 0 2px var(--color-primary-500), 0 0 0 4px color-mix(in srgb, var(--color-primary-500) 20%, transparent);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Skip link for keyboard navigation */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--color-primary-600);
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    z-index: 100;
+    font-weight: 600;
+  }
+
+  .skip-link:focus {
+    top: 6px;
+  }
+
+  /* Improved focus styles for interactive elements */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-primary-500), 0 0 0 4px color-mix(in srgb, var(--color-primary-500) 20%, transparent);
+  }
+
+  /* Ensure text remains visible during font loading */
+  @font-face {
+    font-family: 'Inter';
+    font-display: swap;
   }
 }
 
@@ -321,7 +374,7 @@
 
   /* Social link styling */
   .social-link {
-    color: var(--color-dark-500);
+    color: var(--color-dark-600);
     padding: 0.75rem;
     border-radius: var(--radius-md);
     transition: all 0.3s ease;
@@ -337,11 +390,11 @@
   }
 
   .dark .social-link {
-    color: var(--color-dark-400);
+    color: var(--color-dark-300);
   }
 
   .dark .social-link:hover {
-    color: var(--color-accent-300);
+    color: var(--color-accent-200);
     background-color: color-mix(in srgb, var(--color-primary-500) 10%, transparent);
   }
 }
@@ -390,5 +443,51 @@
   /* Gradient utilities */
   .bg-gradient-radial {
     background-image: radial-gradient(var(--tw-gradient-stops));
+  }
+
+  /* Accessibility utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .btn-primary,
+    .btn-secondary {
+      border: 2px solid currentColor;
+    }
+    
+    .nav-link::before {
+      opacity: 0.3 !important;
+    }
+    
+    .nav-link.active::before {
+      opacity: 0.5 !important;
+    }
+  }
+
+  /* Reduced transparency for better contrast */
+  @media (prefers-contrast: high) {
+    .glass,
+    .glass-card,
+    .glass-strong {
+      background: var(--color-dark-50) !important;
+      border: 2px solid var(--color-dark-400) !important;
+    }
+    
+    .dark .glass,
+    .dark .glass-card,
+    .dark .glass-strong {
+      background: var(--color-dark-800) !important;
+      border: 2px solid var(--color-dark-600) !important;
+    }
   }
 }

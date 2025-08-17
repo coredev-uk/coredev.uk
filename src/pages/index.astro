@@ -27,7 +27,7 @@ const recentPosts = blogPosts
 const techStack = [
 {
 category: "Languages",
-icon: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",
+icon: "heroicons:code-bracket",
 gradient: "from-primary-50/50 to-accent-50/50 dark:from-primary-950/30 dark:to-accent-950/30",
 border: "border-primary-200/50 dark:border-primary-800/20",
 titleColor: "text-primary-700 dark:text-primary-300",
@@ -44,7 +44,7 @@ technologies: [
 },
 {
 category: "Frameworks & Libraries",
-icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
+icon: "heroicons:rectangle-stack",
 gradient: "from-accent-50/50 to-primary-50/50 dark:from-accent-950/30 dark:to-primary-950/30",
 border: "border-accent-200/50 dark:border-accent-800/20",
 titleColor: "text-accent-700 dark:text-accent-300",
@@ -59,7 +59,7 @@ technologies: [
 },
 {
 category: "DevOps & Cloud",
-icon: "M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10",
+icon: "heroicons:cloud-arrow-down",
 gradient: "from-gray-100/60 to-slate-100/60 dark:from-gray-900/40 dark:to-slate-900/40",
 border: "border-gray-300/50 dark:border-gray-700/30",
 titleColor: "text-gray-700 dark:text-gray-300",
@@ -77,11 +77,13 @@ technologies: [
 <Layout title="Core - Software Engineer & Full-Stack Developer">
   <Navigation />
 
-  <Hero />
-  <AboutSkills techStack={techStack} />
-  <FeaturedProjects projects={featuredProjects} />
-  <RecentBlog posts={recentPosts} />
-  <ContactSection />
+  <main id="main-content">
+    <Hero />
+    <AboutSkills techStack={techStack} />
+    <FeaturedProjects projects={featuredProjects} />
+    <RecentBlog posts={recentPosts} />
+    <ContactSection />
+  </main>
 
   <Footer />
 </Layout>

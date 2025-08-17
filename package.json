@@ -14,9 +14,13 @@
     "@astrojs/cloudflare": "^12.6.4",
     "@tailwindcss/vite": "^4.1.12",
     "astro": "^5.13.2",
+    "astro-icon": "^1.1.5",
     "tailwindcss": "^4.1.12"
   },
   "devDependencies": {
+    "@iconify-json/heroicons": "^1.2.2",
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/simple-icons": "^1.2.48",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^24.3.0",
     "wrangler": "^4.30.0"

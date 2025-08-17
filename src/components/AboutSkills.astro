@@ -1,21 +1,8 @@
 ---
-export interface TechStack {
-  category: string;
-  icon: string;
-  gradient: string;
-  border: string;
-  titleColor: string;
-  technologies: Array<{
-    name: string;
-    color: string;
-  }>;
-}
+import { Icon } from 'astro-icon/components';
+import type { AboutSkillsProps } from '../types';
 
-interface Props {
-  techStack: TechStack[];
-}
-
-const { techStack } = Astro.props;
+const { techStack } = Astro.props as AboutSkillsProps;
 ---
 
 <section class="py-32 relative overflow-hidden bg-gray-50 dark:bg-dark-900 transition-colors duration-300">
@@ -36,9 +23,7 @@ const { techStack } = Astro.props;
         </p>
         <a href="https://github.com/coredev-uk" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold text-lg group transition-colors duration-300">
           <span>Explore My GitHub</span>
-          <svg class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
+          <Icon name="heroicons:arrow-top-right-on-square" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
         </a>
       </div>
 
@@ -49,9 +34,7 @@ const { techStack } = Astro.props;
             {techStack.map((section) => (
             <div class={`bg-gradient-to-r ${section.gradient} rounded-xl p-6 border ${section.border}`}>
               <h4 class={`text-lg font-semibold ${section.titleColor} mb-4 flex items-center`}>
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={section.icon}/>
-                </svg>
+                <Icon name={section.icon} class="w-5 h-5 mr-2" />
                 {section.category}
               </h4>
               <div class="flex flex-wrap gap-2">
