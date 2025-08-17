@@ -140,34 +140,22 @@ const { Content } = await project.render();
         )}
       </header>
 
-      <!-- Project image placeholder -->
-      <div class="mb-12">
-        <div class="h-64 md:h-96 bg-gradient-to-br from-primary-500 to-blue-600 rounded-lg flex items-center justify-center">
-          <div class="text-white text-center">
-            <h3 class="text-2xl font-bold mb-2">{title}</h3>
-            <p class="opacity-90">Project Screenshot</p>
-          </div>
+      <!-- Project image -->
+      {project.data.image && (
+        <div class="mb-12">
+          <img 
+            src={project.data.image} 
+            alt={`${title} screenshot`}
+            class="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+          />
         </div>
-      </div>
+      )}
 
       <!-- Project content -->
       <article class="prose prose-lg prose-slate dark:prose-invert max-w-none">
         <Content />
       </article>
 
-      <!-- Project footer -->
-      <footer class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
-        <div class="text-center">
-          <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Interested in working together?</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-6">I'm always open to discussing new projects and opportunities.</p>
-          <a 
-            href="mailto:contact@coredev.uk" 
-            class="bg-primary-600 dark:bg-primary-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
-          >
-            Get In Touch
-          </a>
-        </div>
-      </footer>
     </div>
   </main>
 
