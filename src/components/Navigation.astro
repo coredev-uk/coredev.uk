@@ -3,6 +3,12 @@ import ThemeToggle from './ThemeToggle.astro';
 import { Icon } from 'astro-icon/components';
 
 const currentPath = Astro.url.pathname;
+
+const navigationItems = {
+  "/": "Home",
+  "/projects": "Projects",
+  "/blog": "Blog"
+}
 ---
 
 <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-700/20 backdrop-blur-lg">
@@ -16,39 +22,21 @@ const currentPath = Astro.url.pathname;
       
       <div class="hidden md:flex items-center space-x-1">
         <div class="flex items-center space-x-1">
-          <a 
-            href="/" 
-            class={`nav-link ${
-              currentPath === '/' 
-                ? 'text-primary-600 dark:text-primary-300 active' 
-                : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300'
-            }`}
-            aria-current={currentPath === '/' ? 'page' : undefined}
-          >
-            <span>Home</span>
-          </a>
-          <a 
-            href="/projects" 
-            class={`nav-link ${
-              currentPath === '/projects' 
-                ? 'text-primary-600 dark:text-primary-300 active' 
-                : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300'
-            }`}
-            aria-current={currentPath === '/projects' ? 'page' : undefined}
-          >
-            <span>Projects</span>
-          </a>
-          <a 
-            href="/blog" 
-            class={`nav-link ${
-              currentPath === '/blog' 
-                ? 'text-primary-600 dark:text-primary-300 active' 
-                : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300'
-            }`}
-            aria-current={currentPath === '/blog' ? 'page' : undefined}
-          >
-            <span>Blog</span>
-          </a>
+          {
+            Object.entries(navigationItems).map(([path, label]) => (
+              <a 
+                href={path}
+                class={`nav-link ${
+                  currentPath === path
+                    ? 'text-primary-600 dark:text-primary-300 active' 
+                    : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300'
+                }`}
+                aria-current={currentPath === path ? 'page' : undefined}
+              >
+                <span>{label}</span>
+              </a>
+            ))
+          }
           <!-- <a  -->
           <!--   href="/cv.pdf"  -->
           <!--   target="_blank" -->
@@ -94,9 +82,21 @@ const currentPath = Astro.url.pathname;
   <!-- Mobile menu -->
   <div id="mobile-menu" class="md:hidden hidden" role="menu" aria-labelledby="mobile-menu-button">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 dark:bg-slate-900/95 border-t border-slate-200 dark:border-slate-700/20 backdrop-blur-lg">
-      <a href="/" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300">Home</a>
-      <a href="/projects" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300">Projects</a>
-      <a href="/blog" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300">Blog</a>
+      {
+        Object.entries(navigationItems).map(([path, label]) => (
+          <a 
+            href={path}
+            class={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ${
+              currentPath === path
+                ? 'text-primary-600 dark:text-primary-300'
+                : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300'
+            }`}
+            aria-current={currentPath === path ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        ))
+      }
       <!-- <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300">CV</a> -->
       <div class="border-t border-slate-200 dark:border-slate-700/20 pt-2 mt-2 flex items-center justify-between">
         <a href="https://github.com/coredev-uk" target="_blank" rel="noopener noreferrer" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 flex items-center" role="menuitem" aria-label="GitHub Profile">
