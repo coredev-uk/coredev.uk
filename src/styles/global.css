@@ -145,6 +145,11 @@
     }
   }
 
+  html, body {
+    height: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     background: linear-gradient(135deg, 
       var(--color-dark-50) 0%, 
@@ -158,12 +163,20 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease;
     background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
   }
 
   .dark body {
-    background-color: var(--color-dark-900);
+    background: linear-gradient(135deg, 
+      var(--color-dark-950) 0%, 
+      var(--color-dark-900) 25%, 
+      var(--color-dark-850) 50%, 
+      var(--color-dark-900) 75%, 
+      var(--color-dark-950) 100%
+    );
     color: var(--color-dark-100);
   }
 
