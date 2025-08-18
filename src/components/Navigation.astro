@@ -5,10 +5,12 @@ import { Icon } from 'astro-icon/components';
 const currentPath = Astro.url.pathname;
 
 const navigationItems = {
-  "/": "Home",
-  "/projects": "Projects",
-  "/blog": "Blog"
+"/": "Home",
+"/projects": "Projects",
+"/blog": "Blog"
 }
+
+console.log(currentPath)
 ---
 
 <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-700/20 backdrop-blur-lg">
@@ -37,14 +39,6 @@ const navigationItems = {
               </a>
             ))
           }
-          <!-- <a  -->
-          <!--   href="/cv.pdf"  -->
-          <!--   target="_blank" -->
-          <!--   rel="noopener noreferrer" -->
-          <!--   class="nav-link text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300" -->
-          <!-- > -->
-          <!--   <span>CV</span> -->
-          <!-- </a> -->
         </div>
 
         <!-- GitHub Link & Theme Toggle -->
@@ -97,7 +91,6 @@ const navigationItems = {
           </a>
         ))
       }
-      <!-- <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300">CV</a> -->
       <div class="border-t border-slate-200 dark:border-slate-700/20 pt-2 mt-2 flex items-center justify-between">
         <a href="https://github.com/coredev-uk" target="_blank" rel="noopener noreferrer" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 flex items-center" role="menuitem" aria-label="GitHub Profile">
           <Icon name="mdi:github" class="w-5 h-5 mr-2" aria-hidden="true" />
