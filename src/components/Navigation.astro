@@ -9,6 +9,17 @@ const navigationItems = {
   "/projects": "Projects",
   "/blog": "Blog"
 }
+
+// Function to check if a path is active
+const isActiveRoute = (navPath: string, currentPath: string) => {
+  if (navPath === "/") {
+    return currentPath === "/" || currentPath === "";
+  }
+  // Remove trailing slash for comparison
+  const normalizedCurrent = currentPath.replace(/\/$/, '') || '/';
+  const normalizedNav = navPath.replace(/\/$/, '') || '/';
+  return normalizedCurrent === normalizedNav || normalizedCurrent.startsWith(normalizedNav + '/');
+};
 ---
 
 <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-700/20 backdrop-blur-lg">
@@ -27,11 +38,11 @@ const navigationItems = {
               <a 
                 href={path}
                 class={`nav-link ${
-                  currentPath.startsWith(path)
+                  isActiveRoute(path, currentPath)
                     ? 'text-primary-600 dark:text-primary-300 active' 
                     : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300'
                 }`}
-                aria-current={currentPath === path ? 'page' : undefined}
+                aria-current={isActiveRoute(path, currentPath) ? 'page' : undefined}
               >
                 <span>{label}</span>
               </a>
@@ -79,11 +90,11 @@ const navigationItems = {
           <a 
             href={path}
             class={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ${
-              currentPath === path
+              isActiveRoute(path, currentPath)
                 ? 'text-primary-600 dark:text-primary-300'
                 : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300'
             }`}
-            aria-current={currentPath === path ? 'page' : undefined}
+            aria-current={isActiveRoute(path, currentPath) ? 'page' : undefined}
           >
             {label}
           </a>
