@@ -1,46 +1,31 @@
-# Astro Starter Kit: Basics
+# Core's Portfolio
 
-```sh
-npm create astro@latest -- --template basics
-```
+This is Core's personal portfolio and blog, showcasing projects, articles, and insights. Built with modern web technologies, it serves as a platform to share knowledge and creativity in British English.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Features
 
-## 🚀 Project Structure
+- **Blog**: Share articles and insights on various topics.
+- **Projects**: Highlight featured projects with detailed descriptions.
+- **Responsive Design**: Optimized for all devices, from desktops to mobile phones.
+- **Dark Mode**: Includes a theme toggle for light and dark modes.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Tech Stack
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+- **Astro**: A modern static site generator.
+- **TypeScript**: For type-safe JavaScript development.
+- **CSS**: Custom global styles for consistent design.
+- **Bun**: A fast JavaScript runtime.
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Getting Started
 
-## 🧞 Commands
+### Deployment
 
-All commands are run from the root of the project, from a terminal:
+The project is deployed on Cloudflare Workers for fast and reliable performance.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## License
 
-## 👀 Want to learn more?
+The content of this project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License. See the `LICENSE` file for details.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Contact
+
+For any inquiries, please reach out to [core@coredev.uk].
