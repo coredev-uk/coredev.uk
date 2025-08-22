@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import cloudflare from '@astrojs/cloudflare';
 
@@ -19,10 +19,16 @@ export default defineConfig({
     imageService: "cloudflare"
   }),
 
+  env: {
+    schema: {
+      WORKERS_CI_COMMIT_SHA: envField.string({ context: "client", access: "public", default: "unset" })
+    }
+  },
+
   integrations: [icon({
     include: {
       heroicons: ["*"], // Include all heroicons
-      mdi: ["github", "linkedin"], // Include specific MDI icons
+      mdi: ["github", "linkedin", "source-commit"], // Include specific MDI icons
       "simple-icons": ["x"] // Include X icon from simple-icons
     }
   })]
