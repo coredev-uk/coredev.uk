@@ -28,4 +28,4 @@ The content of this project is licensed under the Creative Commons Attribution-N
 
 ## Contact
 
-For any inquiries, please reach out to [core@coredev.uk].
+For any enquiries, please reach out to [core@coredev.uk](mailto:core@coredev.uk).
