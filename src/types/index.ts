@@ -20,7 +20,7 @@ export interface Project {
     description: string;
     date: Date;
     featured?: boolean;
-    status?: 'active' | 'maintenance' | 'deprecated' | 'planning';
+    status?: "active" | "maintenance" | "deprecated" | "planning";
     technologies?: string[];
     github?: string;
     demo?: string;
@@ -78,5 +78,10 @@ export interface NavItem {
 }
 
 // Utility Types
-export type ProjectStatus = 'active' | 'maintenance' | 'deprecated' | 'planning';
-export type Theme = 'light' | 'dark' | 'system';
+export type ProjectStatus =
+  | "active"
+  | "maintenance"
+  | "deprecated"
+  | "planning";
+export type Theme = "light" | "dark" | "system";
+
