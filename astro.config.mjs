@@ -2,7 +2,7 @@
 import { defineConfig, envField } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import cloudflare from '@astrojs/cloudflare';
-
+import { remarkReadingTime } from './scripts/remark-reading-time.mjs'
 import icon from 'astro-icon';
 
 // https://astro.build/config
@@ -23,6 +23,16 @@ export default defineConfig({
     schema: {
       WORKERS_CI_COMMIT_SHA: envField.string({ context: "client", access: "public", default: "unset" })
     }
+  },
+
+  markdown: {
+    remarkPlugins: [remarkReadingTime],
+    shikiConfig: {
+      themes: {
+        dark: "catppuccin-mocha",
+        light: "catppuccin-latte",
+      },
+    },
   },
 
   integrations: [icon({

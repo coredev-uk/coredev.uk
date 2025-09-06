@@ -25,7 +25,7 @@ const publishDate = new Date(post.data.publishDate).toLocaleDateString('en-US', 
   day: 'numeric'
 });
 
-const { Content } = await post.render();
+const { Content, remarkPluginFrontmatter } = await post.render();
 ---
 
 <Layout title={`${title} - Core Blog`}>
@@ -47,8 +47,10 @@ const { Content } = await post.render();
       <!-- Article header -->
       <header class="mb-16">
         <div class="text-center">
-          <div class="flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-6">
+          <div class="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-6">
             <time>{publishDate}</time>
+            <span>•</span>
+            <span>{remarkPluginFrontmatter.minutesRead}</span>
             {post.data.featured && (
               <>
                 <span>•</span>
