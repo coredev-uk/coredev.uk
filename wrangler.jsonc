@@ -5,15 +5,11 @@
  {
    "$schema": "node_modules/wrangler/config-schema.json",
    "name": "core-portfolio",
-   "main": "./dist/_worker.js/index.js",
+   // A static site: Cloudflare serves the built files in dist/ directly, with no Worker code in front.
    "compatibility_date": "2025-08-16",
-   "compatibility_flags": [
-     "nodejs_compat",
-     "global_fetch_strictly_public"
-   ],
    "assets": {
-     "binding": "ASSETS",
-     "directory": "./dist"
+     "directory": "./dist",
+     "not_found_handling": "404-page"
    },
    "observability": {
      "enabled": true

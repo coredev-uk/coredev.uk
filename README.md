@@ -6,10 +6,13 @@ Built with [Astro](https://astro.build) and deployed to Cloudflare Workers.
 
 ## Development
 
+Bun and Node come from the Nix dev shell in `flake.nix`. With direnv and nix-direnv, entering the folder loads it; otherwise run `nix develop` first.
+
 ```sh
 bun install
 bun run dev      # local dev server
 bun run build    # static build into dist/
+bun run preview  # build, then serve it with Wrangler as Cloudflare would
 bun run deploy   # build and deploy with Wrangler
 ```
 
