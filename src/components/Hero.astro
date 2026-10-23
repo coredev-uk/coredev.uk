@@ -50,7 +50,7 @@ const pushedOn = push
 </section>
 
 <script>
-  // The live line: the newest public push, refreshed on every visit.
+  // The live line: the newest public push, asked of GitHub at most once every ten minutes per browser.
   const relative = new Intl.RelativeTimeFormat('en-GB', { numeric: 'auto' });
   const units: [Intl.RelativeTimeFormatUnit, number][] = [
     ['year', 31536000],
@@ -69,36 +69,74 @@ const pushedOn = push
     return 'just now';
   }
 
+  type Push = { repo: string; at: string; message: string; commitUrl: string };
+  type Cached = Push & { fetchedAt: number };
+
+  const CACHE_KEY = 'coredev:last-push';
+  const CACHE_MS = 10 * 60 * 1000;
+
+  // Storage can be missing or refuse writes (private windows, blocked cookies); the line then just fetches.
+  function readCache(): Cached | null {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      return raw ? (JSON.parse(raw) as Cached) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  async function fetchPush(): Promise<Push> {
+    const events = await fetch('https://api.github.com/users/coredev-uk/events/public?per_page=30');
+    if (!events.ok) throw new Error(String(events.status));
+    const list: Array<{ type: string; created_at: string; repo: { name: string }; payload: { head?: string } }> =
+      await events.json();
+    const push = list.find((e) => e.type === 'PushEvent' && e.payload.head);
+    if (!push) throw new Error('no push');
+    const commit = await fetch(`https://api.github.com/repos/${push.repo.name}/commits/${push.payload.head}`);
+    if (!commit.ok) throw new Error(String(commit.status));
+    const data: { html_url: string; commit: { message: string } } = await commit.json();
+    return { repo: push.repo.name, at: push.created_at, message: data.commit.message.split('\n')[0], commitUrl: data.html_url };
+  }
+
+  function render(line: HTMLElement, push: Push) {
+    const repo = document.createElement('a');
+    repo.className = 'link';
+    repo.href = `https://github.com/${push.repo}`;
+    repo.textContent = push.repo.split('/')[1];
+    const time = document.createElement('time');
+    time.dateTime = push.at;
+    time.textContent = ago(push.at);
+    const message = document.createElement('a');
+    message.className = 'link';
+    message.href = push.commitUrl;
+    message.textContent = `“${push.message}”`;
+    line.replaceChildren('Last pushed to ', repo, ' ', time, ': ', message);
+  }
+
   async function refresh() {
     const line = document.querySelector<HTMLElement>('[data-push]');
     if (!line) return;
+    const cached = readCache();
+    if (cached && Date.now() - cached.fetchedAt < CACHE_MS) {
+      render(line, cached);
+      return;
+    }
     try {
-      const events = await fetch('https://api.github.com/users/coredev-uk/events/public?per_page=30');
-      if (!events.ok) throw new Error(String(events.status));
-      const list: Array<{ type: string; created_at: string; repo: { name: string }; payload: { head?: string } }> =
-        await events.json();
-      const push = list.find((e) => e.type === 'PushEvent' && e.payload.head);
-      if (!push) throw new Error('no push');
-      const commit = await fetch(`https://api.github.com/repos/${push.repo.name}/commits/${push.payload.head}`);
-      if (!commit.ok) throw new Error(String(commit.status));
-      const data: { html_url: string; commit: { message: string } } = await commit.json();
-
-      const repo = document.createElement('a');
-      repo.className = 'link';
-      repo.href = `https://github.com/${push.repo.name}`;
-      repo.textContent = push.repo.name.split('/')[1];
-      const time = document.createElement('time');
-      time.dateTime = push.created_at;
-      time.textContent = ago(push.created_at);
-      const message = document.createElement('a');
-      message.className = 'link';
-      message.href = data.html_url;
-      message.textContent = `“${data.commit.message.split('\n')[0]}”`;
-      line.replaceChildren('Last pushed to ', repo, ' ', time, ': ', message);
+      const push = await fetchPush();
+      render(line, push);
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ ...push, fetchedAt: Date.now() } satisfies Cached));
+      } catch {
+        // Not cached this time; the next visit asks GitHub again.
+      }
     } catch {
-      // Keep the build-time line; only sharpen its date.
-      const time = line.querySelector<HTMLTimeElement>('[data-push-time]');
-      if (time) time.textContent = ago(time.dateTime);
+      // GitHub didn't answer: show the last answer this browser saw, else keep the build-time line.
+      if (cached) {
+        render(line, cached);
+      } else {
+        const time = line.querySelector<HTMLTimeElement>('[data-push-time]');
+        if (time) time.textContent = ago(time.dateTime);
+      }
     }
   }
 
