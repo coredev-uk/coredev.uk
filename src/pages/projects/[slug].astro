@@ -3,20 +3,20 @@ import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.astro';
 import ProjectFigure from '../../components/ProjectFigure.astro';
 import Footer from '../../components/Footer.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { statusLabel } from '../../utils/projectStatus';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
   return projects.map((project) => ({
-    params: { slug: project.slug },
+    params: { slug: project.id },
     props: { project },
   }));
 }
 
 const { project } = Astro.props;
 const { title, description, date, technologies, github, demo, status, image, imageAlt, gallery, badges } = project.data;
-const { Content } = await project.render();
+const { Content } = await render(project);
 const since = date ? new Date(date).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) : null;
 const facts = [
   since && { term: 'Started', value: since },
@@ -82,7 +82,7 @@ const facts = [
         )
       }
       <div data-reveal style="--i: 6">
-        <ProjectFigure slug={project.slug} />
+        <ProjectFigure slug={project.id} />
       </div>
     </aside>
 

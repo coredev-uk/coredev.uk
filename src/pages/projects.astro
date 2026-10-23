@@ -42,7 +42,7 @@ const projects = (await getCollection('projects')).sort((a, b) => {
           <article class="entry">
             <div class="entry__text">
               <h2 data-reveal>
-                <a href={`/projects/${project.slug}`}>{project.data.title}</a>
+                <a href={`/projects/${project.id}`}>{project.data.title}</a>
               </h2>
               <p class="entry__desc" data-reveal style="--i: 1">
                 {project.data.description}
@@ -57,7 +57,7 @@ const projects = (await getCollection('projects')).sort((a, b) => {
                   .join('. ')}
               </p>
               <p class="entry__links" data-reveal style="--i: 3">
-                <a class="link" href={`/projects/${project.slug}`}>
+                <a class="link" href={`/projects/${project.id}`}>
                   Read the write-up
                 </a>
                 {project.data.github && (
@@ -68,7 +68,7 @@ const projects = (await getCollection('projects')).sort((a, b) => {
               </p>
             </div>
             <div class="entry__figure">
-              <ProjectFigure slug={project.slug} image={project.data.image} imageAlt={project.data.imageAlt} />
+              <ProjectFigure slug={project.id} image={project.data.image} imageAlt={project.data.imageAlt} />
             </div>
           </article>
         ))

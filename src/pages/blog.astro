@@ -29,7 +29,7 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
             <article class="entry">
               <div class="entry__text">
                 <h2 data-reveal>
-                  <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
                 </h2>
                 <p class="entry__desc" data-reveal style="--i: 1">
                   {post.data.description}
@@ -40,13 +40,13 @@ const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).s
                   </time>
                 </p>
                 <p data-reveal style="--i: 3">
-                  <a class="link" href={`/blog/${post.slug}`}>
+                  <a class="link" href={`/blog/${post.id}`}>
                     Read the post
                   </a>
                 </p>
               </div>
               {post.data.image && (
-                <a class="entry__picture" href={`/blog/${post.slug}`} tabindex="-1" aria-hidden="true">
+                <a class="entry__picture" href={`/blog/${post.id}`} tabindex="-1" aria-hidden="true">
                   <img src={post.data.image} alt="" loading="lazy" />
                 </a>
               )}

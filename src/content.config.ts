@@ -1,7 +1,9 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const blog = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -15,7 +17,7 @@ const blog = defineCollection({
 });
 
 const projects = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -29,7 +31,7 @@ const projects = defineCollection({
     imageAlt: z.string().optional(),
     gallery: z.array(z.object({ src: z.string(), alt: z.string(), caption: z.string() })).optional(),
     /** Live status images (kromgo badges) shown beside the write-up. */
-    badges: z.array(z.object({ src: z.string().url(), alt: z.string() })).optional(),
+    badges: z.array(z.object({ src: z.url(), alt: z.string() })).optional(),
   }),
 });
 
