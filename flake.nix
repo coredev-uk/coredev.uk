@@ -17,10 +17,11 @@
     {
       devShells = forAllSystems (pkgs: {
         # Astro's CLI runs on Node; Bun installs packages and runs the scripts.
+        # Keep the Node major in step with .node-version, which Cloudflare's builds read.
         default = pkgs.mkShellNoCC {
           packages = [
             pkgs.bun
-            pkgs.nodejs
+            pkgs.nodejs_26
           ];
         };
       });
