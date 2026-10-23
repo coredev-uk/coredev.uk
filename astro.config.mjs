@@ -3,7 +3,6 @@ import { defineConfig, envField } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import cloudflare from '@astrojs/cloudflare';
 import { remarkReadingTime } from './scripts/remark-reading-time.mjs'
-import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,18 +27,7 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkReadingTime],
     shikiConfig: {
-      themes: {
-        dark: "catppuccin-mocha",
-        light: "catppuccin-latte",
-      },
+      theme: "catppuccin-mocha",
     },
   },
-
-  integrations: [icon({
-    include: {
-      heroicons: ["*"], // Include all heroicons
-      mdi: ["github", "linkedin", "source-commit"], // Include specific MDI icons
-      "simple-icons": ["x"] // Include X icon from simple-icons
-    }
-  })]
 });

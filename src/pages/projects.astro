@@ -1,155 +1,193 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
+import ProjectList from '../components/ProjectList.astro';
+import ProjectFigure from '../components/ProjectFigure.astro';
 import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
-import { getStatusClasses } from '../utils/projectStatus';
-import { Icon } from 'astro-icon/components';
+import { statusLabel } from '../utils/projectStatus';
 
-// Get all projects
-const projects = await getCollection('projects');
-
-// Sort projects by date and featured status
-const sortedProjects = projects.sort((a, b) => {
-  // Featured projects first
-  if (a.data.featured && !b.data.featured) return -1;
-  if (!a.data.featured && b.data.featured) return 1;
-  
-  // Then by date (newest first)
-  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+const projects = (await getCollection('projects')).sort((a, b) => {
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return new Date(b.data.date ?? 0).getTime() - new Date(a.data.date ?? 0).getTime();
 });
 ---
 
-<Layout title="Projects - Core">
+<Layout title="Projects, Paul Thompson (Core)">
   <Navigation />
-  
-  <main id="main-content" class="py-20 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6">Projects</h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          A showcase of my recent work and open source contributions, demonstrating my skills in modern development technologies.
+  <main id="main-content">
+    <header class="head wrap">
+      <div class="head__text">
+        <h1 data-reveal>Projects</h1>
+        <p data-reveal style="--i: 1">
+          Write-ups of the three I have spent the most time on, then everything else I have built, most of it public on
+          GitHub.
         </p>
       </div>
+      <figure class="head__picture">
+        <img
+          src="/work/cider-2-settings.webp"
+          width="840"
+          height="509"
+          alt="Cider 2.3's settings over the library: the Visual page with General, Sweetener, Animated Artwork, Lyrics and Fonts."
+          fetchpriority="high"
+        />
+        <figcaption>Cider 2, the settings window</figcaption>
+      </figure>
+    </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {sortedProjects.map((project) => (
-          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300">
-            {/* Project image placeholder */}
-            <div class="h-48 bg-gradient-to-br from-primary-500 to-blue-600 relative">
-              <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                <div class="text-center">
-                  <h3 class="text-white text-xl font-bold mb-2">{project.data.title}</h3>
-                  {project.data.featured && (
-                    <span class="inline-block bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">
-                      Featured
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-            
-            <div class="p-6">
-              <div class="flex items-center justify-between mb-3">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">{project.data.title}</h3>
-                {project.data.status && (
-                  <span class={`capitalize px-2 py-1 rounded-full text-xs font-semibold ${
-                    getStatusClasses(project.data.status)
-                  }`}>
-                    {project.data.status}
-                  </span>
-                )}
-              </div>
-              
-              <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+    <div class="entries wrap section">
+      {
+        projects.map((project) => (
+          <article class="entry">
+            <div class="entry__text">
+              <h2 data-reveal>
+                <a href={`/projects/${project.slug}`}>{project.data.title}</a>
+              </h2>
+              <p class="entry__desc" data-reveal style="--i: 1">
                 {project.data.description}
               </p>
-              
-              {/* Technologies */}
-              {project.data.technologies && (
-                <div class="flex flex-wrap gap-2 mb-4">
-                  {project.data.technologies.slice(0, 3).map((tech: string) => (
-                    <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-xs rounded-full">
-                      {tech}
-                    </span>
-                  ))}
-                  {project.data.technologies.length > 3 && (
-                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs rounded-full">
-                      +{project.data.technologies.length - 3} more
-                    </span>
-                  )}
-                </div>
-              )}
-              
-              <div class="flex justify-between items-center">
-                <a 
-                  href={`/projects/${project.slug}`}
-                  class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold text-sm inline-flex items-center"
-                >
-                  View Details
-                  <Icon name="heroicons:chevron-right" class="ml-1 h-4 w-4" />
+              <p class="entry__meta" data-reveal style="--i: 2">
+                {[
+                  project.data.date && new Date(project.data.date).getFullYear(),
+                  project.data.status && statusLabel[project.data.status],
+                  project.data.technologies?.slice(0, 4).join(', '),
+                ]
+                  .filter(Boolean)
+                  .join('. ')}
+              </p>
+              <p class="entry__links" data-reveal style="--i: 3">
+                <a class="link" href={`/projects/${project.slug}`}>
+                  Read the write-up
                 </a>
-                
-                <div class="flex space-x-2">
-                  {project.data.github && (
-                    <a 
-                      href={project.data.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                      title="View Source"
-                    >
-                      <Icon name="mdi:github" class="h-5 w-5" />
-                    </a>
-                  )}
-                  {project.data.demo && (
-                    <a 
-                      href={project.data.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                      title="Live Demo"
-                    >
-                      <Icon name="heroicons:arrow-top-right-on-square" class="h-5 w-5" />
-                    </a>
-                  )}
-                </div>
-              </div>
+                {project.data.github && (
+                  <a class="link" href={project.data.github}>
+                    Source on GitHub
+                  </a>
+                )}
+              </p>
             </div>
-          </div>
-        ))}
-      </div>
-
-      {sortedProjects.length === 0 && (
-        <div class="text-center py-16">
-          <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">No projects yet</h3>
-          <p class="text-gray-600 dark:text-gray-300">Check back soon for new projects!</p>
-        </div>
-      )}
-
-      <!-- GitHub CTA Section -->
-      <div class="mt-20 pt-16 border-t border-gray-200 dark:border-gray-700">
-        <div class="text-center">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Explore More on GitHub
-          </h2>
-          <p class="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            Discover additional projects, contributions, and open source work on my GitHub profile.
-          </p>
-          <a 
-            href="https://github.com/coredev-uk"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center bg-gray-900 dark:bg-gray-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-105"
-          >
-            <Icon name="mdi:github" class="mr-3 h-6 w-6" />
-            Visit my GitHub Profile
-            <Icon name="heroicons:arrow-top-right-on-square" class="ml-2 h-4 w-4" />
-          </a>
-        </div>
-      </div>
+            <div class="entry__figure">
+              <ProjectFigure slug={project.slug} image={project.data.image} imageAlt={project.data.imageAlt} />
+            </div>
+          </article>
+        ))
+      }
     </div>
-  </main>
 
+    <ProjectList id="all" heading="Everything else" />
+  </main>
   <Footer />
 </Layout>
+
+<style>
+  .head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 2.5rem;
+    align-items: end;
+    padding-top: 8rem;
+  }
+
+  .head__text {
+    grid-column: 1 / span 4;
+  }
+
+  .head h1 {
+    margin: 0;
+    font-size: var(--step-display);
+    line-height: 1;
+  }
+
+  .head__text p {
+    max-width: 30ch;
+    margin: 1.5rem 0 0;
+    font-size: var(--step-lead);
+    line-height: 1.4;
+  }
+
+  .head__picture {
+    grid-column: 5 / -1;
+    margin: 0;
+  }
+
+  .head__picture img {
+    width: 100%;
+    aspect-ratio: 840 / 509;
+    object-fit: cover;
+  }
+
+  .head__picture figcaption {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: var(--step-small);
+  }
+
+  .entries {
+    display: grid;
+    gap: clamp(4rem, 8vw, 6rem);
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 1.5rem;
+    align-items: center;
+  }
+
+  .entry__text {
+    grid-column: 1 / span 5;
+  }
+
+  .entry__figure {
+    grid-column: 7 / -1;
+  }
+
+  .entry h2 {
+    margin: 0 0 0.75rem;
+    font-size: var(--step-head);
+  }
+
+  .entry h2 a {
+    text-decoration: none;
+    transition: color var(--t-hover) ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .entry h2 a:hover {
+      color: var(--accent);
+    }
+  }
+
+  .entry__desc {
+    margin: 0 0 0.75rem;
+    font-size: var(--step-lead);
+    line-height: 1.4;
+  }
+
+  .entry__meta {
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+  }
+
+  .entry__links {
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .head__text,
+    .head__picture,
+    .entry__text,
+    .entry__figure {
+      grid-column: 1 / -1;
+    }
+
+    .head {
+      padding-top: 6.5rem;
+    }
+  }
+</style>

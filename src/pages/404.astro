@@ -1,0 +1,91 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { GITHUB_URL } from '../data/work';
+---
+
+<Layout title="Page not found, Paul Thompson (Core)">
+  <Navigation />
+  <main id="main-content" class="missing wrap">
+    <div class="missing__text">
+      <h1 data-reveal>Page not found</h1>
+      <p class="missing__lead" data-reveal style="--i: 1">
+        There's nothing at this address. It may have moved when the site was rebuilt, or the link may be mistyped.
+      </p>
+      <p class="missing__actions" data-reveal style="--i: 2">
+        <a class="button" href="/">Back to the home page</a>
+      </p>
+    </div>
+    <nav class="missing__links" aria-label="Places to go instead">
+      <h2 data-reveal>Try one of these</h2>
+      <ul>
+        <li data-reveal style="--i: 1"><a class="link" href="/projects">Projects</a> and their write-ups</li>
+        <li data-reveal style="--i: 2"><a class="link" href="/blog">Writing</a>, starting with four years of Cider</li>
+        <li data-reveal style="--i: 3"><a class="link" href="/#about">About me</a>, my experience and education</li>
+        <li data-reveal style="--i: 4"><a class="link" href={GITHUB_URL} rel="me">GitHub</a>, where all of my public code lives</li>
+      </ul>
+    </nav>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .missing {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 3rem;
+    align-items: end;
+    min-height: min(80svh, 44rem);
+    padding-top: 9rem;
+    padding-bottom: var(--section-gap);
+  }
+
+  .missing__text {
+    grid-column: 1 / span 6;
+  }
+
+  .missing h1 {
+    margin: 0;
+    font-size: var(--step-display);
+    line-height: 1;
+  }
+
+  .missing__lead {
+    max-width: 36ch;
+    margin: 1.5rem 0 0;
+    font-size: var(--step-lead);
+    line-height: 1.4;
+  }
+
+  .missing__actions {
+    margin: 2rem 0 0;
+  }
+
+  .missing__links {
+    grid-column: 8 / -1;
+  }
+
+  .missing__links h2 {
+    margin: 0 0 1rem;
+    color: var(--muted);
+    font-size: var(--step-body);
+    font-weight: 500;
+  }
+
+  .missing__links ul {
+    display: grid;
+    gap: 0.9rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 760px) {
+    .missing__text,
+    .missing__links {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

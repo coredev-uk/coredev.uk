@@ -1,0 +1,263 @@
+---
+import { GITHUB_URL, LINKEDIN_URL } from '../data/work';
+
+const experience = [
+  {
+    years: 'Now',
+    title: 'Graduate Software Engineer',
+    place: 'Lockheed Martin',
+  },
+  {
+    years: '2021–2025',
+    title: 'Core Maintainer',
+    place: 'Apple-Music-Electron and Cider',
+    text: 'From first contributor to one of three core maintainers, owning releases and the macOS and Linux client.',
+    href: '/projects/cider',
+  },
+  {
+    years: '2016–2020',
+    title: 'Server Developer',
+    place: 'Garry’s Mod communities',
+    text: 'Where I learned to program, building and running Lua game servers.',
+  },
+];
+
+// Newest first, matching Experience.
+const education = [
+  { name: 'AWS Certified Cloud Practitioner', detail: 'Amazon Web Services', year: '2026' },
+  { name: 'BSc Software Engineering, First Class Honours', detail: 'University of Kent', year: '2022–2025' },
+  { name: 'Azure AI Fundamentals (AI-900)', detail: 'Microsoft', year: '2021' },
+];
+
+const tools = [
+  { group: 'Languages', items: 'TypeScript, JavaScript, Java, C++, Python, PHP, SQL, Lua, Nix' },
+  { group: 'Apps and frameworks', items: 'Vue, Electron, Node.js, Fastify, Laravel, Express, Dexie.js' },
+  { group: 'Infrastructure', items: 'Docker, Kubernetes, Talos Linux, Flux, Helm, Cilium, Rook Ceph, AWS, Cloudflare' },
+  { group: 'Delivery', items: 'GitHub Actions, Azure Pipelines, CircleCI, Renovate, AI coding agents' },
+];
+---
+
+<section class="about wrap section" id="about" aria-labelledby="about-title">
+  <div class="about__intro">
+    <h2 id="about-title" class="section-title" data-reveal>About</h2>
+    <p class="about__lead" data-reveal style="--i: 1">
+      I build desktop software and the infrastructure it ships on, and I keep my own projects in public on GitHub.
+    </p>
+    <p class="about__links" data-reveal style="--i: 2">
+      <a class="link" href={GITHUB_URL} rel="me">GitHub</a>
+      <a class="link" href={LINKEDIN_URL} rel="me">LinkedIn</a>
+    </p>
+
+    <h3 class="about__label" data-reveal style="--i: 3">Education</h3>
+    <ul class="certs">
+      {
+        education.map((item, i) => (
+          <li data-reveal style={`--i: ${i + 4}`}>
+            <span>
+              {item.name}
+              <span class="certs__detail">{item.detail}</span>
+            </span>
+            <span class="certs__year">{item.year}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="about__experience">
+    <h3 class="about__label" data-reveal>Experience</h3>
+    <ol class="timeline">
+      {
+        experience.map((item, i) => (
+          <li class="timeline__item" data-reveal style={`--i: ${i + 1}`}>
+            <p class="timeline__years">{item.years}</p>
+            <div>
+              <h4 class="timeline__title">
+                {item.href ? <a href={item.href}>{item.title}</a> : item.title}
+              </h4>
+              <p class="timeline__place">{item.place}</p>
+              {item.text && <p class="timeline__text">{item.text}</p>}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <div class="about__tools">
+    <h3 class="about__label" data-reveal>Tools</h3>
+    <dl class="tools">
+      {
+        tools.map((tool, i) => (
+          <div data-reveal style={`--i: ${i + 1}`}>
+            <dt>{tool.group}</dt>
+            <dd>{tool.items}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  /* Intro and certifications on the left, experience beside them, tools across the full width below. */
+  .about {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: clamp(3rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .about__intro {
+    grid-column: 1 / span 5;
+  }
+
+  .about__experience {
+    grid-column: 7 / -1;
+  }
+
+  .about__tools {
+    grid-column: 1 / -1;
+  }
+
+  .about__lead {
+    max-width: 34ch;
+    margin: 1.25rem 0 0;
+    font-size: var(--step-lead);
+    line-height: 1.4;
+  }
+
+  .about__links {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1.25rem 0 0;
+  }
+
+  .about__label {
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+    font-size: var(--step-body);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .about__intro .about__label {
+    margin-top: 3rem;
+  }
+
+  .certs {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .certs li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--gutter);
+  }
+
+  .certs__detail {
+    display: block;
+    color: var(--muted);
+  }
+
+  .certs__year {
+    white-space: nowrap;
+  }
+
+  .certs__year,
+  .timeline__years {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .timeline {
+    display: grid;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    column-gap: var(--gutter);
+  }
+
+  .timeline__years {
+    margin: 0;
+  }
+
+  .timeline__title {
+    margin: 0;
+    font-size: var(--step-body);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+
+  .timeline__title a {
+    text-decoration: none;
+    transition: color var(--t-hover) ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .timeline__title a:hover {
+      color: var(--accent);
+    }
+  }
+
+  .timeline__place {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .timeline__text {
+    margin: 0.35rem 0 0;
+  }
+
+  .tools {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem var(--gutter);
+    margin: 0;
+  }
+
+  .tools dt {
+    margin-bottom: 0.35rem;
+    color: var(--muted);
+  }
+
+  .tools dd {
+    margin: 0;
+  }
+
+  @media (max-width: 960px) {
+    .tools {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 860px) {
+    .about__intro,
+    .about__experience {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .timeline__item {
+      grid-template-columns: 1fr;
+      row-gap: 0.2rem;
+    }
+
+    .tools {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

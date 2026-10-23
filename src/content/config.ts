@@ -9,6 +9,8 @@ const blog = defineCollection({
     tags: z.array(z.string()).optional(),
     featured: z.boolean().optional(),
     draft: z.boolean().optional(),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
   }),
 });
 
@@ -24,6 +26,10 @@ const projects = defineCollection({
     featured: z.boolean().optional(),
     status: z.enum(["departed", "archived", "active"]).optional(),
     image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    gallery: z.array(z.object({ src: z.string(), alt: z.string(), caption: z.string() })).optional(),
+    /** Live status images (kromgo badges) shown beside the write-up. */
+    badges: z.array(z.object({ src: z.string().url(), alt: z.string() })).optional(),
   }),
 });
 

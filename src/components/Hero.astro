@@ -1,80 +1,249 @@
 ---
-import { Image } from 'astro:assets';
-import { Icon } from 'astro-icon/components';
+import { GITHUB_URL, getLatestPush } from '../data/work';
+
+const push = await getLatestPush();
+const pushedOn = push
+  ? new Date(push.at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+  : null;
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-  <!-- Modern gradient background -->
-  <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
-    <!-- Subtle overlay patterns for depth -->
-    <div class="absolute inset-0 dark:opacity-100 opacity-0">
-      <!-- Geometric accent -->
-      <div class="absolute top-20 right-20 w-72 h-72 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-tr from-cyan-500/4 to-blue-500/4 rounded-full blur-3xl"></div>
-      <!-- Grid pattern overlay -->
-      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-slate-800/5 to-transparent opacity-20" 
-           style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px;"></div>
+<section class="hero wrap" aria-labelledby="hero-title">
+  <div class="hero__text">
+    <h1 id="hero-title" class="hero__name" data-load style="--d: 80ms">Paul Thompson</h1>
+    <p class="hero__lead" data-load style="--d: 160ms">
+      Graduate Software Engineer at Lockheed Martin, known online as Core. Before that, four years as a lead on the
+      Cider music app.
+    </p>
+    <p class="hero__push" data-load data-push style="--d: 240ms">
+      {
+        push ? (
+          <>
+            Last pushed to <a class="link" href={push.repoUrl}>{push.repo}</a>{' '}
+            <time datetime={push.at} data-push-time>on {pushedOn}</time>:{' '}
+            <a class="link" href={push.commitUrl}>“{push.message}”</a>
+          </>
+        ) : (
+          <>
+            My public work is on <a class="link" href={GITHUB_URL}>GitHub</a>.
+          </>
+        )
+      }
+    </p>
+    <p class="hero__actions" data-load style="--d: 320ms">
+      <a class="button" href={GITHUB_URL} rel="me">View GitHub</a>
+      <a class="link" href="#contact">Get in touch</a>
+    </p>
+  </div>
+
+  <figure class="hero__picture">
+    <div class="hero__frame" data-open>
+      <img
+        src="/work/cider-album.webp"
+        width="1440"
+        height="894"
+        alt="Cider's album view: Chromeo's Adult Contemporary with its artwork, track list and playback bar, tinted red by the cover."
+        fetchpriority="high"
+      />
     </div>
-  </div>
-  </div>
-
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      <!-- Left Content -->
-      <div class="text-left animate-slide-right">
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
-          Core
-        </h1>
-        <div class="text-2xl md:text-3xl font-light text-slate-600 dark:text-slate-300 mb-4">
-          Software Engineer
-        </div>
-        <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-8 leading-relaxed max-w-lg">
-          Specialising in <span class="text-blue-600 dark:text-blue-400 font-semibold">Vue.js</span>, 
-          <span class="text-purple-600 dark:text-purple-400 font-semibold">TypeScript</span>, 
-          <span class="text-emerald-600 dark:text-emerald-400 font-semibold">Node.js</span>, and 
-          <span class="text-cyan-600 dark:text-cyan-400 font-semibold">DevOps</span>
-        </p>
-
-        <!-- Modern Action Button -->
-        <div class="mb-8">
-          <a href="/projects" class="group relative inline-flex items-center px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-xl hover:scale-105 transform transition-all duration-300 shadow-lg hover:shadow-2xl">
-            <span>View My Work</span>
-            <Icon name="heroicons:arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />
-          </a>
-        </div>
-
-        <!-- Modern Social Links -->
-        <div class="flex space-x-4">
-          <a href="https://github.com/coredev-uk" class="group p-3 bg-sky-200/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl hover:bg-sky-300/50 dark:hover:bg-slate-700/50 transition-all duration-300 hover:scale-110" aria-label="GitHub">
-            <Icon name="mdi:github" class="w-6 h-6 text-slate-700 dark:text-slate-300" />
-          </a>
-          <a href="https://x.com/core_hdd" class="group p-3 bg-sky-200/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl hover:bg-sky-300/50 dark:hover:bg-slate-700/50 transition-all duration-300 hover:scale-110" aria-label="Twitter">
-            <Icon name="simple-icons:x" class="w-6 h-6 text-slate-700 dark:text-slate-300" />
-          </a>
-          <a href="mailto:core@coredev.uk" class="group p-3 bg-sky-200/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl hover:bg-sky-300/50 dark:hover:bg-slate-700/50 transition-all duration-300 hover:scale-110" aria-label="Email">
-            <Icon name="heroicons:envelope" class="w-6 h-6 text-slate-700 dark:text-slate-300" />
-          </a>
-        </div>
-      </div>
-
-      <!-- Right Profile Image -->
-      <div class="flex justify-center lg:justify-end animate-slide-left">
-        <div class="relative">
-          <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl p-1 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm">
-            <Image 
-              src="https://avatars.githubusercontent.com/u/64542347?v=4" 
-              alt="Core's Profile"
-              width={320}
-              height={320}
-              class="w-full h-full rounded-2xl object-cover border border-white/10 dark:border-slate-700/50"
-              loading="eager"
-              format="webp"
-            />
-          </div>
-          <!-- Floating accent -->
-          <div class="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full opacity-80 animate-pulse"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <figcaption>Cider's album view, from cider.sh</figcaption>
+  </figure>
 </section>
+
+<script>
+  // The live line: the newest public push, refreshed on every visit.
+  const relative = new Intl.RelativeTimeFormat('en-GB', { numeric: 'auto' });
+  const units: [Intl.RelativeTimeFormatUnit, number][] = [
+    ['year', 31536000],
+    ['month', 2592000],
+    ['week', 604800],
+    ['day', 86400],
+    ['hour', 3600],
+    ['minute', 60],
+  ];
+
+  function ago(iso: string) {
+    const seconds = (Date.parse(iso) - Date.now()) / 1000;
+    for (const [unit, size] of units) {
+      if (Math.abs(seconds) >= size) return relative.format(Math.round(seconds / size), unit);
+    }
+    return 'just now';
+  }
+
+  async function refresh() {
+    const line = document.querySelector<HTMLElement>('[data-push]');
+    if (!line) return;
+    try {
+      const events = await fetch('https://api.github.com/users/coredev-uk/events/public?per_page=30');
+      if (!events.ok) throw new Error(String(events.status));
+      const list: Array<{ type: string; created_at: string; repo: { name: string }; payload: { head?: string } }> =
+        await events.json();
+      const push = list.find((e) => e.type === 'PushEvent' && e.payload.head);
+      if (!push) throw new Error('no push');
+      const commit = await fetch(`https://api.github.com/repos/${push.repo.name}/commits/${push.payload.head}`);
+      if (!commit.ok) throw new Error(String(commit.status));
+      const data: { html_url: string; commit: { message: string } } = await commit.json();
+
+      const repo = document.createElement('a');
+      repo.className = 'link';
+      repo.href = `https://github.com/${push.repo.name}`;
+      repo.textContent = push.repo.name.split('/')[1];
+      const time = document.createElement('time');
+      time.dateTime = push.created_at;
+      time.textContent = ago(push.created_at);
+      const message = document.createElement('a');
+      message.className = 'link';
+      message.href = data.html_url;
+      message.textContent = `“${data.commit.message.split('\n')[0]}”`;
+      line.replaceChildren('Last pushed to ', repo, ' ', time, ': ', message);
+    } catch {
+      // Keep the build-time line; only sharpen its date.
+      const time = line.querySelector<HTMLTimeElement>('[data-push-time]');
+      if (time) time.textContent = ago(time.dateTime);
+    }
+  }
+
+  document.addEventListener('astro:page-load', refresh);
+</script>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: center;
+    min-height: min(100svh, 56rem);
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+  }
+
+  .hero__text {
+    grid-column: 1 / span 6;
+    display: grid;
+    justify-items: start;
+    gap: 1.5rem;
+  }
+
+  .hero__name {
+    margin: 0;
+    font-size: var(--step-display);
+    line-height: 1;
+  }
+
+  .hero__lead {
+    max-width: 34ch;
+    margin: 0;
+    font-size: var(--step-lead);
+    line-height: 1.4;
+  }
+
+  .hero__push {
+    max-width: 46ch;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .hero__push :global(a),
+  .hero__push :global(time) {
+    color: var(--ink);
+  }
+
+  .hero__push :global(a) {
+    overflow-wrap: anywhere;
+  }
+
+  .hero__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0.5rem 0 0;
+  }
+
+  .hero__picture {
+    grid-column: 7 / -1;
+    margin: 0;
+  }
+
+  .hero__frame {
+    overflow: clip;
+  }
+
+  .hero__picture img {
+    width: 100%;
+    height: auto;
+    background: #121b2b;
+  }
+
+  .hero__picture figcaption {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: var(--step-small);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .hero [data-load] {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: hero-rise 600ms var(--ease-out) forwards;
+      animation-delay: var(--d);
+    }
+
+    :global(.js) .hero [data-open] {
+      clip-path: inset(0 0 100% 0);
+      animation: hero-open 1000ms var(--ease-in-out) 150ms forwards;
+    }
+
+    /* The one moving picture: the screenshot eases closer as the first screen scrolls away. */
+    @supports (animation-timeline: view()) {
+      .hero__frame img {
+        animation: hero-zoom linear both;
+        animation-timeline: view();
+        animation-range: exit 0% exit 100%;
+      }
+    }
+  }
+
+  @keyframes hero-zoom {
+    to {
+      scale: 1.06;
+    }
+  }
+
+  @keyframes hero-rise {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes hero-open {
+    to {
+      clip-path: inset(0);
+    }
+  }
+
+  @media (max-width: 960px) {
+    .hero {
+      min-height: 0;
+      row-gap: 3rem;
+      padding-top: 7rem;
+    }
+
+    .hero__text {
+      grid-column: 1 / span 10;
+    }
+
+    .hero__picture {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding-top: 6.5rem;
+    }
+
+    .hero__text {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

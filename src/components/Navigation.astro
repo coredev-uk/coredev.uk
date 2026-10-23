@@ -1,168 +1,165 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
-import { Icon } from 'astro-icon/components';
+import { getCollection } from 'astro:content';
+import { GITHUB_URL } from '../data/work';
 
-const currentPath = Astro.url.pathname;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const hasPosts = (await getCollection('blog', ({ data }) => data.draft !== true)).length > 0;
 
-const navigationItems = {
-  "/": "Home",
-  "/projects": "Projects",
-  "/blog": "Blog"
-}
-
-// Function to check if a path is active
-const isActiveRoute = (navPath: string, currentPath: string) => {
-  if (navPath === "/") {
-    return currentPath === "/" || currentPath === "";
-  }
-  // Remove trailing slash for comparison
-  const normalizedCurrent = currentPath.replace(/\/$/, '') || '/';
-  const normalizedNav = navPath.replace(/\/$/, '') || '/';
-  return normalizedCurrent === normalizedNav || normalizedCurrent.startsWith(normalizedNav + '/');
-};
+const links = [
+  { href: '/#work', label: 'Work' },
+  { href: '/projects', label: 'Projects' },
+  ...(hasPosts ? [{ href: '/blog', label: 'Writing' }] : []),
+  { href: '/#about', label: 'About' },
+  { href: '/#contact', label: 'Contact' },
+];
 ---
 
-<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-700/20 backdrop-blur-lg">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
-      <div class="flex items-center">
-        <a href="/" class="text-2xl font-bold gradient-text hover:scale-105 transition-transform duration-300">
-          Core
-        </a>
-      </div>
-      
-      <div class="hidden md:flex items-center space-x-1">
-        <div class="flex items-center space-x-1">
-          {
-            Object.entries(navigationItems).map(([path, label]) => (
-              <a 
-                href={path}
-                class={`nav-link ${
-                  isActiveRoute(path, currentPath)
-                    ? 'text-primary-600 dark:text-primary-300 active' 
-                    : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300'
-                }`}
-                aria-current={isActiveRoute(path, currentPath) ? 'page' : undefined}
-              >
-                <span>{label}</span>
+<header class="nav">
+  <div class="nav__inner wrap">
+    <a class="nav__mark" href="/">Paul Thompson</a>
+    <nav aria-label="Main" class="nav__bar">
+      <ul class="nav__links">
+        {
+          links.map((link) => (
+            <li>
+              <a class="link nav__link" href={link.href} aria-current={path === link.href ? 'page' : undefined}>
+                {link.label}
               </a>
+            </li>
+          ))
+        }
+      </ul>
+      <details class="nav__menu">
+        <summary>Menu</summary>
+        <ul>
+          {
+            links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
             ))
           }
-        </div>
-
-        <!-- GitHub Link & Theme Toggle -->
-        <div class="ml-6 flex items-center space-x-2">
-          <ThemeToggle />
-          <a 
-            href="https://github.com/coredev-uk" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="p-2 text-slate-500 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-slate-100 dark:hover:bg-slate-800/30 rounded-lg transition-all duration-300 group"
-            aria-label="GitHub Profile"
-          >
-            <Icon name="mdi:github" class="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
-          </a>
-        </div>
-      </div>
-
-      <!-- Mobile menu button -->
-      <div class="md:hidden flex items-center">
-        <button 
-          id="mobile-menu-button"
-          type="button" 
-          class="bg-slate-100 dark:bg-slate-800/50 rounded-lg p-2 inline-flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-slate-200 dark:hover:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-900 transition-all duration-300"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-          aria-label="Toggle navigation menu"
-        >
-          <span class="sr-only">Open main menu</span>
-          <Icon name="heroicons:bars-3" class="block h-6 w-6" aria-hidden="true" />
-        </button>
-      </div>
-    </div>
+        </ul>
+      </details>
+      <a class="link nav__link nav__action" href={GITHUB_URL} rel="me">GitHub</a>
+    </nav>
   </div>
+</header>
 
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="md:hidden hidden" role="menu" aria-labelledby="mobile-menu-button">
-    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 dark:bg-slate-900/95 border-t border-slate-200 dark:border-slate-700/20 backdrop-blur-lg">
-      {
-        Object.entries(navigationItems).map(([path, label]) => (
-          <a 
-            href={path}
-            class={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ${
-              isActiveRoute(path, currentPath)
-                ? 'text-primary-600 dark:text-primary-300'
-                : 'text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300'
-            }`}
-            aria-current={isActiveRoute(path, currentPath) ? 'page' : undefined}
-          >
-            {label}
-          </a>
-        ))
-      }
-      <div class="border-t border-slate-200 dark:border-slate-700/20 pt-2 mt-2 flex items-center justify-between">
-        <a href="https://github.com/coredev-uk" target="_blank" rel="noopener noreferrer" class="text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-300 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 flex items-center" role="menuitem" aria-label="GitHub Profile">
-          <Icon name="mdi:github" class="w-5 h-5 mr-2" aria-hidden="true" />
-          GitHub
-        </a>
-        <div class="px-3">
-          <ThemeToggle />
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+<style>
+  .nav {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 20;
+    font-size: var(--step-small);
+  }
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    if (mobileMenuButton && mobileMenu) {
-      mobileMenuButton.addEventListener('click', function() {
-        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-        
-        // Toggle menu visibility
-        mobileMenu.classList.toggle('hidden');
-        
-        // Update ARIA attributes
-        mobileMenuButton.setAttribute('aria-expanded', (!isExpanded).toString());
-        
-        // Update screen reader text
-        const srText = mobileMenuButton.querySelector('.sr-only');
-        if (srText) {
-          srText.textContent = isExpanded ? 'Open main menu' : 'Close main menu';
-        }
-      });
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 1.5rem;
+  }
 
-      // Close menu when clicking outside
-      document.addEventListener('click', function(event) {
-        const isClickInsideNav = mobileMenuButton.contains(event.target) || mobileMenu.contains(event.target);
-        
-        if (!isClickInsideNav && !mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-          mobileMenuButton.setAttribute('aria-expanded', 'false');
-          
-          const srText = mobileMenuButton.querySelector('.sr-only');
-          if (srText) {
-            srText.textContent = 'Open main menu';
-          }
-        }
-      });
+  .nav__mark {
+    font-weight: 500;
+    text-decoration: none;
+  }
 
-      // Close menu on Escape key
-      document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-          mobileMenuButton.setAttribute('aria-expanded', 'false');
-          mobileMenuButton.focus(); // Return focus to button
-          
-          const srText = mobileMenuButton.querySelector('.sr-only');
-          if (srText) {
-            srText.textContent = 'Open main menu';
-          }
-        }
-      });
+  .nav__bar,
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.25rem, 2.4vw, 2rem);
+  }
+
+  .nav__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav__link {
+    display: inline-block;
+    padding-block: 0.5rem;
+    color: var(--muted);
+    text-decoration-color: transparent;
+  }
+
+  .nav__link[aria-current='page'] {
+    color: var(--ink);
+  }
+
+  .nav__action {
+    color: var(--accent);
+  }
+
+  .nav__menu {
+    display: none;
+    position: relative;
+  }
+
+  .nav__menu summary {
+    list-style: none;
+    cursor: pointer;
+    padding-block: 0.5rem;
+  }
+
+  .nav__menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav__menu ul {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    min-width: 12rem;
+    margin: 0;
+    padding: 0.5rem 0;
+    list-style: none;
+    background: var(--surface-2);
+  }
+
+  .nav__menu ul a {
+    display: block;
+    padding: 0.75rem 1.25rem;
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nav__menu[open] ul {
+      animation: menu-in var(--t-ui) var(--ease-out);
     }
-  });
-</script>
+  }
+
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .nav__link:hover {
+      color: var(--ink);
+    }
+
+    .nav__action:hover {
+      color: var(--accent-strong);
+    }
+
+    .nav__menu ul a:hover {
+      background: #21385a;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .nav__links {
+      display: none;
+    }
+
+    .nav__menu {
+      display: block;
+    }
+  }
+</style>

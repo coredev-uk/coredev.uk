@@ -1,8 +1,23 @@
-# Core's Portfolio
+# coredev.uk
 
-## Deployment
+The personal site of Paul Thompson, known online as Core: projects, write-ups and writing.
 
-The project is deployed on Cloudflare Workers for fast and reliable performance.
+Built with [Astro](https://astro.build) and deployed to Cloudflare Workers.
+
+## Development
+
+```sh
+bun install
+bun run dev      # local dev server
+bun run build    # static build into dist/
+bun run deploy   # build and deploy with Wrangler
+```
+
+## Content
+
+- Project write-ups live in `src/content/projects/`, blog posts in `src/content/blog/`.
+- The projects list on the home and projects pages comes from `src/data/work.ts`.
+- Screenshots used on the site are in `public/work/`.
 
 ## License
 

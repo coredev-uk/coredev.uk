@@ -3,96 +3,145 @@ import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
-import { Icon } from 'astro-icon/components';
 
-// Get all blog posts
-const blogPosts = await getCollection('blog', ({data}) => {
-return data.draft !== true;
-})
-
-// Sort by date (newest first)
-const sortedPosts = blogPosts.sort((a, b) => {
-  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
-});
+// Linked from the navigation only while there are published posts.
+const posts = (await getCollection('blog', ({ data }) => data.draft !== true)).sort(
+  (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),
+);
 ---
 
-<Layout title="Blog - Core">
+<Layout title="Writing, Paul Thompson (Core)">
   <Navigation />
-  
-  <main id="main-content" class="py-20 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6">Blog</h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Thoughts on development, tutorials, and insights from my coding journey.
+  <main id="main-content" class="blog wrap">
+    <header class="blog__head">
+      <h1 data-reveal>Writing</h1>
+      <p data-reveal style="--i: 1">Longer notes on things I have built, and what I learned building them.</p>
+    </header>
+
+    {
+      posts.length === 0 ? (
+        <p class="blog__empty">
+          Nothing published yet. The code is on <a class="link" href="https://github.com/coredev-uk">GitHub</a> in the meantime.
         </p>
-      </div>
-
-      <div class="space-y-12">
-        {sortedPosts.map((post) => {
-          const publishDate = new Date(post.data.publishDate).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          });
-          
-          return (
-            <article class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 hover:shadow-lg transition-all duration-300">
-              <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
-                <time>{publishDate}</time>
-                {post.data.featured && (
-                  <>
-                    <span>•</span>
-                    <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded-full text-xs font-semibold">
-                      Featured
-                    </span>
-                  </>
-                )}
+      ) : (
+        <div class="blog__posts">
+          {posts.map((post) => (
+            <article class="entry">
+              <div class="entry__text">
+                <h2 data-reveal>
+                  <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                </h2>
+                <p class="entry__desc" data-reveal style="--i: 1">
+                  {post.data.description}
+                </p>
+                <p class="entry__meta" data-reveal style="--i: 2">
+                  <time datetime={post.data.publishDate}>
+                    {new Date(post.data.publishDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </time>
+                </p>
+                <p data-reveal style="--i: 3">
+                  <a class="link" href={`/blog/${post.slug}`}>
+                    Read the post
+                  </a>
+                </p>
               </div>
-              
-              <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                <a href={`/blog/${post.slug}`}>{post.data.title}</a>
-              </h2>
-              
-              <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                {post.data.description}
-              </p>
-              
-              <div class="flex items-center justify-between">
-                <div class="flex flex-wrap gap-2">
-                  {post.data.tags?.slice(0, 3).map((tag: string) => (
-                    <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                  {post.data.tags?.length > 3 && (
-                    <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm rounded-full">
-                      +{post.data.tags.length - 3}
-                    </span>
-                  )}
-                </div>
-                
-                <a 
-                  href={`/blog/${post.slug}`}
-                  class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold transition-colors"
-                >
-                  Read More
-                  <Icon name="heroicons:chevron-right" class="ml-2 h-4 w-4" />
+              {post.data.image && (
+                <a class="entry__picture" href={`/blog/${post.slug}`} tabindex="-1" aria-hidden="true">
+                  <img src={post.data.image} alt="" loading="lazy" />
                 </a>
-              </div>
+              )}
             </article>
-          );
-        })}
-      </div>
-
-      {sortedPosts.length === 0 && (
-        <div class="text-center py-16">
-          <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">No blog posts yet</h3>
-          <p class="text-gray-600 dark:text-gray-300">Check back soon for new content!</p>
+          ))}
         </div>
-      )}
-    </div>
+      )
+    }
   </main>
-
   <Footer />
 </Layout>
+
+<style>
+  .blog {
+    padding-top: 9rem;
+    padding-bottom: var(--section-gap);
+  }
+
+  .blog__head h1 {
+    margin: 0;
+    font-size: var(--step-display);
+    line-height: 1;
+  }
+
+  .blog__head p,
+  .blog__empty {
+    max-width: 40ch;
+    margin: 1.5rem 0 0;
+    font-size: var(--step-lead);
+    line-height: 1.4;
+  }
+
+  .blog__posts {
+    display: grid;
+    gap: clamp(4rem, 8vw, 6rem);
+    margin-top: 4rem;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 1.5rem;
+    align-items: center;
+  }
+
+  .entry__text {
+    grid-column: 1 / span 5;
+  }
+
+  .entry__picture {
+    grid-column: 7 / -1;
+  }
+
+  .entry__picture img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .entry h2 {
+    margin: 0 0 0.75rem;
+    font-size: var(--step-head);
+  }
+
+  .entry h2 a {
+    text-decoration: none;
+    transition: color var(--t-hover) ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .entry h2 a:hover {
+      color: var(--accent);
+    }
+  }
+
+  .entry__desc {
+    margin: 0 0 0.75rem;
+    font-size: var(--step-lead);
+    line-height: 1.4;
+  }
+
+  .entry__meta {
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+  }
+
+  .entry p {
+    margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 640px) {
+    .entry__text,
+    .entry__picture {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

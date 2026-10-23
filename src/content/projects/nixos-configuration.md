@@ -1,67 +1,46 @@
 ---
 title: "NixOS Configuration"
-description: "Personal NixOS configuration files and system setup"
-date: "2022-01-25"
-technologies: ["Nix", "Linux", "System Configuration"]
+description: "One Nix flake for a NixOS desktop and a MacBook: Disko installs, Lanzaboote Secure Boot, nix-darwin and Home Manager"
+date: "2024-02-05"
+technologies: ["Nix", "NixOS", "nix-darwin", "Home Manager", "Disko", "Lanzaboote", "Hyprland", "GitHub Actions"]
 github: "https://github.com/coredev-uk/nixos"
 status: "active"
 featured: true
+image: "/work/nixos-atlas.webp"
+imageAlt: "The atlas desktop on Hyprland: flake.nix open in Neovim, fastfetch showing NixOS 26.05, and the flake's recent git history."
 ---
 
-# NixOS Configuration
+Everything about my computers lives in one Nix flake: the operating system, the desktop, my editor, my shell and the apps I use. I moved to it from Arch Linux, where I had used i3 and then Hyprland, and the flake is now how I set up and maintain every machine I use day to day. Getting started leaned heavily on [jnsgruk's NixOS config](https://github.com/jnsgruk/nixos-config), and the structure still shows it.
 
-My personal NixOS configuration files that define my entire system setup in a declarative way. This repository contains all the configuration needed to reproduce my development environment and system setup.
+## The machines
 
-## Features
+| Host | System | Device |
+| --- | --- | --- |
+| `atlas` | NixOS with Hyprland | Desktop |
+| `poseidon` | macOS with nix-darwin | Laptop |
 
-- **Declarative Configuration**: Complete system configuration defined as code
-- **Reproducible Builds**: Exact system state can be reproduced on any machine
-- **Home Manager Integration**: User environment management
-- **Custom Packages**: Personal package definitions and overrides
-- **Development Environment**: Optimized setup for software development
+Each host is a small file of its own. Shared helpers in `lib` build a NixOS, nix-darwin or Home Manager configuration from a hostname and a few options, so adding a machine is mostly a matter of describing it.
 
-## Technologies Used
+## Installing from nothing
 
-- **Nix**: The purely functional package manager
-- **NixOS**: Linux distribution built on Nix
-- **Home Manager**: Declarative dotfile management
-- **Flakes**: Modern Nix configuration approach
+A new `atlas` install is one command from the installer's dev shell: `./install-with-disk atlas`. Disko partitions the drive by its stable ID and creates an unencrypted boot partition, a LUKS-encrypted container and btrfs subvolumes inside it. The script then installs the system and copies the flake into my home directory, so the machine manages itself from the same repository afterwards.
 
-## Configuration Highlights
+Secure Boot is handled by Lanzaboote. The installer creates the signing keys before the system is installed, so boot files are signed from the first boot, and enrolling them in the firmware is left as a deliberate manual step that keeps Microsoft's keys for dual-booting Windows.
 
-### System Features
-- Custom kernel configurations
-- Hardware-specific optimizations
-- Security hardening
-- Performance tuning
+## The desktop
 
-### Development Setup
-- Language-specific development environments
-- Editor configurations (Neovim, VSCode)
-- Terminal setup with modern tools
-- Git configuration and aliases
+`atlas` runs Hyprland, with Quickshell for the bar and widgets, SwayNC for notifications and Vicinae as the launcher. Ghostty, Zellij and zsh make up the terminal, and Neovim is configured in Nix through nixvim. Catppuccin Mocha with a blue accent is set once in the flake's theme and applied everywhere, from GTK apps to the terminal.
 
-### Desktop Environment
-- Window manager configuration
-- Theme and styling
-- Application defaults
-- Keyboard shortcuts
+The desktop also covers the less glamorous parts: NVIDIA drivers, 1Password, YubiKey support, QMK keyboards, RGB and monitor brightness over DDC/CI. For Windows-only software there is a single-GPU passthrough setup that hands the graphics card to a Windows virtual machine from a desktop launcher, with the option to reboot straight into Windows instead.
 
-## Getting Started
+## The MacBook
 
-```bash
-# Clone the repository
-git clone https://github.com/coredev-uk/nixos.git
+`poseidon` runs macOS with nix-darwin and nix-homebrew, so system settings, command-line tools and even Homebrew apps come from the same flake. My shell, Git and editor configuration are shared with `atlas` through Home Manager, so both machines feel the same to work on.
 
-# Apply configuration
-sudo nixos-rebuild switch --flake .#hostname
-```
+## Keeping it honest
 
-## Key Benefits
+Two GitHub Actions workflows check the flake. On every push, one evaluates every NixOS, nix-darwin and Home Manager configuration without building them, and checks formatting with treefmt, which catches broken options and typos early. The other does full builds of both machines when the pinned inputs change, every Monday and on demand, because some failures only show up when a package actually builds.
 
-- **Reproducibility**: Exact system state across multiple machines
-- **Rollback Capability**: Easy system rollbacks if issues occur
-- **Atomic Updates**: System changes are atomic and safe
-- **Dependency Management**: Automatic dependency resolution
+## Why I use it
 
-This configuration represents years of refinement and optimization for a productive development environment while maintaining system stability and security.
+It makes my setup reproducible and reversible. A new machine is an install command away, a bad change is a rollback away, and the whole history of how my computers are configured is in Git.

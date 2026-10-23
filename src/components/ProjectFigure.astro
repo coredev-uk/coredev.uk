@@ -1,0 +1,128 @@
+---
+/**
+ * A project's picture: its screenshot when given one. Without an image, nixos and the homelab
+ * are shown through their own material: the flake as written, and the cluster's stack.
+ */
+interface Props {
+  slug: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const { slug, image, imageAlt } = Astro.props;
+
+// nixosConfigurations and darwinConfigurations, as they stand in coredev-uk/nixos/flake.nix.
+const flake = `# NixOS configurations
+nixosConfigurations = {
+  atlas = libx.mkHost {
+    hostname = "atlas";
+    desktop = "hyprland";
+  };
+};
+
+# Nix Darwin configurations
+darwinConfigurations = {
+  poseidon = libx.mkDarwin {
+    hostname = "poseidon";
+    homeStateVersion = "26.05";
+  };
+};`;
+
+// From coredev-uk/home-ops: its README and the HelmReleases under kubernetes/apps.
+const homelab = [
+  ['Nodes', 'Three Talos Linux machines: a Beelink SEi14 and two ThinkCentre Tiny PCs'],
+  ['Delivery', 'Flux reconciling the cluster from Git, Renovate keeping charts current'],
+  ['Networking', 'Cilium, Envoy Gateway, Cloudflare Tunnel and Pi-hole'],
+  ['Storage', 'Rook Ceph across the nodes, CloudNativePG for databases, Kopiur backups'],
+  ['Secrets', 'External Secrets backed by 1Password Connect'],
+  ['Observability', 'Prometheus, Grafana and VictoriaLogs, with Gatus for uptime'],
+  ['Reviews', 'Kritika, an in-cluster AI reviewer guided by a repository skill'],
+];
+---
+
+{
+  image ? (
+    <figure class="pf">
+      <img src={image} alt={imageAlt ?? ''} loading="lazy" />
+    </figure>
+  ) : slug === 'nixos-configuration' ? (
+    <figure class="pf pf--panel" data-ui>
+      <pre><code>{flake}</code></pre>
+      <figcaption>flake.nix in coredev-uk/nixos</figcaption>
+    </figure>
+  ) : slug === 'homelab' ? (
+    <figure class="pf pf--panel" data-ui>
+      <table>
+        <caption class="sr-only">The homelab stack</caption>
+        <tbody>
+          {homelab.map(([layer, tool]) => (
+            <tr>
+              <th scope="row">{layer}</th>
+              <td>{tool}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <figcaption>The cluster, layer by layer</figcaption>
+    </figure>
+  ) : null
+}
+
+<style>
+  .pf {
+    margin: 0;
+  }
+
+  .pf img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: 0 0;
+  }
+
+  .pf--panel {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    background: #0b1729;
+  }
+
+  pre {
+    margin: 0;
+    font-family: var(--font-code);
+    font-size: clamp(0.8125rem, 0.75rem + 0.25vw, 0.9375rem);
+    line-height: 1.6;
+    color: #b9c8db;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step-small);
+  }
+
+  th,
+  td {
+    padding: 0.7rem 0;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--surface-2);
+  }
+
+  th {
+    width: 38%;
+    padding-right: 1rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  tr:last-child th,
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  figcaption {
+    margin-top: 1.25rem;
+    color: var(--muted);
+    font-size: var(--step-small);
+  }
+</style>
