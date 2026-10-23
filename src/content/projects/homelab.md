@@ -7,8 +7,6 @@ status: "active"
 image: "/work/homelab-cluster.webp"
 imageAlt: "Three terminals on the atlas desktop: Flux listing the cluster's platform HelmReleases, kubectl showing the three Talos nodes and their load, and a passing talosctl health check."
 badges:
-  - src: "https://kromgo.hera.ac/badges/buddy_ping"
-    alt: "Home internet status"
   - src: "https://kromgo.hera.ac/badges/buddy_status_page"
     alt: "Status page"
   - src: "https://kromgo.hera.ac/badges/buddy_heartbeat"
@@ -60,10 +58,21 @@ Flux reconciles about 65 Kustomizations and 69 Helm releases from the repository
 - **Secrets**: nothing sensitive is stored in Git. External Secrets pulls each secret from 1Password Connect at deploy time.
 - **Observability**: kube-prometheus-stack collects metrics, Grafana dashboards are managed by the Grafana operator, VictoriaLogs stores logs, and Gatus and blackbox exporters check that services answer. Small Kromgo badges publish cluster age, uptime and load.
 - **Upgrades**: tuppr upgrades Talos and Kubernetes in place, one node at a time.
+- **Housekeeping**: Spegel shares container images between the nodes, Descheduler moves pods to even out the load, Reloader restarts apps when their configuration or secrets change, and the Actions Runner Controller runs the repository's self-hosted CI runners.
 
 ## What runs on it
 
-It runs the services I use at home, including Home Assistant for the house, Mealie for recipes, Outline for notes, Atuin for shell history sync across my machines, and Pocket ID as a single sign-on provider for the apps that support it.
+These are the apps it runs for me day to day:
+
+- **Home Assistant** runs the house, with its dashboards kept in the repository.
+- **Pocket ID** is a passkey-based single sign-on provider for the apps that support it.
+- **Outline** holds my notes and documentation.
+- **Mealie** keeps recipes and plans meals.
+- **Atuin** syncs my shell history between my machines.
+- **changedetection.io** watches web pages and tells me when they change.
+- **The Lounge** keeps me connected to IRC from a browser.
+- **Dynacat** is the start page that links everything together.
+- **Chaski** passes notifications from the other apps on to Pushover.
 
 ## Working with AI
 

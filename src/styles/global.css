@@ -41,6 +41,9 @@
   --t-hover: 180ms;
   --t-ui: 240ms;
   --stagger-item: 70ms;
+
+  /* The second navy: whole sections step up to it, edge to edge. */
+  --bg-raised: #0d1d35;
 }
 
 @layer base {
@@ -129,6 +132,37 @@
 
   .section {
     margin-top: var(--section-gap);
+  }
+
+  /*
+   * A section on the second navy. The band runs to the screen edges while its content keeps the page's measure.
+   * The band's edge splits the usual gap between sections: half outside it, half inside.
+   */
+  .field {
+    --field-pad: clamp(4rem, 8vw, 6.5rem);
+    position: relative;
+    isolation: isolate;
+    margin-top: var(--field-pad);
+    padding-block: var(--field-pad);
+  }
+
+  .field::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0 calc(50% - 50vw);
+    background: var(--bg-raised);
+  }
+
+  .field + .section {
+    margin-top: clamp(4rem, 8vw, 6.5rem);
+  }
+
+  /* The hero already ends in its own space (its <script> may sit between), and the paper contact band meets a navy band directly. */
+  .hero + .field,
+  .hero + script + .field,
+  .field + .contact {
+    margin-top: 0;
   }
 
   .section-title {
