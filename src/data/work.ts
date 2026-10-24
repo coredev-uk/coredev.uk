@@ -35,6 +35,7 @@ export const workGroups: WorkGroup[] = [
     title: "Infrastructure",
     rows: [
       { name: "nixos", what: "NixOS and macOS flake", stack: "Nix, nix-darwin", years: "2024–now", slug: "nixos-configuration", href: `${GITHUB_URL}/nixos` },
+      { name: "macos-wallpapers", what: "macOS wallpapers that follow the sun", stack: "Python, Nix", years: "2024–now", href: `${GITHUB_URL}/macos-wallpapers` },
       { name: "homelab", what: "Three-node Talos cluster", stack: "Kubernetes, Flux", years: "2025–now", slug: "homelab" },
       { name: "dotfiles", what: "Arch with i3 and Hyprland", stack: "Lua, Shell", years: "2022–2025", href: `${GITHUB_URL}/dotfiles` },
       { name: "coredev.uk", what: "This site", stack: "Astro, Cloudflare", years: "2023–now", href: `${GITHUB_URL}/coredev.uk` },
@@ -54,7 +55,6 @@ export const workGroups: WorkGroup[] = [
   {
     title: "Earlier",
     rows: [
-      { name: "aerial-parser", what: "Reads Apple’s Aerial files", stack: "TypeScript", years: "2024–2025", href: `${GITHUB_URL}/aerial-parser` },
       { name: "CoreCheck", what: "Boeing 737 checklists", stack: "HTML", years: "2022", href: `${GITHUB_URL}/CoreCheck` },
       { name: "Advent of Code", what: "Daily puzzles", stack: "TypeScript", years: "2022–2023", href: `${GITHUB_URL}/aoc` },
       { name: "cmb", what: "Garry’s Mod military boards", stack: "Lua", years: "2022–2024", href: `${GITHUB_URL}/cmb` },
