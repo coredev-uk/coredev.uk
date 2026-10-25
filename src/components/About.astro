@@ -1,7 +1,8 @@
 ---
 import { GITHUB_URL, LINKEDIN_URL } from '../data/work';
+import Timeline, { type Entry } from './Timeline.astro';
 
-const experience = [
+const experience: Entry[] = [
   {
     years: 'Now',
     title: 'Graduate Software Engineer',
@@ -22,11 +23,14 @@ const experience = [
   },
 ];
 
-// Newest first, matching Experience.
-const education = [
-  { name: 'AWS Certified Cloud Practitioner', detail: 'Amazon Web Services', year: '2026' },
-  { name: 'BSc Software Engineering, First Class Honours', detail: 'University of Kent', year: '2022–2025' },
-  { name: 'Azure AI Fundamentals (AI-900)', detail: 'Microsoft', year: '2021' },
+// One degree and a few certifications. Both read like Experience: years first, newest first.
+const education: Entry[] = [
+  { years: '2022–2025', title: 'BSc Software Engineering', place: 'University of Kent', text: 'First Class Honours' },
+];
+
+const certifications: Entry[] = [
+  { years: '2026', title: 'AWS Certified Cloud Practitioner', place: 'Amazon Web Services' },
+  { years: '2021', title: 'Azure AI Fundamentals (AI-900)', place: 'Microsoft' },
 ];
 
 const tools = [
@@ -49,39 +53,15 @@ const tools = [
     </p>
 
     <h3 class="about__label" data-reveal style="--i: 3">Education</h3>
-    <ul class="certs">
-      {
-        education.map((item, i) => (
-          <li data-reveal style={`--i: ${i + 4}`}>
-            <span>
-              {item.name}
-              <span class="certs__detail">{item.detail}</span>
-            </span>
-            <span class="certs__year">{item.year}</span>
-          </li>
-        ))
-      }
-    </ul>
+    <Timeline items={education} start={4} />
   </div>
 
-  <div class="about__experience">
+  <div class="about__record">
     <h3 class="about__label" data-reveal>Experience</h3>
-    <ol class="timeline">
-      {
-        experience.map((item, i) => (
-          <li class="timeline__item" data-reveal style={`--i: ${i + 1}`}>
-            <p class="timeline__years">{item.years}</p>
-            <div>
-              <h4 class="timeline__title">
-                {item.href ? <a href={item.href}>{item.title}</a> : item.title}
-              </h4>
-              <p class="timeline__place">{item.place}</p>
-              {item.text && <p class="timeline__text">{item.text}</p>}
-            </div>
-          </li>
-        ))
-      }
-    </ol>
+    <Timeline items={experience} />
+
+    <h3 class="about__label" data-reveal style={`--i: ${experience.length + 1}`}>Certifications</h3>
+    <Timeline items={certifications} start={experience.length + 2} />
   </div>
 
   <div class="about__tools">
@@ -100,7 +80,10 @@ const tools = [
 </section>
 
 <style>
-  /* Intro and certifications on the left, experience beside them, tools across the full width below. */
+  /*
+   * Fixed on the left: intro and the one degree. The lists that grow (experience, certifications) share the right column,
+   * and the left column stays in view beside them on wide screens, so a longer right column never leaves a gap.
+   */
   .about {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -113,7 +96,7 @@ const tools = [
     grid-column: 1 / span 5;
   }
 
-  .about__experience {
+  .about__record {
     grid-column: 7 / -1;
   }
 
@@ -142,83 +125,8 @@ const tools = [
     letter-spacing: -0.01em;
   }
 
-  .about__intro .about__label {
+  .about__label:not(:first-child) {
     margin-top: 3rem;
-  }
-
-  .certs {
-    display: grid;
-    gap: 1.25rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .certs li {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--gutter);
-  }
-
-  .certs__detail {
-    display: block;
-    color: var(--muted);
-  }
-
-  .certs__year {
-    white-space: nowrap;
-  }
-
-  .certs__year,
-  .timeline__years {
-    color: var(--muted);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .timeline {
-    display: grid;
-    gap: 1.5rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .timeline__item {
-    display: grid;
-    grid-template-columns: 6rem minmax(0, 1fr);
-    column-gap: var(--gutter);
-  }
-
-  .timeline__years {
-    margin: 0;
-  }
-
-  .timeline__title {
-    margin: 0;
-    font-size: var(--step-body);
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    line-height: 1.4;
-  }
-
-  .timeline__title a {
-    text-decoration: none;
-    transition: color var(--t-hover) ease;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .timeline__title a:hover {
-      color: var(--accent);
-    }
-  }
-
-  .timeline__place {
-    margin: 0;
-    color: var(--muted);
-  }
-
-  .timeline__text {
-    margin: 0.35rem 0 0;
   }
 
   .tools {
@@ -243,19 +151,21 @@ const tools = [
     }
   }
 
+  @media (min-width: 861px) {
+    .about__intro {
+      position: sticky;
+      top: var(--margin);
+    }
+  }
+
   @media (max-width: 860px) {
     .about__intro,
-    .about__experience {
+    .about__record {
       grid-column: 1 / -1;
     }
   }
 
   @media (max-width: 560px) {
-    .timeline__item {
-      grid-template-columns: 1fr;
-      row-gap: 0.2rem;
-    }
-
     .tools {
       grid-template-columns: 1fr;
     }
