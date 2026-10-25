@@ -2,7 +2,8 @@
 title: "Four years of Cider"
 description: "A look back at my time on Cider, from my first open-source contribution to the Electron client, module system and release pipeline behind Cider 2, and what I took away from it."
 publishDate: "2026-10-23"
-tags: ["cider", "electron", "typescript", "vue", "ci-cd", "linux", "open-source"]
+tags:
+  ["cider", "electron", "typescript", "vue", "ci-cd", "linux", "open-source"]
 featured: true
 draft: false
 image: "/work/cider-2-lyrics.webp"
@@ -45,7 +46,7 @@ Almost everything happened in Discord. My afternoons and evenings overlapped wit
 
 ## Working against Apple's API
 
-Apple doesn't offer an API for building a desktop Apple Music client. Cider was built on MusicKit JS, Apple's web player library, and on a lot of reverse engineering of the Apple Music endpoints behind it.
+At the time, Apple only offered API's for Apple Music client through Xcode, since we wanted a multi-platform app we were limited. Cider was built on MusicKit JS, Apple's web player library, and on a lot of reverse engineering of the Apple Music endpoints behind it.
 
 That made Apple a moving target. Changes arrived without warning: sometimes the token we relied on stopped working, and sometimes an endpoint's response changed shape and broke every page that read it. One of the biggest was a CORS change on Apple's side that broke the way we fetched the token, and we had to rework how the app got it. A lot of the work across those years never shows up as a feature. It was working out what Apple had changed overnight, fixing it, and getting a release out before most users noticed. It was an uphill battle, and it taught me to write code that expects the data it depends on to change.
 
@@ -65,8 +66,11 @@ for (let i = 0; i < args.total; i += 100) {
   callList.push(`${href}?offset=${i}`);
 }
 const requests = callList.map((url) =>
-  MusicKit.getInstance().api.v3.music(url, { limit: 100, ...args.queryParams })
-    .then((response: any) => { order[url] = response?.data?.data; }),
+  MusicKit.getInstance()
+    .api.v3.music(url, { limit: 100, ...args.queryParams })
+    .then((response: any) => {
+      order[url] = response?.data?.data;
+    }),
 );
 await Promise.all(requests);
 return Object.values(order).flat();
@@ -76,15 +80,15 @@ It sped up every large fetch in the app. It wasn't multithreaded, though: everyt
 
 ```ts
 class MediaDatabase extends Dexie {
-  public constructor(dbName: string = 'AM-LibraryDB') {
+  public constructor(dbName: string = "AM-LibraryDB") {
     super(dbName);
     this.dbName = dbName;
     this.version(3).stores({
-      songs: 'id',
-      artists: 'id, attributes.name',
-      albums: 'id, attributes.artistName',
-      playlists: 'id, versionHash, *tracks', // Relational table for playlists tracks
-      library: 'trackId', // Relational table for library tracks
+      songs: "id",
+      artists: "id, attributes.name",
+      albums: "id, attributes.artistName",
+      playlists: "id, versionHash, *tracks", // Relational table for playlists tracks
+      library: "trackId", // Relational table for library tracks
     });
   }
 }
@@ -101,7 +105,7 @@ Cider Connect was the account layer: settings sync, a remote-control relay, List
 Settings sync was the part that needed the most care. The client flattened its config into keys and stored it against the user's account. On start-up it compared the remote copy with the local one and, if they differed, asked the user which to keep instead of silently overwriting either. A few keys were never synced, like the sync toggle itself and the config migration level:
 
 ```ts
-const excludedKeys = ['connect.toggles.sync', 'migration_level'];
+const excludedKeys = ["connect.toggles.sync", "migration_level"];
 ```
 
 I added more commands to the remote relay over the following months, but not long after the rewrite Connect was sunset. It was underused, and the project was moving accounts to Kinde instead. The code stayed in the app but stopped working, waiting to be wired up to Kinde, which hadn't happened by the time I left.
@@ -121,16 +125,19 @@ In 2024 the project moved into a monorepo with separate packages for the fronten
 The old client was written as plain functions. Start-up was a list of manual calls into each integration, and every new feature meant editing that list and wiring itself into whatever it needed. The new Genten is built around a small module system. Every feature is a file that calls `defineModule` with a name and a function, so adding one is a matter of dropping in a file. The loader hands that function one typed environment, a shared set of functions every module uses: the window, the app, the user's client options, the shared config, typed hooks, and helpers that drive the player and router in the frontend. A module never reaches into the rest of the client. I also designed it so backend plugins could hook into the same system, though I don't know whether that was taken further after I left. Here is the MPRIS module, trimmed:
 
 ```ts
-export default defineModule('mpris', ({ hook, rpc, app, window, options }) => {
+export default defineModule("mpris", ({ hook, rpc, app, window, options }) => {
   if (!options.linux.useMpris) return;
 
-  const player = new Player({ name: app.getName().toLowerCase(), supportedInterfaces: ['player'] });
+  const player = new Player({
+    name: app.getName().toLowerCase(),
+    supportedInterfaces: ["player"],
+  });
 
-  player.on('next', () => rpc.playback.next());
-  player.on('playpause', () => rpc.playback.playPause());
-  player.on('raise', () => window.show());
+  player.on("next", () => rpc.playback.next());
+  player.on("playpause", () => rpc.playback.playPause());
+  player.on("raise", () => window.show());
 
-  hook.create('musickit:volumeChanged', ({ volume }) => {
+  hook.create("musickit:volumeChanged", ({ volume }) => {
     player.volume = volume;
   });
 });
@@ -139,9 +146,9 @@ export default defineModule('mpris', ({ hook, rpc, app, window, options }) => {
 Events flow both ways. The frontend reports what MusicKit is doing (the current track, playback state, position, volume, repeat and shuffle), Genten turns those into typed hooks, and any module can listen for the ones it cares about. Commands go back the other way through the player helpers. Modules load in order, with the platform-specific ones only loaded where they make sense:
 
 ```ts
-if (platform === 'linux') {
-  await import('./modules/plugins/mpris');
-  await import('./modules/plugins/xdg');
+if (platform === "linux") {
+  await import("./modules/plugins/mpris");
+  await import("./modules/plugins/xdg");
 }
 ```
 
