@@ -1,47 +1,34 @@
 ---
 import { getCollection } from 'astro:content';
-import { GITHUB_URL } from '../data/work';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const hasPosts = (await getCollection('blog', ({ data }) => data.draft !== true)).length > 0;
 
+// Only pages. Home is the wordmark; its sections are reached by scrolling it, external profiles live in Contact and the footer.
 const links = [
-  { href: '/#work', label: 'Work' },
   { href: '/projects', label: 'Projects' },
   ...(hasPosts ? [{ href: '/blog', label: 'Writing' }] : []),
-  { href: '/#about', label: 'About' },
-  { href: '/#contact', label: 'Contact' },
 ];
+
+const current = (href: string) => (path === href ? 'page' : path.startsWith(`${href}/`) ? 'true' : undefined);
 ---
 
 <header class="nav">
   <div class="nav__inner wrap">
-    <a class="nav__mark" href="/">Paul Thompson</a>
+    <a class="nav__mark" href="/" aria-current={path === '/' ? 'page' : undefined}>Paul Thompson</a>
     <nav aria-label="Main" class="nav__bar">
       <ul class="nav__links">
         {
           links.map((link) => (
             <li>
-              <a class="link nav__link" href={link.href} aria-current={path === link.href ? 'page' : undefined}>
+              <a class="link nav__link" href={link.href} aria-current={current(link.href)}>
                 {link.label}
               </a>
             </li>
           ))
         }
       </ul>
-      <details class="nav__menu">
-        <summary>Menu</summary>
-        <ul>
-          {
-            links.map((link) => (
-              <li>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </details>
-      <a class="link nav__link nav__action" href={GITHUB_URL} rel="me">GitHub</a>
+      <a class="link nav__link nav__action" href="/#contact">Contact</a>
     </nav>
   </div>
 </header>
@@ -86,57 +73,13 @@ const links = [
     text-decoration-color: transparent;
   }
 
-  .nav__link[aria-current='page'] {
+  .nav__link[aria-current] {
     color: var(--ink);
+    text-decoration-color: currentColor;
   }
 
   .nav__action {
     color: var(--accent);
-  }
-
-  .nav__menu {
-    display: none;
-    position: relative;
-  }
-
-  .nav__menu summary {
-    list-style: none;
-    cursor: pointer;
-    padding-block: 0.5rem;
-  }
-
-  .nav__menu summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .nav__menu ul {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 0.5rem);
-    min-width: 12rem;
-    margin: 0;
-    padding: 0.5rem 0;
-    list-style: none;
-    background: var(--surface-2);
-  }
-
-  .nav__menu ul a {
-    display: block;
-    padding: 0.75rem 1.25rem;
-    text-decoration: none;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .nav__menu[open] ul {
-      animation: menu-in var(--t-ui) var(--ease-out);
-    }
-  }
-
-  @keyframes menu-in {
-    from {
-      opacity: 0;
-      transform: translateY(-6px);
-    }
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -147,19 +90,12 @@ const links = [
     .nav__action:hover {
       color: var(--accent-strong);
     }
-
-    .nav__menu ul a:hover {
-      background: #21385a;
-    }
   }
 
-  @media (max-width: 760px) {
+  @media (max-width: 480px) {
+    .nav__bar,
     .nav__links {
-      display: none;
-    }
-
-    .nav__menu {
-      display: block;
+      gap: 1rem;
     }
   }
 </style>
