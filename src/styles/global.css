@@ -134,9 +134,10 @@
     top: -100px;
     z-index: 100;
     padding: 10px 14px;
+    border: 1px solid var(--rule);
     border-radius: var(--r-inset);
-    background: var(--gilt);
-    color: var(--ground);
+    background: var(--plate);
+    color: var(--text);
     font-weight: 700;
     text-decoration: none;
   }
@@ -322,16 +323,6 @@
     color: var(--gilt);
   }
 
-  .on-dot {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    margin-right: 8px;
-    border-radius: 50%;
-    background: var(--gilt);
-    vertical-align: 0.1em;
-  }
-
   /* The shell's chevron: muted, 16px, for rows that open something. */
   .chevron {
     width: 16px;
@@ -434,11 +425,18 @@
   transition: background-color var(--t-state) var(--ease);
 }
 
+/* A panel row: the bold title first, its sublabel under it in text2. */
 .next__title {
   display: block;
-  margin-top: 4px;
   font-size: 1.25rem;
   font-weight: 500;
+}
+
+.next__sub {
+  display: block;
+  margin-top: 2px;
+  color: var(--text2);
+  font-size: var(--fs-small);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -582,5 +580,21 @@
   to {
     opacity: 1;
     translate: 0 0;
+  }
+}
+
+/*
+ * Page changes: the whole page fades as Hyprland fades a surface, arriving on OutCubic and leaving quicker on InCubic.
+ * The bar is its own transition group with no animation, so it holds still (Layout.astro, Navigation.astro).
+ */
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
   }
 }

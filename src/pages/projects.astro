@@ -49,10 +49,7 @@ const projects = (await getCollection('projects')).sort((a, b) => {
               <p class="entry__meta">
                 {project.data.date && <span>{new Date(project.data.date).getFullYear()}</span>}
                 {project.data.status && (
-                  <span class:list={{ on: project.data.status === 'active' }}>
-                    {project.data.status === 'active' && <span class="on-dot" aria-hidden="true" />}
-                    {statusLabel[project.data.status]}
-                  </span>
+                  <span class:list={{ on: project.data.status === 'active' }}>{statusLabel[project.data.status]}</span>
                 )}
               </p>
               <p class="entry__desc">{project.data.description}</p>
