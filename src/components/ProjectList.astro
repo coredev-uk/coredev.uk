@@ -82,9 +82,19 @@ const { id = 'projects', heading = 'Projects' } = Astro.props;
     color: var(--muted);
   }
 
+  /* Linked rows carry the site's underline, so rows that go somewhere read differently from rows that don't. */
   .lineup__name a {
-    text-decoration: none;
-    transition: color var(--t-hover) ease;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.22em;
+    transition:
+      color var(--t-hover) ease,
+      text-decoration-color var(--t-hover) ease;
+  }
+
+  .lineup__row:has(a:hover, a:focus-visible) .lineup__name a {
+    text-decoration-color: currentColor;
   }
 
   .lineup__name a::after {
