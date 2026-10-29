@@ -1,0 +1,483 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-29T21:47:13.775744+00:00",
+  "title": "Design System: coredev.uk",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Night Slate Ground",
+        "canonical": "#151920",
+        "tonalRamp": [
+          "#22252b",
+          "#39414d",
+          "#4f5c72",
+          "#647798",
+          "#8996ad",
+          "#adb5c3",
+          "#d0d4da",
+          "#f1f2f3"
+        ]
+      },
+      "plate": {
+        "role": "neutral",
+        "displayName": "Slate Plate",
+        "canonical": "#222830",
+        "tonalRamp": [
+          "#22262a",
+          "#3b424c",
+          "#525f6f",
+          "#687b93",
+          "#8c99aa",
+          "#afb7c1",
+          "#d1d4d9",
+          "#f1f2f3"
+        ]
+      },
+      "inset": {
+        "role": "neutral",
+        "displayName": "Slate Inset",
+        "canonical": "#191d24",
+        "tonalRamp": [
+          "#22252a",
+          "#3b414c",
+          "#525c6f",
+          "#677894",
+          "#8b97ab",
+          "#afb5c1",
+          "#d1d4da",
+          "#f1f2f3"
+        ]
+      },
+      "hover": {
+        "role": "neutral",
+        "displayName": "Hover Slate",
+        "canonical": "#2d333e",
+        "tonalRamp": [
+          "#23252a",
+          "#3c414b",
+          "#535d6e",
+          "#6a7891",
+          "#8d97a9",
+          "#b0b6c0",
+          "#d1d4d9",
+          "#f1f2f3"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "#363d49",
+        "tonalRamp": [
+          "#23252a",
+          "#3c414b",
+          "#545d6d",
+          "#6b7990",
+          "#8e97a8",
+          "#b0b6c0",
+          "#d1d4d9",
+          "#f1f2f3"
+        ]
+      },
+      "selection": {
+        "role": "neutral",
+        "displayName": "Selection",
+        "canonical": "#47505e",
+        "tonalRamp": [
+          "#232629",
+          "#3d424a",
+          "#555e6c",
+          "#6c7a8f",
+          "#8f98a7",
+          "#b1b6bf",
+          "#d2d4d9",
+          "#f1f2f3"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Enamel",
+        "canonical": "#ece5d3",
+        "tonalRamp": [
+          "#2f2a1d",
+          "#574c30",
+          "#816f40",
+          "#af934c",
+          "#bdaa78",
+          "#cdc1a3",
+          "#dfd9cb",
+          "#f5f3f0"
+        ]
+      },
+      "text2": {
+        "role": "neutral",
+        "displayName": "Enamel Secondary",
+        "canonical": "#a9a493",
+        "tonalRamp": [
+          "#292824",
+          "#49463e",
+          "#6a6657",
+          "#8c8570",
+          "#a5a091",
+          "#bebbb2",
+          "#d8d7d2",
+          "#f3f3f2"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#6d717a",
+        "tonalRamp": [
+          "#252627",
+          "#414246",
+          "#5c5f65",
+          "#777b85",
+          "#9699a0",
+          "#b5b7bb",
+          "#d4d5d7",
+          "#f2f2f3"
+        ]
+      },
+      "gilt": {
+        "role": "primary",
+        "displayName": "Gilt",
+        "canonical": "#c9a24f",
+        "tonalRamp": [
+          "#322a1a",
+          "#5d4d2a",
+          "#8c7035",
+          "#c0963c",
+          "#c9ac6d",
+          "#d4c29c",
+          "#e2dac8",
+          "#f5f3ef"
+        ]
+      },
+      "gilt-hover": {
+        "role": "primary",
+        "displayName": "Gilt Hover",
+        "canonical": "#d8b468",
+        "tonalRamp": [
+          "#332b19",
+          "#604e27",
+          "#917230",
+          "#c79834",
+          "#cead67",
+          "#d7c399",
+          "#e4dac6",
+          "#f6f3ef"
+        ]
+      },
+      "fill": {
+        "role": "neutral",
+        "displayName": "Enamel Fill",
+        "canonical": "#bdb9a9",
+        "tonalRamp": [
+          "#292823",
+          "#4a473d",
+          "#6b6756",
+          "#8e886d",
+          "#a6a28f",
+          "#bfbcb1",
+          "#d8d7d2",
+          "#f3f3f1"
+        ]
+      },
+      "ok": {
+        "role": "state",
+        "displayName": "Ok",
+        "canonical": "#6fb39a",
+        "tonalRamp": [
+          "#1f2d28",
+          "#345247",
+          "#477a67",
+          "#57a488",
+          "#80b6a2",
+          "#a8c8bc",
+          "#cdddd7",
+          "#f0f4f3"
+        ]
+      },
+      "caution": {
+        "role": "state",
+        "displayName": "Caution",
+        "canonical": "#e0954f",
+        "tonalRamp": [
+          "#362617",
+          "#654222",
+          "#9a5f27",
+          "#d57b26",
+          "#d8995e",
+          "#ddb793",
+          "#e7d5c4",
+          "#f6f2ee"
+        ]
+      },
+      "alert": {
+        "role": "state",
+        "displayName": "Alert",
+        "canonical": "#e06c5a",
+        "tonalRamp": [
+          "#351b17",
+          "#642b22",
+          "#993728",
+          "#d33f28",
+          "#d76f5f",
+          "#dc9e94",
+          "#e6c9c4",
+          "#f6efee"
+        ]
+      },
+      "link": {
+        "role": "state",
+        "displayName": "Link Blue",
+        "canonical": "#8fb0d3",
+        "tonalRamp": [
+          "#1d2630",
+          "#2e4358",
+          "#3d5f84",
+          "#477cb4",
+          "#759ac1",
+          "#a1b7cf",
+          "#cad5e0",
+          "#f0f2f5"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The homepage name only (Window register)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Page titles (Window register)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles."
+      },
+      "subhead": {
+        "displayName": "Subhead",
+        "purpose": "Third-level headings."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The line under an opener."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running copy; prose at 1.7 and 68ch."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Bar, rail items, sublabels."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Bold text2 label over a value or list."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Fira Code, code only, Meridian syntax theme on inset."
+      }
+    },
+    "shadows": [
+      {
+        "name": "float",
+        "value": "0 8px 32px rgb(0 0 0 / 0.35)",
+        "purpose": "The homepage hero window only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.33, 1, 0.68, 1)",
+        "purpose": "OutCubic: every arrival and state change."
+      },
+      {
+        "name": "ease-exit",
+        "value": "cubic-bezier(0.32, 0, 0.67, 0)",
+        "purpose": "InCubic: leaving (page-out)."
+      },
+      {
+        "name": "t-state",
+        "value": "160ms",
+        "purpose": "Colour and fill state changes."
+      },
+      {
+        "name": "t-move",
+        "value": "300ms",
+        "purpose": "Moves, e.g. the contents rail index."
+      },
+      {
+        "name": "t-reveal",
+        "value": "650ms",
+        "purpose": "Page openers rise once on arrival."
+      },
+      {
+        "name": "page-in",
+        "value": "160ms cubic-bezier(0.33, 1, 0.68, 1)",
+        "purpose": "Page transition fade in; the bar is excluded."
+      },
+      {
+        "name": "page-out",
+        "value": "120ms cubic-bezier(0.32, 0, 0.67, 0)",
+        "purpose": "Page transition fade out."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "420px"
+      },
+      {
+        "name": "sm",
+        "value": "560px"
+      },
+      {
+        "name": "md",
+        "value": "900px"
+      },
+      {
+        "name": "doc",
+        "value": "960px"
+      },
+      {
+        "name": "lg",
+        "value": "1100px"
+      }
+    ],
+    "syntax": {
+      "keyword": "#b69cf2",
+      "string": "#8ccf8a",
+      "function": "#79b3f0",
+      "type": "#56c7c2",
+      "constant": "#f0a060",
+      "special": "#e8917f",
+      "comment": "text2 italic",
+      "punctuation": "fill"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The page's one gilt action.",
+      "html": "<a class=\"ds-btn ds-btn-primary\" href=\"#\">View GitHub</a>",
+      "css": ".ds-btn { font-family: var(--font); font-feature-settings: 'tnum' 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid transparent; border-radius: var(--r-inset); font-size: 0.9375rem; font-weight: 500; line-height: 1; text-decoration: none; transition: background-color var(--t-state) var(--ease), border-color var(--t-state) var(--ease), color var(--t-state) var(--ease); } .ds-btn-primary { background: var(--gilt); color: var(--ground); font-weight: 700; } .ds-btn-primary:hover { background: var(--gilt-hover); } .ds-btn:focus-visible { outline: 2px solid var(--gilt); outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Every other action: rule edge, hover fill.",
+      "html": "<a class=\"ds-btn2\" href=\"#\">Get in touch</a>",
+      "css": ".ds-btn2 { font-family: var(--font); font-feature-settings: 'tnum' 1; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 1px solid var(--rule); border-radius: var(--r-inset); color: var(--text); font-size: 0.9375rem; font-weight: 500; line-height: 1; text-decoration: none; transition: background-color var(--t-state) var(--ease); } .ds-btn2:hover { background: var(--hover); } .ds-btn2:focus-visible { outline: 2px solid var(--gilt); outline-offset: 2px; }"
+    },
+    {
+      "name": "Instrument Bar",
+      "kind": "nav",
+      "refersTo": "instrument-bar",
+      "description": "Sticky bar; pages as workspace items, the current one gilt over a 14x2 rule.",
+      "html": "<nav class=\"ds-bar\"><ul><li><a aria-current=\"page\" href=\"#\">Home</a></li><li><a href=\"#\">Projects</a></li><li><a href=\"#\">Blog</a></li></ul><a class=\"ds-bar-action\" href=\"#\">Contact</a></nav>",
+      "css": ".ds-bar { font-family: var(--font); font-feature-settings: 'tnum' 1; display: flex; justify-content: space-between; height: 44px; padding: 0 16px; border-bottom: 1px solid var(--rule); background: var(--ground); font-size: var(--fs-small); } .ds-bar ul { display: flex; margin: 0; padding: 0; list-style: none; } .ds-bar a { position: relative; display: flex; align-items: center; height: 100%; padding: 0 10px; color: var(--text2); text-decoration: none; transition: color var(--t-state) var(--ease); } .ds-bar a:hover { color: var(--text); } .ds-bar a[aria-current] { color: var(--gilt); font-weight: 700; } .ds-bar a[aria-current]::after { content: ''; position: absolute; left: 50%; bottom: -1px; width: 14px; height: 2px; translate: -50% 0; background: var(--gilt); } .ds-bar .ds-bar-action { color: var(--text); }"
+    },
+    {
+      "name": "List Row on a Plate",
+      "kind": "card",
+      "refersTo": "list-row",
+      "description": "The project record: rows on a plate, hover fill, muted chevron.",
+      "html": "<div class=\"ds-plate\"><a class=\"ds-row\" href=\"#\"><b>Cider</b><span>Apple Music client</span><span class=\"ds-on\">Active</span><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M6 3l5 5-5 5\"/></svg></a><a class=\"ds-row\" href=\"#\"><b>Homelab</b><span>Kubernetes cluster</span><span>2021–2024</span><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M6 3l5 5-5 5\"/></svg></a></div>",
+      "css": ".ds-plate { font-family: var(--font); font-feature-settings: 'tnum' 1; padding: 6px; border: 1px solid var(--rule); border-radius: var(--r-plate); background: var(--plate); color: var(--text); } .ds-row { display: grid; grid-template-columns: 3fr 4fr 7rem 16px; gap: 16px; align-items: center; min-height: 48px; padding: 8px 12px; border-radius: var(--r-row); color: inherit; font-size: 0.9375rem; text-decoration: none; transition: background-color var(--t-state) var(--ease); } .ds-row span { color: var(--text2); } .ds-row .ds-on { color: var(--gilt); } .ds-row svg { color: var(--muted); transition: color var(--t-state) var(--ease); } .ds-row:hover { background: var(--hover); } .ds-row:hover svg { color: var(--text); } .ds-row:focus-visible { outline: 2px solid var(--gilt); outline-offset: -2px; }"
+    },
+    {
+      "name": "Window",
+      "kind": "custom",
+      "refersTo": "window-frame",
+      "description": "A screenshot: inset frame, rule edge; Float only on the homepage hero.",
+      "html": "<figure class=\"ds-window\"><div class=\"ds-frame\" style=\"height:120px\"></div><figcaption>Cider's album view.</figcaption></figure>",
+      "css": ".ds-window { font-family: var(--font); font-feature-settings: 'tnum' 1; margin: 0; } .ds-frame { border: 1px solid var(--rule); border-radius: var(--r-plate); background: var(--inset); box-shadow: var(--float); } .ds-window figcaption { margin-top: 12px; color: var(--text2); font-size: var(--fs-label); }"
+    },
+    {
+      "name": "Readouts",
+      "kind": "custom",
+      "refersTo": "readout-track",
+      "description": "Shell readouts with an ok state and level tracks.",
+      "html": "<dl class=\"ds-readouts\"><div><dt>Status</dt><dd class=\"ds-ok\">up</dd></div><div class=\"ds-level\"><dt>CPU</dt><dd><span class=\"ds-track\"><span style=\"--v:34%\"></span></span>34%</dd></div></dl>",
+      "css": ".ds-readouts { font-family: var(--font); font-feature-settings: 'tnum' 1; margin: 0; padding: 6px 16px 12px; border: 1px solid var(--rule); border-radius: var(--r-plate); background: var(--plate); color: var(--text); font-size: 0.9375rem; } .ds-readouts > div { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; min-height: 36px; padding: 6px 0; border-top: 1px solid var(--rule); } .ds-readouts dt { color: var(--text2); } .ds-readouts dd { margin: 0; text-align: right; } .ds-ok { color: var(--ok); } .ds-readouts > .ds-level { grid-template-columns: 1fr; row-gap: 6px; padding-block: 10px; } .ds-level dd { display: grid; grid-template-columns: 1fr 3.5rem; align-items: center; gap: 12px; } .ds-track { display: block; height: 4px; overflow: hidden; border-radius: var(--r-track); background: var(--inset); } .ds-track span { display: block; width: var(--v); height: 100%; background: var(--fill); border-radius: var(--r-track); }"
+    },
+    {
+      "name": "Contents Rail",
+      "kind": "nav",
+      "refersTo": "contents-rail-item",
+      "description": "Write-up contents on a rule spine; a gilt index glides to the current section.",
+      "html": "<nav class=\"ds-rail\"><span class=\"ds-index\"></span><a href=\"#\">Overview</a><a aria-current=\"true\" href=\"#\">Architecture</a><a href=\"#\">Lessons</a></nav>",
+      "css": ".ds-rail { font-family: var(--font); font-feature-settings: 'tnum' 1; position: relative; border-left: 1px solid var(--rule); } .ds-rail a { display: block; padding: 6px 0 6px 16px; color: var(--text2); font-size: var(--fs-small); line-height: 1.4; text-decoration: none; transition: color var(--t-state) var(--ease); } .ds-rail a:hover { color: var(--text); } .ds-rail a[aria-current] { color: var(--gilt); font-weight: 700; } .ds-index { position: absolute; left: -1px; top: 31px; width: 2px; height: 31px; background: var(--gilt); transition: translate var(--t-move) var(--ease); }"
+    },
+    {
+      "name": "Panel Row",
+      "kind": "custom",
+      "refersTo": "panel-row",
+      "description": "The way on (.next) and the 404 links: bold title over a text2 sublabel.",
+      "html": "<a class=\"ds-panel\" href=\"#\"><span><strong>Next: Homelab</strong><span>Kubernetes on bare metal</span></span><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M6 3l5 5-5 5\"/></svg></a>",
+      "css": ".ds-panel { font-family: var(--font); font-feature-settings: 'tnum' 1; display: grid; grid-template-columns: 1fr 16px; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--rule); border-radius: var(--r-plate); background: var(--plate); color: var(--text); text-decoration: none; transition: background-color var(--t-state) var(--ease); } .ds-panel strong { display: block; font-size: 1.25rem; font-weight: 500; } .ds-panel span span { display: block; margin-top: 2px; color: var(--text2); font-size: var(--fs-small); } .ds-panel svg { color: var(--muted); } .ds-panel:hover { background: var(--hover); } .ds-panel:hover svg { color: var(--text); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Desktop It Was Built On",
+    "overview": "The site is Meridian, the atlas desktop's shell theme, set for the web. Pages read as the shell's own surfaces: an instrument bar across the top, plates and windows stepped by tone, rows that fill under the pointer, and readouts that report rather than decorate. It refuses the generic dark portfolio; every device here has a counterpart in the shell.\n\nTwo registers carry the whole site. The Window register is for page openers: names and page titles in Light at display scale, rising once on arrival. The Instrument register is for everything else: rows, plates, facts and readouts, set in bold labels over text2 values, where nothing moves that didn't change. Density is calm and generous at the section scale, and tight and regular inside a plate.\n\nThe user rejected the mockup's day arc and any clock or time-of-day indicator. They are not part of the system.",
+    "keyCharacteristics": [
+      "Night-slate grounds stepped ground → plate → inset, with a 1px rule on every edge.",
+      "Enamel legends on a text → text2 → muted ramp.",
+      "Gilt only for \"here\" and \"on\", plus one primary button per page.",
+      "One family, Atkinson Hyperlegible Next, with tabular figures throughout; Fira Code for code only.",
+      "Corners step 10/8/6/2.",
+      "One easing family: OutCubic in, InCubic out."
+    ],
+    "rules": [
+      {
+        "name": "The Here and On Rule",
+        "body": "Gilt marks only where you are and what is running, plus one primary button per page. If gilt is doing anything else, it is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reporting State Rule",
+        "body": "Ok, Caution and Alert report a state; they never decorate.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Tabular figures (`tnum`) are on everywhere in the sans; only code turns them off.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Fira Code appears only in code, inline or block, in the Meridian syntax theme on the inset ground (keywords violet, strings green, functions blue, types teal, constants orange, parameters coral, comments text2 italic).",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat By Tone Rule",
+        "body": "A surface is distinguished by its tone and its rule edge. A window set into the page stays flat.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** keep gilt to \"here\", \"on\" and the page's one primary button.",
+      "**Do** separate surfaces by tone and a 1px rule.",
+      "**Do** step corners 10/8/6/2 by depth.",
+      "**Do** use OutCubic in and InCubic out, at 160ms for state and 300ms for moves.",
+      "**Do** keep tabular figures on in the sans."
+    ],
+    "donts": [
+      "**Don't** add a second gilt primary button to a page.",
+      "**Don't** put Float on anything but the homepage hero window.",
+      "**Don't** use Fira Code outside code.",
+      "**Don't** add the day arc, a clock, or any time-of-day indicator.",
+      "**Don't** use state colours as decoration.",
+      "**Don't** animate the instrument bar on page changes."
+    ]
+  }
+}

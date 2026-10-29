@@ -14,10 +14,17 @@ const {
   title,
   description = 'Paul Thompson, known online as Core: Graduate Software Engineer. Four years on the Cider music app, plus NixOS flakes and a Kubernetes homelab.',
 } = Astro.props;
+
+// The page fades as a whole: in on OutCubic over 160ms, out quicker on InCubic (keyframes in global.css).
+const fade = {
+  old: { name: 'page-out', duration: '120ms', easing: 'cubic-bezier(0.32, 0, 0.67, 0)', fillMode: 'both' },
+  new: { name: 'page-in', duration: '160ms', easing: 'cubic-bezier(0.33, 1, 0.68, 1)', fillMode: 'both' },
+};
+const pageFade = { forwards: fade, backwards: fade };
 ---
 
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-GB" transition:animate={pageFade}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -33,3 +33,6 @@ pnpm-debug.log*
 
 # direnv cache
 .direnv/
+
+# impeccable review captures
+.impeccable/review/
