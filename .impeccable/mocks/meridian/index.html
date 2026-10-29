@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paul Thompson (Core), Graduate Software Engineer · Meridian mockup</title>
+    <meta name="theme-color" content="#151920" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="meridian.css" />
+    <script>
+      document.documentElement.classList.add('js');
+    </script>
+    <script src="meridian.js" defer></script>
+    <style>
+      /* ---------- Hero: the lock screen's grammar, name over a live day ---------- */
+      .hero {
+        grid-template-rows: 1fr auto;
+        row-gap: clamp(3rem, 6vw, 4.5rem);
+        min-height: calc(100svh - var(--bar-h));
+        padding-top: clamp(3rem, 7vw, 6rem);
+        padding-bottom: clamp(2.5rem, 5vw, 4rem);
+      }
+
+      .hero__id {
+        grid-column: 1 / span 6;
+        align-self: center;
+      }
+
+      .hero__name {
+        margin-left: -0.045em;
+        font-size: var(--fs-display);
+        font-weight: 300;
+        letter-spacing: -0.03em;
+        line-height: 0.92;
+      }
+
+      .hero__name span {
+        display: block;
+      }
+
+      .hero__lead {
+        max-width: 31ch;
+        margin-top: clamp(1.5rem, 3vw, 2.25rem);
+        font-size: var(--fs-lead);
+        line-height: 1.4;
+      }
+
+      .hero .actions {
+        margin-top: 2rem;
+      }
+
+      .hero__window {
+        grid-column: 7 / -1;
+        align-self: center;
+      }
+
+      .hero__date {
+        grid-column: 1 / -1;
+      }
+
+      .hero__under {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        column-gap: var(--gutter);
+        row-gap: 10px;
+        margin-top: 18px;
+        color: var(--text2);
+        font-size: 0.9375rem;
+      }
+
+      .hero__caption {
+        grid-column: 1 / span 5;
+      }
+
+      .hero__key {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      .hero__key[hidden] {
+        display: none;
+      }
+
+      .hero__key::before {
+        content: "";
+        width: 1px;
+        height: 8px;
+        background: color-mix(in srgb, var(--text) 70%, transparent);
+      }
+
+      .hero__push {
+        grid-column: 7 / -1;
+      }
+
+      .hero__push time {
+        color: var(--text);
+      }
+
+      .arc[data-now-edge="start"] .arc__label--now {
+        translate: 0 0;
+      }
+
+      .arc[data-now-edge="end"] .arc__label--now {
+        translate: -100% 0;
+      }
+
+      /* ---------- Selected work: the projects as windows ---------- */
+      .work__head {
+        margin-bottom: clamp(2.5rem, 5vw, 4rem);
+      }
+
+      .work-row {
+        align-items: center;
+      }
+
+      .work-row + .work-row {
+        margin-top: clamp(4.5rem, 9vw, 8rem);
+      }
+
+      .work-row .window {
+        grid-column: 1 / span 7;
+      }
+
+      .work-row__text {
+        grid-column: 9 / -1;
+      }
+
+      .work-row--flip .window {
+        grid-column: 6 / -1;
+        grid-row: 1;
+      }
+
+      .work-row--flip .work-row__text {
+        grid-column: 1 / span 4;
+        grid-row: 1;
+      }
+
+      .work-row .window__frame img {
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+        object-position: 0 0;
+      }
+
+      .work-row__text h3 {
+        font-size: var(--fs-h3);
+      }
+
+      .meta {
+        margin-top: 8px;
+        color: var(--text2);
+        font-size: 0.9375rem;
+      }
+
+      .fact {
+        margin-top: 20px;
+        font-size: 1.1875rem;
+        font-weight: 500;
+        line-height: 1.35;
+      }
+
+      .body {
+        margin-top: 12px;
+        color: var(--text2);
+      }
+
+      .work-row .actions {
+        margin-top: 24px;
+      }
+
+      /* ---------- Projects: the full record as rows on a plate ---------- */
+      .lineup__intro {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px 24px;
+      }
+
+      .lineup__key {
+        color: var(--text2);
+        font-size: var(--fs-label);
+      }
+
+      .lineup {
+        margin-top: 2rem;
+        padding: 6px;
+      }
+
+      .lineup__group + .lineup__group {
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid var(--rule);
+      }
+
+      .lineup__part {
+        padding: 14px 12px 8px;
+        color: var(--text2);
+        font-size: var(--fs-label);
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .lineup ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .lrow {
+        position: relative;
+        display: grid;
+        grid-template-columns: 3fr 4fr 3fr 7rem 16px;
+        column-gap: var(--gutter);
+        align-items: center;
+        min-height: 48px;
+        padding: 8px 12px;
+        border-radius: var(--r-row);
+        font-size: 0.9375rem;
+        transition: background-color var(--t-state) var(--ease);
+      }
+
+      .lrow__name {
+        font-weight: 700;
+      }
+
+      .lrow__name a {
+        text-decoration: none;
+      }
+
+      .lrow__name a::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: var(--r-row);
+      }
+
+      .lrow__name a:focus-visible {
+        outline: none;
+      }
+
+      .lrow:has(a:focus-visible) {
+        outline: 2px solid var(--gilt);
+        outline-offset: -2px;
+      }
+
+      .lrow__what,
+      .lrow__stack {
+        color: var(--text2);
+      }
+
+      .lrow__years {
+        justify-self: end;
+        white-space: nowrap;
+      }
+
+      .lrow svg {
+        width: 16px;
+        height: 16px;
+        color: var(--muted);
+        transition: color var(--t-state) var(--ease);
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .lrow:has(a):hover {
+          background: var(--hover);
+        }
+
+        .lrow:has(a):hover svg {
+          color: var(--text);
+        }
+      }
+
+      /* ---------- About ---------- */
+      .about {
+        row-gap: clamp(3rem, 5vw, 4rem);
+        align-items: start;
+      }
+
+      .about__intro {
+        grid-column: 1 / span 5;
+      }
+
+      .about__lead {
+        max-width: 32ch;
+        margin-top: 1.25rem;
+        font-size: var(--fs-lead);
+        line-height: 1.4;
+      }
+
+      .about .actions {
+        margin-top: 1.5rem;
+      }
+
+      .about__record {
+        grid-column: 7 / -1;
+      }
+
+      .label {
+        margin-bottom: 6px;
+        color: var(--text2);
+        font-size: var(--fs-label);
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .about__intro .label {
+        margin-top: 3rem;
+      }
+
+      .about__record .label + .tl {
+        margin-top: 0;
+      }
+
+      .about__record .tl + .label {
+        margin-top: 2.5rem;
+      }
+
+      .tl {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .tl li {
+        display: grid;
+        grid-template-columns: 6.5rem minmax(0, 1fr);
+        column-gap: var(--gutter);
+        padding: 14px 0;
+        border-top: 1px solid var(--rule);
+      }
+
+      .tl__years {
+        color: var(--text2);
+      }
+
+      .tl__title {
+        font-size: var(--fs-body);
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .tl__title a {
+        text-decoration: none;
+      }
+
+      .tl__place {
+        color: var(--text2);
+      }
+
+      .tl__text {
+        margin-top: 6px;
+      }
+
+      .tools {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1.5rem var(--gutter);
+        margin: 0;
+        padding: 20px 24px;
+      }
+
+      .tools dt {
+        margin-bottom: 6px;
+        color: var(--text2);
+        font-size: var(--fs-label);
+        font-weight: 700;
+      }
+
+      .tools dd {
+        margin: 0;
+      }
+
+      /* ---------- Contact ---------- */
+      .contact {
+        align-items: end;
+        row-gap: 2rem;
+        padding: clamp(1.75rem, 4vw, 3.5rem);
+      }
+
+      .contact__intro {
+        grid-column: 1 / span 5;
+      }
+
+      .contact__intro p {
+        max-width: 36ch;
+        margin-top: 1rem;
+        color: var(--text2);
+      }
+
+      .contact__ways {
+        grid-column: 7 / -1;
+      }
+
+      .contact__email {
+        font-size: var(--fs-h2);
+        font-weight: 500;
+        letter-spacing: -0.015em;
+        text-decoration: underline;
+        text-decoration-color: var(--rule);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 0.18em;
+        transition: text-decoration-color var(--t-state) var(--ease);
+        overflow-wrap: anywhere;
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .contact__email:hover {
+          text-decoration-color: var(--text);
+        }
+      }
+
+      .contact .actions {
+        margin-top: 1.25rem;
+      }
+
+      /* ---------- Narrower screens ---------- */
+      @media (max-width: 1100px) {
+        .work-row__text {
+          grid-column: 8 / -1;
+        }
+
+        .work-row--flip .work-row__text {
+          grid-column: 1 / span 5;
+        }
+
+        .tools {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-rows: auto;
+          min-height: 0;
+        }
+
+        .hero__id,
+        .hero__window,
+        .hero__caption,
+        .hero__push,
+        .work-row .window,
+        .work-row__text,
+        .work-row--flip .window,
+        .work-row--flip .work-row__text,
+        .about__intro,
+        .about__record,
+        .contact__intro,
+        .contact__ways {
+          grid-column: 1 / -1;
+          grid-row: auto;
+        }
+
+        .work-row {
+          row-gap: 1.75rem;
+        }
+
+        .lrow {
+          grid-template-columns: minmax(0, 1fr) auto 16px;
+          row-gap: 2px;
+        }
+
+        .lrow__what {
+          grid-column: 1 / -1;
+          grid-row: 2;
+        }
+
+        .lrow__stack {
+          grid-column: 1 / -1;
+          grid-row: 3;
+          font-size: var(--fs-label);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .tools {
+          grid-template-columns: 1fr;
+        }
+
+        .tl li {
+          grid-template-columns: 1fr;
+          row-gap: 2px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="bar">
+      <div class="bar__inner wrap">
+        <nav aria-label="Main">
+          <ul class="ws">
+            <li><a href="index.html" aria-current="page">Paul Thompson</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="homelab.html">Writing</a></li>
+          </ul>
+        </nav>
+        <div class="bar__right">
+          <div class="clock" aria-hidden="true">
+            <span class="clock__date" data-clock-date>Thu 29 Oct</span>
+            <div class="arc" data-arc style="--rise: 28.26; --set: 69.51; --now: 87.8">
+              <span class="arc__track"></span><span class="arc__day"></span>
+              <span class="arc__tick arc__tick--rise"></span><span class="arc__tick arc__tick--set"></span>
+              <span class="arc__now"></span>
+            </div>
+            <span class="clock__time" data-clock-time>21:04</span>
+          </div>
+          <span class="sep" aria-hidden="true"></span>
+          <a class="bar__link" href="#contact">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero grid wrap" aria-labelledby="hero-title">
+        <div class="hero__id">
+          <h1 id="hero-title" class="hero__name" data-reveal><span>Paul</span> <span>Thompson</span></h1>
+          <p class="hero__lead" data-reveal style="--d: 90ms">
+            Graduate Software Engineer at Lockheed Martin, known online as Core. Before that, four years as a lead on
+            the Cider music app.
+          </p>
+          <p class="actions" data-reveal style="--d: 180ms">
+            <a class="btn btn--primary" href="https://github.com/coredev-uk" rel="me">View GitHub</a>
+            <a class="btn btn--secondary" href="#contact">Get in touch</a>
+          </p>
+        </div>
+
+        <figure class="window window--float hero__window" data-reveal="settle" style="--d: 120ms">
+          <div class="window__frame">
+            <img
+              src="../../../public/work/cider-album.webp"
+              width="1440"
+              height="894"
+              alt="Cider's album view: Chromeo's Adult Contemporary with its artwork, track list and playback bar, tinted red by the cover."
+              fetchpriority="high"
+            />
+          </div>
+          <figcaption>Cider's album view, from cider.sh</figcaption>
+        </figure>
+
+        <div class="hero__date" data-reveal style="--d: 270ms">
+          <div
+            class="arc arc--wide"
+            data-arc
+            role="img"
+            aria-label="Thursday 29 October at Greenwich: sunrise 06:47, sunset 16:41."
+            style="--rise: 28.26; --set: 69.51; --now: 87.8"
+          >
+            <span class="arc__track"></span><span class="arc__day"></span>
+            <span class="arc__tick arc__tick--rise"></span><span class="arc__tick arc__tick--set"></span>
+            <span data-arc-pushes></span>
+            <span class="arc__now"></span>
+            <span class="arc__label arc__label--edge arc__label--start">00:00</span>
+            <span class="arc__label arc__label--rise" data-rise>06:47</span>
+            <span class="arc__label arc__label--set" data-set>16:41</span>
+            <span class="arc__label arc__label--now" data-now>21:04 GMT</span>
+            <span class="arc__label arc__label--edge arc__label--end">24:00</span>
+          </div>
+          <div class="hero__under">
+            <div class="hero__caption">
+              <p><span data-long-date>Thursday 29 October</span> at Greenwich. <span data-next>Sunrise tomorrow at 06:50</span>.</p>
+              <p class="hero__key" data-push-key hidden><span data-push-count></span></p>
+            </div>
+            <p class="hero__push" data-push>
+              My public work is on <a class="text-link" href="https://github.com/coredev-uk">GitHub</a>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="work wrap section" id="work" aria-labelledby="work-title">
+        <h2 id="work-title" class="h2 work__head">Selected work</h2>
+
+        <article class="work-row grid" aria-labelledby="cider-title">
+          <figure class="window">
+            <div class="window__frame">
+              <img
+                src="../../../public/work/cider-1-playlist.webp"
+                width="1336"
+                height="768"
+                loading="lazy"
+                alt="Cider 1 playing an Apple Music playlist, with the track list, playback bar and sidebar library."
+              />
+            </div>
+          </figure>
+          <div class="work-row__text">
+            <h3 id="cider-title">Cider</h3>
+            <p class="meta">Apple Music for Windows, macOS and Linux. 2021–2022</p>
+            <p class="fact">Main process, plugin system and every release</p>
+            <p class="body">
+              I started with the configuration system in Apple-Music-Electron, rewrote Cider's main process in
+              TypeScript with a plugin system, and owned releases: CircleCI, Flatpak and the AUR packages.
+            </p>
+            <p class="actions">
+              <a class="btn btn--secondary btn--small" href="https://github.com/ciderapp/Cider">Source on GitHub</a>
+              <a class="btn btn--secondary btn--small" href="#">The full story</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="work-row work-row--flip grid" aria-labelledby="cider2-title">
+          <figure class="window">
+            <div class="window__frame">
+              <img
+                src="../../../public/work/cider-2-settings.webp"
+                width="840"
+                height="509"
+                loading="lazy"
+                alt="Cider 2.3's settings over the library: the Visual page with General, Sweetener, Animated Artwork, Lyrics and Fonts."
+              />
+            </div>
+          </figure>
+          <div class="work-row__text">
+            <h3 id="cider2-title">Cider 2</h3>
+            <p class="meta">The rewrite, with a team of fourteen. 2022–2025</p>
+            <p class="fact">One of three core leads; 20,000+ users</p>
+            <p class="body">
+              I rebuilt the macOS and Linux client around a typed module system that plugs into Izanami, our shared
+              Node core, and ran the build and release pipeline on self-hosted runners for every platform.
+            </p>
+            <p class="actions">
+              <a class="btn btn--secondary btn--small" href="https://github.com/ciderapp/Cider-2">Cider 2 on GitHub</a>
+              <a class="btn btn--secondary btn--small" href="#">Write-up</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="work-row grid" aria-labelledby="nixos-title">
+          <figure class="window">
+            <div class="window__frame">
+              <img
+                src="../../../public/work/nixos-atlas.webp"
+                width="1920"
+                height="1080"
+                loading="lazy"
+                alt="The atlas desktop on Hyprland: flake.nix open in Neovim, fastfetch showing NixOS 26.05, and the flake's recent git history."
+              />
+            </div>
+          </figure>
+          <div class="work-row__text">
+            <h3 id="nixos-title">nixos</h3>
+            <p class="meta">
+              One flake for a NixOS desktop and a MacBook. 2024–<span class="on">now</span>
+            </p>
+            <p class="fact">Reproducible: a fresh machine is one command away</p>
+            <p class="body">
+              Disko installs onto LUKS and btrfs, Secure Boot through Lanzaboote, and nix-darwin with Homebrew on the
+              laptop, all from one repository.
+            </p>
+            <p class="actions">
+              <a class="btn btn--secondary btn--small" href="https://github.com/coredev-uk/nixos">Source on GitHub</a>
+              <a class="btn btn--secondary btn--small" href="#">Write-up</a>
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section class="wrap section" id="projects" aria-labelledby="projects-title">
+        <div class="lineup__intro">
+          <h2 id="projects-title" class="h2">Projects</h2>
+          <p class="lineup__key"><span class="on">now</span> still running</p>
+        </div>
+        <div class="lineup plate">
+          <div class="lineup__group">
+            <h3 class="lineup__part">Cider and Apple Music</h3>
+            <ul>
+              <li class="lrow">
+                <span class="lrow__name"><a href="#">Cider 2</a></span><span class="lrow__what">Apple Music client, core lead</span><span class="lrow__stack">Vue 3, Electron, .NET</span><span class="lrow__years">2022–2025</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="#">Cider</a></span><span class="lrow__what">Main process, plugins, releases</span><span class="lrow__stack">Vue 2, Electron</span><span class="lrow__years">2021–2022</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/ciderapp/Apple-Music-Electron">Apple-Music-Electron</a></span><span class="lrow__what">Settings, themes, platform support</span><span class="lrow__stack">JavaScript, Electron</span><span class="lrow__years">2021</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/ciderapp/aur-packages">AUR packages</a></span><span class="lrow__what">cider, cider-git, cider-bin</span><span class="lrow__stack">PKGBUILD, Bash</span><span class="lrow__years">2021–2025</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/coredev-uk/musickit-types">musickit-types</a></span><span class="lrow__what">Types for MusicKit.js</span><span class="lrow__stack">TypeScript</span><span class="lrow__years">2024–2025</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+            </ul>
+          </div>
+          <div class="lineup__group">
+            <h3 class="lineup__part">Infrastructure</h3>
+            <ul>
+              <li class="lrow">
+                <span class="lrow__name"><a href="#">nixos</a></span><span class="lrow__what">NixOS and macOS flake</span><span class="lrow__stack">Nix, nix-darwin</span><span class="lrow__years">2024–<span class="on">now</span></span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/coredev-uk/macos-wallpapers">macos-wallpapers</a></span><span class="lrow__what">macOS wallpapers that follow the sun</span><span class="lrow__stack">Python, Nix</span><span class="lrow__years">2024–<span class="on">now</span></span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="homelab.html">homelab</a></span><span class="lrow__what">Three-node Talos cluster</span><span class="lrow__stack">Kubernetes, Flux</span><span class="lrow__years">2025–<span class="on">now</span></span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/coredev-uk/dotfiles">dotfiles</a></span><span class="lrow__what">Arch with i3 and Hyprland</span><span class="lrow__stack">Lua, Shell</span><span class="lrow__years">2022–2025</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/coredev-uk/coredev.uk">coredev.uk</a></span><span class="lrow__what">This site</span><span class="lrow__stack">Astro, Cloudflare</span><span class="lrow__years">2023–<span class="on">now</span></span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+            </ul>
+          </div>
+          <div class="lineup__group">
+            <h3 class="lineup__part">University of Kent</h3>
+            <ul>
+              <li class="lrow">
+                <span class="lrow__name">Drum Smith</span><span class="lrow__what">Drum synth plugin, team of four</span><span class="lrow__stack">C++, JUCE, CMake</span><span class="lrow__years">2024–2025</span><span></span>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/coredev-uk/comp6590-practical-project">CompuRiddle</a></span><span class="lrow__what">Riddles written and scored by AI</span><span class="lrow__stack">TypeScript, TensorFlow.js</span><span class="lrow__years">2025</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/coredev-uk/comp6575-hash-miner">Hash Miner</a></span><span class="lrow__what">Bitcoin-style proof-of-work mining</span><span class="lrow__stack">TypeScript, Bun</span><span class="lrow__years">2025</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name">Motion Light</span><span class="lrow__what">ESP32 sensor and smart plug</span><span class="lrow__stack">C++, ESP32, MQTT</span><span class="lrow__years">2024</span><span></span>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name">Surgery Bookings App</span><span class="lrow__what">Desktop app, team of five</span><span class="lrow__stack">Java, Swing, PostgreSQL</span><span class="lrow__years">2024</span><span></span>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name">Google Hash Code 2018</span><span class="lrow__what">Self-driving rides problem</span><span class="lrow__stack">Java, JUnit</span><span class="lrow__years">2024</span><span></span>
+              </li>
+            </ul>
+          </div>
+          <div class="lineup__group">
+            <h3 class="lineup__part">Earlier</h3>
+            <ul>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/coredev-uk/CoreCheck">CoreCheck</a></span><span class="lrow__what">Basic Boeing 737 checklists</span><span class="lrow__stack">HTML</span><span class="lrow__years">2022</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/coredev-uk/aoc">Advent of Code</a></span><span class="lrow__what">Daily puzzles</span><span class="lrow__stack">TypeScript</span><span class="lrow__years">2022–2023</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name"><a href="https://github.com/coredev-uk/cmb">Core's Military Boards</a></span><span class="lrow__what">Garry’s Mod addon for boards in MilitaryRP</span><span class="lrow__stack">Lua</span><span class="lrow__years">2022</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </li>
+              <li class="lrow">
+                <span class="lrow__name">Garry’s Mod servers</span><span class="lrow__what">Seven servers, three clients</span><span class="lrow__stack">Lua</span><span class="lrow__years">2016–2020</span><span></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="about grid wrap section" id="about" aria-labelledby="about-title">
+        <div class="about__intro">
+          <h2 id="about-title" class="h2">About</h2>
+          <p class="about__lead">
+            I build desktop software and the infrastructure it ships on. These days most of my own time goes on my NixOS
+            setup and my homelab.
+          </p>
+          <p class="actions">
+            <a class="btn btn--secondary btn--small" href="https://github.com/coredev-uk" rel="me">GitHub</a>
+            <a class="btn btn--secondary btn--small" href="https://www.linkedin.com/in/-paulthompson/" rel="me">LinkedIn</a>
+          </p>
+          <h3 class="label">Education</h3>
+          <ol class="tl">
+            <li>
+              <p class="tl__years">2022–2025</p>
+              <div>
+                <h4 class="tl__title">BSc Software Engineering</h4>
+                <p class="tl__place">University of Kent</p>
+                <p class="tl__text">First Class Honours</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="about__record">
+          <h3 class="label">Experience</h3>
+          <ol class="tl">
+            <li>
+              <p class="tl__years on">Now</p>
+              <div>
+                <h4 class="tl__title">Graduate Software Engineer</h4>
+                <p class="tl__place">Lockheed Martin</p>
+              </div>
+            </li>
+            <li>
+              <p class="tl__years">2021–2025</p>
+              <div>
+                <h4 class="tl__title"><a href="#">Core Maintainer</a></h4>
+                <p class="tl__place">Apple-Music-Electron and Cider</p>
+                <p class="tl__text">
+                  From first contributor to one of three core maintainers, owning releases and the macOS and Linux client.
+                </p>
+              </div>
+            </li>
+            <li>
+              <p class="tl__years">2016–2020</p>
+              <div>
+                <h4 class="tl__title">Server Developer</h4>
+                <p class="tl__place">Garry’s Mod communities</p>
+                <p class="tl__text">Where I learned to program, building and running Lua game servers.</p>
+              </div>
+            </li>
+          </ol>
+
+          <h3 class="label">Certifications</h3>
+          <ol class="tl">
+            <li>
+              <p class="tl__years">2026</p>
+              <div>
+                <h4 class="tl__title">AWS Certified Cloud Practitioner</h4>
+                <p class="tl__place">Amazon Web Services</p>
+              </div>
+            </li>
+            <li>
+              <p class="tl__years">2021</p>
+              <div>
+                <h4 class="tl__title">Azure AI Fundamentals (AI-900)</h4>
+                <p class="tl__place">Microsoft</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <dl class="tools plate" aria-label="Tools">
+          <div>
+            <dt>Languages</dt>
+            <dd>TypeScript, JavaScript, Java, C++, Python, PHP, SQL, Lua, Nix</dd>
+          </div>
+          <div>
+            <dt>Apps and frameworks</dt>
+            <dd>Vue, Electron, Node.js, Fastify, Laravel, Express, Dexie.js</dd>
+          </div>
+          <div>
+            <dt>Infrastructure</dt>
+            <dd>Docker, Kubernetes, Talos Linux, Flux, Helm, Cilium, Rook Ceph, AWS, Cloudflare</dd>
+          </div>
+          <div>
+            <dt>Delivery</dt>
+            <dd>GitHub Actions, Azure Pipelines, CircleCI, Renovate, AI coding agents</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="wrap section" id="contact" aria-labelledby="contact-title">
+        <div class="contact grid plate">
+          <div class="contact__intro">
+            <h2 id="contact-title" class="h2">Contact</h2>
+            <p>
+              For work, questions about any of my projects or anything else on this site, email is the quickest way to
+              reach me.
+            </p>
+          </div>
+          <div class="contact__ways">
+            <a class="contact__email" href="mailto:core@coredev.uk">core@coredev.uk</a>
+            <p class="actions">
+              <a class="btn btn--secondary btn--small" href="https://github.com/coredev-uk" rel="me">GitHub</a>
+              <a class="btn btn--secondary btn--small" href="https://www.linkedin.com/in/-paulthompson/" rel="me">LinkedIn</a>
+              <a class="btn btn--secondary btn--small" href="https://x.com/core_hdd" rel="me">X @core_hdd</a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer__cols">
+          <ul>
+            <li>Paul Thompson</li>
+            <li>Graduate Software Engineer</li>
+            <li>Known online as Core</li>
+          </ul>
+          <ul>
+            <li>Pages</li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="homelab.html">Writing</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <ul>
+            <li>Elsewhere</li>
+            <li><a href="https://github.com/coredev-uk" rel="me">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/-paulthompson/" rel="me">LinkedIn</a></li>
+            <li><a href="https://x.com/core_hdd" rel="me">X @core_hdd</a></li>
+            <li><a href="mailto:core@coredev.uk">core@coredev.uk</a></li>
+          </ul>
+          <ul>
+            <li>This site</li>
+            <li>Astro on Cloudflare Workers</li>
+            <li>Set in Meridian, the palette of my NixOS desktop</li>
+            <li>Cider screenshots from the Cider Collective’s public repositories</li>
+          </ul>
+        </div>
+        <p class="footer__legal">
+          <span>© 2026 Paul Thompson. Content licensed CC BY-NC-SA 4.0.</span>
+          <span>Times are UK time at Greenwich</span>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

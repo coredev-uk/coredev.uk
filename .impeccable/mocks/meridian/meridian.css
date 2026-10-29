@@ -1,0 +1,646 @@
+/* coredev.uk in Meridian: the system palette from ~/.dotfiles/lib/theme, set for the web. */
+:root {
+  color-scheme: dark;
+
+  /* Grounds */
+  --ground: #151920;
+  --plate: #222830;
+  --inset: #191d24;
+  --hover: #2d333e;
+  --rule: #363d49;
+  --selection: #47505e;
+  /* Legends */
+  --text: #ece5d3;
+  --text2: #a9a493;
+  --muted: #6d717a;
+  /* Here and on */
+  --gilt: #c9a24f;
+  --gilt-hover: #d8b468;
+  --fill: #bdb9a9;
+  /* State */
+  --ok: #6fb39a;
+  --caution: #e0954f;
+  --alert: #e06c5a;
+  --link: #8fb0d3;
+
+  --font: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --font-code: "Fira Code", ui-monospace, Menlo, monospace;
+
+  --fs-display: clamp(3.5rem, 1.4rem + 6.6vw, 8rem);
+  --fs-title: clamp(3rem, 1.9rem + 3.4vw, 5.25rem);
+  --fs-h2: clamp(1.75rem, 1.45rem + 0.9vw, 2.375rem);
+  --fs-h3: clamp(1.375rem, 1.25rem + 0.4vw, 1.75rem);
+  --fs-lead: clamp(1.1875rem, 1.05rem + 0.45vw, 1.5rem);
+  --fs-body: 1.0625rem;
+  --fs-bar: 0.875rem;
+  --fs-label: 0.8125rem;
+
+  --r-plate: 10px;
+  --r-inset: 8px;
+  --r-row: 6px;
+  --r-track: 2px;
+
+  /* One easing family: OutCubic in, InCubic out. */
+  --ease: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-exit: cubic-bezier(0.32, 0, 0.67, 0);
+  --t-state: 160ms;
+  --t-move: 300ms;
+  --t-reveal: 650ms;
+
+  /* Float: only for windows that float free; screenshots are windows. */
+  --float: 0 8px 32px rgb(0 0 0 / 0.35);
+
+  --bar-h: 44px;
+  --max: 80rem;
+  --margin: clamp(1.25rem, 3vw, 2.5rem);
+  --gutter: clamp(1rem, 2vw, 2rem);
+  --section-gap: clamp(6rem, 11vw, 10rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--ground);
+  color: var(--text);
+  scrollbar-color: var(--rule) var(--ground);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  font-feature-settings: "tnum" 1;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: var(--selection);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gilt);
+  outline-offset: 2px;
+  border-radius: var(--r-row);
+}
+
+.skip {
+  position: absolute;
+  left: var(--margin);
+  top: -100px;
+  z-index: 50;
+  padding: 10px 14px;
+  border-radius: var(--r-inset);
+  background: var(--gilt);
+  color: var(--ground);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip:focus {
+  top: 8px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--max) + 2 * var(--margin));
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+.section {
+  margin-top: var(--section-gap);
+}
+
+.h2 {
+  font-size: var(--fs-h2);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- The bar: the shell's instrument strip, pages as workspace numerals ---------- */
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--bar-h);
+  background: var(--ground);
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--fs-bar);
+}
+
+.bar__inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.bar nav {
+  display: flex;
+}
+
+.ws {
+  display: flex;
+  align-items: stretch;
+  margin: 0 0 0 -10px;
+  padding: 0;
+  list-style: none;
+}
+
+.ws a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  height: 100%;
+  padding: 0 10px;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color var(--t-state) var(--ease);
+}
+
+.ws a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 14px;
+  height: 2px;
+  translate: -50% 0;
+  background: transparent;
+  transition: background-color var(--t-state) var(--ease);
+}
+
+.ws a[aria-current] {
+  color: var(--gilt);
+  font-weight: 700;
+}
+
+.ws a[aria-current]::after {
+  background: var(--gilt);
+}
+
+.bar__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.clock__date {
+  color: var(--text2);
+}
+
+.clock__time {
+  font-weight: 700;
+}
+
+.clock .arc {
+  width: 120px;
+}
+
+.sep {
+  width: 1px;
+  height: 14px;
+  background: var(--rule);
+}
+
+.bar__link {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  padding: 0 0 0 4px;
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--t-state) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ws a:hover,
+  .bar__link:hover {
+    color: var(--text);
+  }
+
+  .ws a[aria-current]:hover {
+    color: var(--gilt-hover);
+  }
+}
+
+/* ---------- The day arc: the day as a 24-hour track, daylight lit, gilt at now ---------- */
+
+.arc {
+  --track: 2px;
+  --tick: 6px;
+  --dot: 7px;
+  position: relative;
+  height: 8px;
+}
+
+.arc__track,
+.arc__day {
+  position: absolute;
+  top: 50%;
+  height: var(--track);
+  translate: 0 -50%;
+  border-radius: var(--r-track);
+}
+
+.arc__track {
+  left: 0;
+  right: 0;
+  background: var(--rule);
+}
+
+.arc__day {
+  left: calc(var(--rise) * 1%);
+  width: calc((var(--set) - var(--rise)) * 1%);
+  background: color-mix(in srgb, var(--text) 42%, transparent);
+}
+
+.arc__tick {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: var(--tick);
+  translate: -50% -50%;
+  background: color-mix(in srgb, var(--text) 70%, transparent);
+}
+
+.arc__tick--rise {
+  left: calc(var(--rise) * 1%);
+}
+
+.arc__tick--set {
+  left: calc(var(--set) * 1%);
+}
+
+.arc__now {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--now) * 1%);
+  width: var(--dot);
+  height: var(--dot);
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--gilt);
+  outline: 2px solid var(--ground);
+  outline-offset: 0;
+  transition: left var(--t-move) var(--ease);
+}
+
+/* The hero's arc runs the whole measure, the horizon under the name. */
+.arc--wide {
+  --track: 3px;
+  --tick: 12px;
+  --dot: 11px;
+  height: 64px;
+}
+
+.arc--wide .arc__now {
+  outline-width: 3px;
+}
+
+.arc__label {
+  position: absolute;
+  top: calc(50% + 14px);
+  translate: -50% 0;
+  color: var(--text2);
+  font-size: var(--fs-bar);
+  white-space: nowrap;
+}
+
+.arc__label--rise {
+  left: calc(var(--rise) * 1%);
+}
+
+.arc__label--set {
+  left: calc(var(--set) * 1%);
+}
+
+.arc__label--now {
+  top: auto;
+  bottom: calc(50% + 12px);
+  left: calc(var(--now) * 1%);
+  color: var(--text);
+  font-weight: 700;
+  transition: left var(--t-move) var(--ease);
+}
+
+.arc__label--edge {
+  top: calc(50% + 14px);
+  color: var(--text2);
+}
+
+.arc__label--start {
+  left: 0;
+  translate: 0 0;
+}
+
+.arc__label--end {
+  right: 0;
+  left: auto;
+  translate: 0 0;
+}
+
+/* A push to GitHub today: a short enamel tick standing on the track. */
+.arc__push {
+  position: absolute;
+  bottom: calc(50% + 4px);
+  width: 1px;
+  height: 8px;
+  translate: -50% 0;
+  background: color-mix(in srgb, var(--text) 70%, transparent);
+}
+
+/* ---------- Buttons: quiet until touched ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--r-inset);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    background-color var(--t-state) var(--ease),
+    border-color var(--t-state) var(--ease),
+    color var(--t-state) var(--ease);
+}
+
+.btn--primary {
+  background: var(--gilt);
+  color: var(--ground);
+  font-weight: 700;
+}
+
+.btn--secondary {
+  border-color: var(--rule);
+  color: var(--text);
+}
+
+.btn--small {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: var(--r-row);
+  font-size: var(--fs-bar);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover {
+    background: var(--gilt-hover);
+  }
+
+  .btn--secondary:hover {
+    background: var(--hover);
+  }
+}
+
+.btn svg {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* A text link inside running copy: link blue, the colour Meridian gives links. */
+.text-link {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--t-state) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover {
+    text-decoration-color: var(--link);
+  }
+}
+
+/* ---------- Surfaces ---------- */
+
+.window {
+  margin: 0;
+}
+
+/* A screenshot is a window: plate corners and a rule edge. Set into the page it stays flat. */
+.window__frame {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-plate);
+  background: var(--inset);
+}
+
+/* Only a window that floats free of the page wears the Float shadow. */
+.window--float .window__frame {
+  box-shadow: var(--float);
+}
+
+.window__frame img {
+  width: 100%;
+}
+
+.window figcaption {
+  margin-top: 12px;
+  color: var(--text2);
+  font-size: var(--fs-label);
+}
+
+.plate {
+  border: 1px solid var(--rule);
+  border-radius: var(--r-plate);
+  background: var(--plate);
+}
+
+/* "On": a gilt legend for something that is still running. */
+.on {
+  color: var(--gilt);
+}
+
+.on-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--gilt);
+  vertical-align: 0.1em;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  margin-top: var(--section-gap);
+  padding-block: 3.5rem 2rem;
+  border-top: 1px solid var(--rule);
+  color: var(--text2);
+  font-size: var(--fs-bar);
+}
+
+.footer__cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem var(--gutter);
+}
+
+.footer ul {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer li:first-child {
+  margin-bottom: 4px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.footer a {
+  text-decoration: none;
+  transition: color var(--t-state) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer a:hover {
+    color: var(--text);
+  }
+}
+
+.footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 3.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------- Motion: the Window register's one reveal, on arrival only ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    translate: 0 28px;
+    animation: reveal var(--t-reveal) var(--ease) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+
+  .js [data-reveal="settle"] {
+    translate: 0 8px;
+  }
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arc__now,
+  .arc__label--now {
+    transition: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .footer__cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .clock__date,
+  .clock + .sep,
+  .bar__link {
+    display: none;
+  }
+
+  .clock .arc {
+    width: 72px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ws a {
+    padding-inline: 8px;
+  }
+
+  .ws {
+    margin-left: -8px;
+  }
+
+  .clock .arc {
+    display: none;
+  }
+}

@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homelab, Paul Thompson (Core) · Meridian mockup</title>
+    <meta name="theme-color" content="#151920" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="meridian.css" />
+    <script>
+      document.documentElement.classList.add('js');
+    </script>
+    <script src="meridian.js" defer></script>
+    <style>
+      .doc {
+        row-gap: 0;
+        padding-top: clamp(2rem, 4vw, 3.5rem);
+      }
+
+      /* The shell's back row: a muted chevron and a bold title heading the sub-view. */
+      .back {
+        grid-column: 1 / -1;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        justify-self: start;
+        min-height: 36px;
+        margin-left: -10px;
+        padding: 0 12px 0 6px;
+        border-radius: var(--r-row);
+        font-size: var(--fs-label);
+        font-weight: 700;
+        text-decoration: none;
+        transition: background-color var(--t-state) var(--ease);
+      }
+
+      .back svg {
+        width: 16px;
+        height: 16px;
+        color: var(--muted);
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .back:hover {
+          background: var(--hover);
+        }
+      }
+
+      .doc__head {
+        grid-column: 1 / span 7;
+        margin-top: clamp(1.5rem, 3vw, 2.5rem);
+      }
+
+      .doc__head h1 {
+        margin-left: -0.04em;
+        font-size: var(--fs-title);
+        font-weight: 300;
+        letter-spacing: -0.03em;
+        line-height: 0.95;
+      }
+
+      .doc__lead {
+        max-width: 44ch;
+        margin-top: 1.5rem;
+        font-size: var(--fs-lead);
+        line-height: 1.4;
+      }
+
+      /* Facts: rows on a plate, label over value. */
+      .facts {
+        grid-column: 9 / -1;
+        align-self: end;
+        margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+        padding: 6px 16px;
+      }
+
+      .facts div {
+        padding-block: 12px;
+      }
+
+      .facts div + div {
+        border-top: 1px solid var(--rule);
+      }
+
+      .facts dt,
+      .readouts__head,
+      .rail__label {
+        color: var(--text2);
+        font-size: var(--fs-label);
+        font-weight: 700;
+      }
+
+      .facts dd {
+        margin: 4px 0 0;
+      }
+
+      .doc__window {
+        grid-column: 1 / -1;
+        margin-top: clamp(3rem, 6vw, 4.5rem);
+      }
+
+      .doc__window img {
+        aspect-ratio: 2 / 1;
+        object-fit: cover;
+        object-position: 0 0;
+      }
+
+      .doc__body {
+        grid-column: 1 / span 7;
+        margin-top: clamp(3rem, 6vw, 4.5rem);
+      }
+
+      .doc__aside {
+        grid-column: 9 / -1;
+        margin-top: clamp(3rem, 6vw, 4.5rem);
+      }
+
+      /* ---------- The reading column: calm, real measure ---------- */
+      .prose {
+        max-width: 68ch;
+        font-size: 1.0625rem;
+        line-height: 1.7;
+      }
+
+      .prose > * + * {
+        margin-top: 1.1em;
+      }
+
+      .prose h2 {
+        margin-top: 2.6em;
+        font-size: 1.5rem;
+        scroll-margin-top: calc(var(--bar-h) + 24px);
+      }
+
+      .prose h2 + * {
+        margin-top: 0.75em;
+      }
+
+      .prose ul {
+        padding-left: 1.25em;
+      }
+
+      .prose li + li {
+        margin-top: 0.5em;
+      }
+
+      .prose li::marker {
+        color: var(--muted);
+      }
+
+      .prose strong {
+        font-weight: 700;
+      }
+
+      .prose code {
+        padding: 0.1em 0.35em;
+        border: 1px solid var(--rule);
+        border-radius: var(--r-row);
+        background: var(--inset);
+        font-family: var(--font-code);
+        font-size: 0.85em;
+        font-feature-settings: normal;
+      }
+
+      /* The cluster's stack: a reference table, on a plate. */
+      .stack {
+        margin-top: 2em;
+        padding: 6px 16px;
+      }
+
+      .stack table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9375rem;
+        line-height: 1.5;
+      }
+
+      .stack caption {
+        padding: 12px 0 8px;
+        color: var(--text2);
+        font-size: var(--fs-label);
+        font-weight: 700;
+        text-align: left;
+      }
+
+      .stack th,
+      .stack td {
+        padding: 10px 0;
+        border-top: 1px solid var(--rule);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .stack th {
+        width: 34%;
+        padding-right: 16px;
+        color: var(--text2);
+        font-weight: 400;
+      }
+
+      /* ---------- Readouts: the cluster's live numbers in the shell's grammar ---------- */
+      .readouts {
+        padding: 6px 16px 12px;
+      }
+
+      .readouts__head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 0 8px;
+      }
+
+      .readouts__head span {
+        font-weight: 400;
+      }
+
+      .readouts dl {
+        margin: 0;
+      }
+
+      .readouts dl > div {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        column-gap: 12px;
+        min-height: 36px;
+        padding: 8px 0;
+        border-top: 1px solid var(--rule);
+      }
+
+      .readouts dt {
+        color: var(--text2);
+      }
+
+      .readouts dd {
+        margin: 0;
+        text-align: right;
+      }
+
+      .state-ok {
+        color: var(--ok);
+      }
+
+      .state-ok::before {
+        content: "";
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        margin-right: 8px;
+        border-radius: 50%;
+        background: currentColor;
+        vertical-align: 0.1em;
+      }
+
+      /* A level: the shell's slider track, 4px inset, enamel fill. */
+      .readouts .level dd {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 3.5rem;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .readouts .level {
+        grid-template-columns: 5rem minmax(0, 1fr);
+      }
+
+      .track {
+        height: 4px;
+        border-radius: var(--r-track);
+        background: var(--inset);
+        display: block;
+        overflow: hidden;
+      }
+
+      .track span {
+        display: block;
+        width: var(--v);
+        height: 100%;
+        border-radius: var(--r-track);
+        background: var(--fill);
+      }
+
+      /* ---------- Contents: the current section is "here", marked like a workspace ---------- */
+      .rail {
+        position: sticky;
+        top: calc(var(--bar-h) + 24px);
+        margin-top: 2.5rem;
+      }
+
+      .rail__label {
+        margin-bottom: 10px;
+      }
+
+      .rail__list {
+        position: relative;
+        border-left: 1px solid var(--rule);
+      }
+
+      .rail ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .rail a {
+        display: block;
+        padding: 6px 0 6px 16px;
+        color: var(--text2);
+        font-size: var(--fs-bar);
+        text-decoration: none;
+        transition: color var(--t-state) var(--ease);
+      }
+
+      .rail a[aria-current] {
+        color: var(--gilt);
+        font-weight: 700;
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .rail a:hover {
+          color: var(--text);
+        }
+
+        .rail a[aria-current]:hover {
+          color: var(--gilt-hover);
+        }
+      }
+
+      /* One index for the list: it glides to the section you're in. */
+      .rail__index {
+        position: absolute;
+        left: -1px;
+        top: 0;
+        width: 2px;
+        height: var(--h, 0);
+        translate: 0 var(--y, 0);
+        background: var(--gilt);
+        transition:
+          translate var(--t-move) var(--ease),
+          height var(--t-move) var(--ease);
+      }
+
+      /* ---------- The way on ---------- */
+      .next {
+        grid-column: 1 / span 7;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 16px;
+        align-items: center;
+        gap: 16px;
+        margin-top: clamp(4rem, 8vw, 6rem);
+        padding: 16px 20px;
+        text-decoration: none;
+        transition: background-color var(--t-state) var(--ease);
+      }
+
+      .next small {
+        display: block;
+        color: var(--text2);
+        font-size: var(--fs-label);
+        font-weight: 700;
+      }
+
+      .next strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+
+      .next svg {
+        width: 16px;
+        height: 16px;
+        color: var(--muted);
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .next:hover {
+          background: var(--hover);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .rail__index {
+          transition: none;
+        }
+      }
+
+      @media (max-width: 960px) {
+        .doc__head,
+        .facts,
+        .doc__body,
+        .doc__aside,
+        .next {
+          grid-column: 1 / -1;
+        }
+
+        .doc__aside {
+          margin-top: 2.5rem;
+        }
+
+        .rail {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="bar">
+      <div class="bar__inner wrap">
+        <nav aria-label="Main">
+          <ul class="ws">
+            <li><a href="index.html">Paul Thompson</a></li>
+            <li><a href="index.html#projects" aria-current="true">Projects</a></li>
+            <li><a href="#">Writing</a></li>
+          </ul>
+        </nav>
+        <div class="bar__right">
+          <div class="clock" aria-hidden="true">
+            <span class="clock__date" data-clock-date>Thu 29 Oct</span>
+            <div class="arc" data-arc style="--rise: 28.26; --set: 69.51; --now: 87.8">
+              <span class="arc__track"></span><span class="arc__day"></span>
+              <span class="arc__tick arc__tick--rise"></span><span class="arc__tick arc__tick--set"></span>
+              <span class="arc__now"></span>
+            </div>
+            <span class="clock__time" data-clock-time>21:04</span>
+          </div>
+          <span class="sep" aria-hidden="true"></span>
+          <a class="bar__link" href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="doc grid wrap">
+      <a class="back" href="index.html#projects">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        All projects
+      </a>
+
+      <header class="doc__head">
+        <h1 data-reveal>Homelab</h1>
+        <p class="doc__lead" data-reveal style="--d: 90ms">
+          A three-node Talos Linux Kubernetes cluster run by Flux from Git, with Rook Ceph storage, CloudNativePG,
+          External Secrets and Prometheus, Grafana and VictoriaLogs
+        </p>
+      </header>
+
+      <dl class="facts plate" data-reveal style="--d: 180ms">
+        <div>
+          <dt>Started</dt>
+          <dd>September 2025</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd><span class="on-dot"></span><span class="on">Active</span></dd>
+        </div>
+        <div>
+          <dt>Built with</dt>
+          <dd>
+            Kubernetes, Talos Linux, Flux, Helm, Cilium, Rook Ceph, CloudNativePG, External Secrets, Prometheus,
+            Grafana, VictoriaLogs, Kritika, AI agents
+          </dd>
+        </div>
+      </dl>
+
+      <figure class="window doc__window" data-reveal="settle" style="--d: 270ms">
+        <div class="window__frame">
+          <img
+            src="../../../public/work/homelab-cluster.webp"
+            width="1920"
+            height="1080"
+            alt="Three terminals on the atlas desktop: Flux listing the cluster's platform HelmReleases, kubectl showing the three Talos nodes and their load, and a passing talosctl health check."
+            fetchpriority="high"
+          />
+        </div>
+        <figcaption>Flux, kubectl and talosctl against the cluster, on the atlas desktop</figcaption>
+      </figure>
+
+      <article class="doc__body prose">
+        <p>
+          My homelab is a small Kubernetes cluster that runs the services I use at home. Everything about it lives in
+          one Git repository: the operating system configuration for each machine, the cluster's platform components
+          and every application. Flux watches that repository and makes the cluster match it, so a change is a commit
+          and a rollback is a revert.
+        </p>
+        <p>
+          The repository is private because it describes my home network, but the setup follows the patterns of the
+          public home-ops community, and in particular
+          <a class="text-link" href="https://github.com/onedr0p/home-ops">onedr0p/home-ops</a>.
+        </p>
+
+        <div class="stack plate">
+          <table>
+            <caption>The cluster, layer by layer</caption>
+            <tbody>
+              <tr><th scope="row">Nodes</th><td>Three Talos Linux machines: a Beelink SEi14 and two ThinkCentre Tiny PCs</td></tr>
+              <tr><th scope="row">Delivery</th><td>Flux reconciling the cluster from Git, Renovate keeping charts current</td></tr>
+              <tr><th scope="row">Networking</th><td>Cilium, Envoy Gateway, Cloudflare Tunnel and Pi-hole</td></tr>
+              <tr><th scope="row">Storage</th><td>Rook Ceph across the nodes, CloudNativePG for databases, Kopiur backups</td></tr>
+              <tr><th scope="row">Secrets</th><td>External Secrets backed by 1Password Connect</td></tr>
+              <tr><th scope="row">Observability</th><td>Prometheus, Grafana and VictoriaLogs, with Gatus for uptime</td></tr>
+              <tr><th scope="row">Apps</th><td>Home Assistant, Pocket ID, Outline, Mealie, Atuin and The Lounge</td></tr>
+              <tr><th scope="row">Reviews</th><td>Kritika, an in-cluster AI reviewer guided by a repository skill</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="hardware">Hardware</h2>
+        <p>Three small machines run as Kubernetes control-plane nodes, with a NAS alongside them:</p>
+        <ul>
+          <li><strong>hyperion-0</strong>: Beelink SEi14, Intel Core Ultra 5 125H, 32 GB of DDR5 and a Google Coral TPU</li>
+          <li><strong>hyperion-1</strong>: Lenovo ThinkCentre M720q, Intel Core i5-8400T, 16 GB</li>
+          <li><strong>hyperion-2</strong>: Lenovo ThinkCentre M920q, Intel Core i5-8500T, 16 GB</li>
+          <li><strong>UniFi UNAS 2</strong> with two 2 TB IronWolf drives for bulk storage</li>
+        </ul>
+        <p>Each node has a small drive for Talos and a 1 TB drive given to Ceph.</p>
+
+        <h2 id="talos">Talos Linux</h2>
+        <p>
+          The nodes run <a class="text-link" href="https://www.talos.dev/">Talos Linux</a>, an operating system built
+          only to run Kubernetes. There is no shell and no SSH; the machines are configured through an API from
+          templated configuration files in the repository, and upgrades replace the whole system image at once.
+          Upgrading a node or Kubernetes itself is a single <code>just</code> command, and the cluster can be rebuilt
+          from nothing with <code>just bootstrap</code>.
+        </p>
+
+        <h2 id="flux">GitOps with Flux</h2>
+        <p>
+          Flux reconciles about 65 Kustomizations and 69 Helm releases from the repository. Renovate opens pull
+          requests when charts and images have new versions, and CI checks each change before it merges: it diffs the
+          rendered manifests, pre-pulls Talos images on a self-hosted runner and audits the GitHub Actions workflows
+          with zizmor.
+        </p>
+
+        <h2 id="platform">The platform</h2>
+        <ul>
+          <li><strong>Networking</strong>: Cilium as the network layer, Envoy Gateway for routing, Cloudflare Tunnel and Cloudflare DNS for anything reachable from outside, and Pi-hole for DNS at home.</li>
+          <li><strong>Certificates</strong>: cert-manager issues and renews TLS certificates automatically.</li>
+          <li><strong>Storage</strong>: Rook Ceph replicates block storage across the three nodes. Databases run as their own CloudNativePG clusters, one per application, and Kopiur handles backups.</li>
+          <li><strong>Secrets</strong>: nothing sensitive is stored in Git. External Secrets pulls each secret from 1Password Connect at deploy time.</li>
+          <li><strong>Observability</strong>: kube-prometheus-stack collects metrics, Grafana dashboards are managed by the Grafana operator, VictoriaLogs stores logs, and Gatus and blackbox exporters check that services answer. Small Kromgo badges publish cluster age, uptime and load.</li>
+          <li><strong>Upgrades</strong>: tuppr upgrades Talos and Kubernetes in place, one node at a time.</li>
+          <li><strong>Housekeeping</strong>: Spegel shares container images between the nodes, Descheduler moves pods to even out the load, Reloader restarts apps when their configuration or secrets change, and the Actions Runner Controller runs the repository's self-hosted CI runners.</li>
+        </ul>
+
+        <h2 id="apps">What runs on it</h2>
+        <p>These are the apps it runs for me day to day:</p>
+        <ul>
+          <li><strong>Home Assistant</strong> runs the house, with its dashboards kept in the repository.</li>
+          <li><strong>Pocket ID</strong> is a passkey-based single sign-on provider for the apps that support it.</li>
+          <li><strong>Outline</strong> holds my notes and documentation.</li>
+          <li><strong>Mealie</strong> keeps recipes and plans meals.</li>
+          <li><strong>Atuin</strong> syncs my shell history between my machines.</li>
+          <li><strong>changedetection.io</strong> watches web pages and tells me when they change.</li>
+          <li><strong>The Lounge</strong> keeps me connected to IRC from a browser.</li>
+          <li><strong>Dynacat</strong> is the start page that links everything together.</li>
+          <li><strong>Chaski</strong> passes notifications from the other apps on to Pushover.</li>
+        </ul>
+
+        <h2 id="ai">Working with AI</h2>
+        <p>
+          This is the project where I lean on AI the most, and where I've put the most thought into making it useful
+          rather than just fast.
+        </p>
+        <ul>
+          <li><strong>Coding agents.</strong> A lot of the recent work on the cluster was done with AI coding agents working directly in the repository: moving every app's database from Bitnami charts to its own CloudNativePG cluster with backups, fixing deployments that broke after a wave of updates, and building the Home Assistant dashboards. The agent proposes the change; I review it, and Flux only rolls out what I merge.</li>
+          <li><strong>Skills.</strong> The repository carries its own agent skill, <code>reviewing-pull-requests</code>, which teaches an agent how changes are judged here. For a Renovate update it covers finding the upstream project, reading every release between the old and new versions, and spotting breaking changes, defaults that moved, and images a chart changes without them appearing in the diff. For a change under <code>kubernetes/</code> it covers rendering and diffing HelmReleases with flate, reading images and OCI charts with crane, searching for anything else that depends on the change, and checking what Renovate's own rules say. The skill lives in <code>.agents/skills</code> and is linked into Claude Code's skills folder, so every agent working in the repository uses the same instructions.</li>
+          <li><strong>Automated reviews.</strong> Kritika, an AI pull request reviewer from the home-operations community, runs inside the cluster with its own CloudNativePG database. It reviews every pull request, most of them Renovate updates, following that skill: an OpenAI model writes the review, a Claude model checks how confident it should be, and code embeddings let it search the repository for anything a change touches. Its runners can reach the internet to read upstream changelogs but are blocked from my home network. When a Renovate update is set to merge on its own, Kritika's review is the last look before it rolls out.</li>
+        </ul>
+        <p>The agents do the legwork of reading changelogs, release notes and rendered manifests; I decide what merges.</p>
+
+        <h2 id="why">Why I run it</h2>
+        <p>
+          It is where I learn how production infrastructure behaves: what breaks during an upgrade, how storage
+          recovers when a node goes down, and how much of that can be automated so it never needs a manual fix. Most of
+          what I know about Kubernetes, GitOps and observability I learned here first.
+        </p>
+      </article>
+
+      <aside class="doc__aside" aria-label="About this project">
+        <section class="readouts plate" aria-labelledby="readouts-title">
+          <h2 class="readouts__head" id="readouts-title">From the cluster <span>Snapshot, 29 Oct 21:06</span></h2>
+          <dl>
+            <div><dt>Status page</dt><dd class="state-ok">up</dd></div>
+            <div><dt>Alertmanager</dt><dd class="state-ok">up</dd></div>
+            <div><dt>Firing alerts</dt><dd>0</dd></div>
+            <div><dt>Nodes</dt><dd>3</dd></div>
+            <div><dt>Pods</dt><dd>160</dd></div>
+            <div><dt>Age</dt><dd>228 days</dd></div>
+            <div><dt>Uptime</dt><dd>11 days</dd></div>
+            <div class="level">
+              <dt>CPU</dt>
+              <dd><span class="track" aria-hidden="true"><span style="--v: 19.7%"></span></span><span>19.7%</span></dd>
+            </div>
+            <div class="level">
+              <dt>Memory</dt>
+              <dd><span class="track" aria-hidden="true"><span style="--v: 40.4%"></span></span><span>40.4%</span></dd>
+            </div>
+          </dl>
+        </section>
+
+        <nav class="rail" aria-labelledby="rail-title">
+          <h2 class="rail__label" id="rail-title">On this page</h2>
+          <div class="rail__list">
+            <ol>
+              <li><a href="#hardware">Hardware</a></li>
+              <li><a href="#talos">Talos Linux</a></li>
+              <li><a href="#flux">GitOps with Flux</a></li>
+              <li><a href="#platform">The platform</a></li>
+              <li><a href="#apps">What runs on it</a></li>
+              <li><a href="#ai">Working with AI</a></li>
+              <li><a href="#why">Why I run it</a></li>
+            </ol>
+            <span class="rail__index" aria-hidden="true"></span>
+          </div>
+        </nav>
+      </aside>
+
+      <a class="next plate" href="#">
+        <span><small>Next write-up</small><strong>NixOS Configuration</strong></span>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </a>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer__cols">
+          <ul>
+            <li>Paul Thompson</li>
+            <li>Graduate Software Engineer</li>
+            <li>Known online as Core</li>
+          </ul>
+          <ul>
+            <li>Pages</li>
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="#">Writing</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+          <ul>
+            <li>Elsewhere</li>
+            <li><a href="https://github.com/coredev-uk" rel="me">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/-paulthompson/" rel="me">LinkedIn</a></li>
+            <li><a href="https://x.com/core_hdd" rel="me">X @core_hdd</a></li>
+            <li><a href="mailto:core@coredev.uk">core@coredev.uk</a></li>
+          </ul>
+          <ul>
+            <li>This site</li>
+            <li>Astro on Cloudflare Workers</li>
+            <li>Set in Meridian, the palette of my NixOS desktop</li>
+            <li>Cider screenshots from the Cider Collective’s public repositories</li>
+          </ul>
+        </div>
+        <p class="footer__legal">
+          <span>© 2026 Paul Thompson. Content licensed CC BY-NC-SA 4.0.</span>
+          <span>Times are UK time at Greenwich</span>
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Contents: the section you're reading is "here", and the gilt index glides to it.
+      const links = [...document.querySelectorAll('.rail a')];
+      const index = document.querySelector('.rail__index');
+      const sections = links.map((a) => document.querySelector(a.hash));
+      function mark() {
+        const line = innerHeight * 0.3;
+        let current = -1;
+        sections.forEach((s, i) => {
+          if (s.getBoundingClientRect().top <= line) current = i;
+        });
+        links.forEach((a, i) => (i === current ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+        if (current < 0) {
+          index.style.setProperty('--h', '0px');
+          return;
+        }
+        const a = links[current];
+        index.style.setProperty('--y', `${a.offsetTop}px`);
+        index.style.setProperty('--h', `${a.offsetHeight}px`);
+      }
+      addEventListener('scroll', mark, { passive: true });
+      addEventListener('resize', mark);
+      mark();
+    </script>
+  </body>
+</html>
