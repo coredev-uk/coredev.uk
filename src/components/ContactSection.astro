@@ -2,36 +2,28 @@
 import { EMAIL, GITHUB_URL, LINKEDIN_URL, X_URL } from '../data/work';
 ---
 
-<section class="contact section" id="contact" aria-labelledby="contact-title">
-  <div class="contact__inner wrap">
+<section class="contact wrap section" id="contact" aria-labelledby="contact-title">
+  <div class="contact__plate plate grid12">
     <div class="contact__intro">
-      <h2 id="contact-title" class="section-title" data-reveal>Contact</h2>
-      <p data-reveal style="--i: 1">For work, questions about any of my projects or anything else on this site, email is the quickest way to reach me.</p>
+      <h2 id="contact-title" class="section-title">Contact</h2>
+      <p>For work, questions about any of my projects or anything else on this site, email is the quickest way to reach me.</p>
     </div>
-    <div class="contact__ways" data-reveal style="--i: 2">
+    <div class="contact__ways">
       <a class="contact__email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
-      <ul>
-        <li><a class="link" href={GITHUB_URL} rel="me">GitHub</a></li>
-        <li><a class="link" href={LINKEDIN_URL} rel="me">LinkedIn</a></li>
-        <li><a class="link" href={X_URL} rel="me">X @core_hdd</a></li>
-      </ul>
+      <p class="actions">
+        <a class="btn btn--secondary btn--small" href={GITHUB_URL} rel="me">GitHub</a>
+        <a class="btn btn--secondary btn--small" href={LINKEDIN_URL} rel="me">LinkedIn</a>
+        <a class="btn btn--secondary btn--small" href={X_URL} rel="me">X @core_hdd</a>
+      </p>
     </div>
   </div>
 </section>
 
 <style>
-  .contact {
-    padding-block: clamp(4rem, 8vw, 6.5rem);
-    background: var(--paper);
-    color: var(--paper-ink);
-  }
-
-  .contact__inner {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    row-gap: 2.5rem;
+  .contact__plate {
     align-items: end;
+    row-gap: 2rem;
+    padding: clamp(1.75rem, 4vw, 3.5rem);
   }
 
   .contact__intro {
@@ -41,7 +33,7 @@ import { EMAIL, GITHUB_URL, LINKEDIN_URL, X_URL } from '../data/work';
   .contact__intro p {
     max-width: 36ch;
     margin: 1rem 0 0;
-    color: var(--paper-muted);
+    color: var(--text2);
   }
 
   .contact__ways {
@@ -49,36 +41,28 @@ import { EMAIL, GITHUB_URL, LINKEDIN_URL, X_URL } from '../data/work';
   }
 
   .contact__email {
-    font-size: var(--step-head);
+    font-size: var(--fs-h2);
     font-weight: 500;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.015em;
     text-decoration: underline;
-    text-decoration-thickness: 0.05em;
+    text-decoration-color: var(--rule);
+    text-decoration-thickness: 2px;
     text-underline-offset: 0.18em;
-    transition: color var(--t-hover) ease;
-  }
-
-  .contact__ways ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.5rem;
-    margin: 1.25rem 0 0;
-    padding: 0;
-    list-style: none;
+    overflow-wrap: anywhere;
+    transition: text-decoration-color var(--t-state) var(--ease);
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .contact__email:hover,
-    .contact .link:hover {
-      color: var(--paper-accent);
+    .contact__email:hover {
+      text-decoration-color: var(--text);
     }
   }
 
-  .contact :focus-visible {
-    outline-color: var(--paper-accent);
+  .contact__ways .actions {
+    margin-top: 1.25rem;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     .contact__intro,
     .contact__ways {
       grid-column: 1 / -1;

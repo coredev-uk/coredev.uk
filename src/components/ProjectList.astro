@@ -7,24 +7,46 @@ interface Props {
 }
 
 const { id = 'projects', heading = 'Projects' } = Astro.props;
+
+// "now" is the one word in the record that is still on, so it takes gilt.
+const ongoing = (years: string) => years.endsWith('now');
 ---
 
 <section class="lineup wrap section" id={id} aria-labelledby={`${id}-title`}>
-  <h2 id={`${id}-title`} class="section-title" data-reveal>{heading}</h2>
-  <div class="lineup__groups">
+  <div class="lineup__head">
+    <h2 id={`${id}-title`} class="section-title">{heading}</h2>
+    <p class="lineup__key"><span class="on">now</span> still running</p>
+  </div>
+  <div class="lineup__plate plate">
     {
-      workGroups.map((group, g) => (
-        <div class="lineup__group" data-reveal style={`--i: ${g}`}>
-          <h3 class="lineup__part">{group.title}</h3>
-          <ul class="lineup__rows">
+      workGroups.map((group) => (
+        <div class="lineup__group">
+          <h3 class="label lineup__part">{group.title}</h3>
+          <ul>
             {group.rows.map((row) => {
               const href = row.slug ? `/projects/${row.slug}` : row.href;
               return (
-                <li class="lineup__row">
-                  <span class="lineup__name">{href ? <a href={href}>{row.name}</a> : row.name}</span>
-                  <span class="lineup__what">{row.what}</span>
-                  <span class="lineup__stack">{row.stack}</span>
-                  <span class="lineup__years">{row.years}</span>
+                <li class="lrow">
+                  <span class="lrow__name">{href ? <a href={href}>{row.name}</a> : row.name}</span>
+                  <span class="lrow__what">{row.what}</span>
+                  <span class="lrow__stack">{row.stack}</span>
+                  <span class="lrow__years">
+                    {ongoing(row.years) ? (
+                      <>
+                        {row.years.slice(0, -3)}
+                        <span class="on">now</span>
+                      </>
+                    ) : (
+                      row.years
+                    )}
+                  </span>
+                  {href ? (
+                    <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  ) : (
+                    <span />
+                  )}
                 </li>
               );
             })}
@@ -36,117 +58,114 @@ const { id = 'projects', heading = 'Projects' } = Astro.props;
 </section>
 
 <style>
-  .lineup__groups {
-    display: grid;
-    gap: 3rem;
-    margin-top: 2.5rem;
+  .lineup__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px 24px;
+  }
+
+  .lineup__key {
+    margin: 0;
+    color: var(--text2);
+    font-size: var(--fs-label);
+  }
+
+  .lineup__plate {
+    margin-top: 2rem;
+    padding: 6px;
+  }
+
+  .lineup__group + .lineup__group {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--rule);
   }
 
   .lineup__part {
-    margin: 0 0 0.75rem;
-    color: var(--accent);
-    font-size: var(--step-body);
-    letter-spacing: -0.01em;
+    padding: 14px 12px 8px;
   }
 
-  .lineup__rows {
+  ul {
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .lineup__row {
+  /* A list row: transparent at rest, the hover fill under the pointer, a chevron where it opens something. */
+  .lrow {
     position: relative;
     display: grid;
-    grid-template-columns: 3fr 4fr 3fr 2fr;
+    grid-template-columns: 3fr 4fr 3fr 7rem 16px;
     column-gap: var(--gutter);
-    align-items: baseline;
-    padding-block: 0.7rem;
-    font-variant-numeric: tabular-nums;
+    align-items: center;
+    min-height: 48px;
+    padding: 8px 12px;
+    border-radius: var(--r-row);
+    font-size: 0.9375rem;
+    transition: background-color var(--t-state) var(--ease);
   }
 
-  .lineup__row:nth-child(odd) {
-    background: color-mix(in srgb, var(--surface) 60%, transparent);
+  .lrow__name {
+    font-weight: 700;
   }
 
-  .lineup__row > span:first-child {
-    padding-left: 0.75rem;
+  .lrow__name a {
+    text-decoration: none;
   }
 
-  .lineup__name {
-    font-weight: 500;
-  }
-
-  .lineup__what,
-  .lineup__stack {
-    color: var(--muted);
-  }
-
-  /* Linked rows carry the site's underline, so rows that go somewhere read differently from rows that don't. */
-  .lineup__name a {
-    text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
-    text-decoration-thickness: 0.06em;
-    text-underline-offset: 0.22em;
-    transition:
-      color var(--t-hover) ease,
-      text-decoration-color var(--t-hover) ease;
-  }
-
-  .lineup__row:has(a:hover, a:focus-visible) .lineup__name a {
-    text-decoration-color: currentColor;
-  }
-
-  .lineup__name a::after {
+  .lrow__name a::after {
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: var(--r-row);
   }
 
-  .lineup__years {
+  .lrow__name a:focus-visible {
+    outline: none;
+  }
+
+  .lrow:has(a:focus-visible) {
+    outline: 2px solid var(--gilt);
+    outline-offset: -2px;
+  }
+
+  .lrow__what,
+  .lrow__stack {
+    color: var(--text2);
+  }
+
+  .lrow__years {
     justify-self: end;
-    padding-right: 0.75rem;
     white-space: nowrap;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .lineup__row:has(a):hover .lineup__name {
-      color: var(--accent);
+    .lrow:has(a):hover {
+      background: var(--hover);
+    }
+
+    .lrow:has(a):hover .chevron {
+      color: var(--text);
     }
   }
 
-  .lineup__row:has(a:focus-visible) .lineup__name {
-    color: var(--accent);
-  }
-
-  @media (max-width: 760px) {
-    .lineup__row:nth-child(odd) {
-      background: none;
+  @media (max-width: 900px) {
+    .lrow {
+      grid-template-columns: minmax(0, 1fr) auto 16px;
+      row-gap: 2px;
     }
 
-    .lineup__row {
-      grid-template-columns: 1fr auto;
-      row-gap: 0.15rem;
-      padding-inline: 0.75rem;
-    }
-
-    .lineup__row > span:first-child {
-      padding-left: 0;
-    }
-
-    .lineup__years {
-      padding-right: 0;
-    }
-
-    .lineup__what {
+    .lrow__what {
       grid-column: 1 / -1;
       grid-row: 2;
     }
 
-    .lineup__stack {
+    .lrow__stack {
       grid-column: 1 / -1;
       grid-row: 3;
-      font-size: var(--step-small);
+      font-size: var(--fs-label);
     }
   }
 </style>

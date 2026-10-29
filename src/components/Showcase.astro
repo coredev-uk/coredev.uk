@@ -2,116 +2,106 @@
 import { GITHUB_URL } from '../data/work';
 ---
 
-<section class="work wrap section field" id="work" aria-labelledby="work-title">
-  <h2 id="work-title" class="section-title" data-reveal>Selected work</h2>
+<section class="work wrap section" id="work" aria-labelledby="work-title">
+  <h2 id="work-title" class="section-title work__title">Selected work</h2>
 
-  <article class="row" aria-labelledby="cider-title">
-    <figure class="row__picture">
-      <img
-        src="/work/cider-1-playlist.webp"
-        width="1336"
-        height="768"
-        loading="lazy"
-        alt="Cider 1 playing an Apple Music playlist, with the track list, playback bar and sidebar library."
-      />
+  <article class="row grid12" aria-labelledby="cider-title">
+    <figure class="window row__picture">
+      <div class="window__frame">
+        <img
+          src="/work/cider-1-playlist.webp"
+          width="1336"
+          height="768"
+          loading="lazy"
+          alt="Cider 1 playing an Apple Music playlist, with the track list, playback bar and sidebar library."
+        />
+      </div>
     </figure>
     <div class="row__text">
-      <h3 id="cider-title" data-reveal style="--i: 1">Cider</h3>
-      <p class="row__meta" data-reveal style="--i: 2">Apple Music for Windows, macOS and Linux. 2021–2022</p>
-      <p class="row__fact" data-reveal style="--i: 3">Main process, plugin system and every release</p>
-      <p data-reveal style="--i: 4">
+      <h3 id="cider-title">Cider</h3>
+      <p class="row__meta">Apple Music for Windows, macOS and Linux. 2021–2022</p>
+      <p class="row__fact">Main process, plugin system and every release</p>
+      <p class="row__body">
         I started with the configuration system in Apple-Music-Electron, rewrote Cider's main process in TypeScript with
         a plugin system, and owned releases: CircleCI, Flatpak and the AUR packages.
       </p>
-      <p class="row__links" data-reveal style="--i: 5">
-        <a class="link" href="https://github.com/ciderapp/Cider">Source on GitHub</a>
-        <a class="link" href="/blog/four-years-of-cider">The full story</a>
+      <p class="actions row__links">
+        <a class="btn btn--secondary btn--small" href="https://github.com/ciderapp/Cider">Source on GitHub</a>
+        <a class="btn btn--secondary btn--small" href="/blog/four-years-of-cider">The full story</a>
       </p>
     </div>
   </article>
 
-  <article class="row row--flip" aria-labelledby="cider2-title">
-    <figure class="row__picture">
-      <img
-        src="/work/cider-2-settings.webp"
-        width="840"
-        height="509"
-        loading="lazy"
-        alt="Cider 2.3's settings over the library: the Visual page with General, Sweetener, Animated Artwork, Lyrics and Fonts."
-      />
+  <article class="row row--flip grid12" aria-labelledby="cider2-title">
+    <figure class="window row__picture">
+      <div class="window__frame">
+        <img
+          src="/work/cider-2-settings.webp"
+          width="840"
+          height="509"
+          loading="lazy"
+          alt="Cider 2.3's settings over the library: the Visual page with General, Sweetener, Animated Artwork, Lyrics and Fonts."
+        />
+      </div>
     </figure>
     <div class="row__text">
-      <h3 id="cider2-title" data-reveal style="--i: 1">Cider 2</h3>
-      <p class="row__meta" data-reveal style="--i: 2">The rewrite, with a team of fourteen. 2022–2025</p>
-      <p class="row__fact" data-reveal style="--i: 3">One of three core leads; 20,000+ users</p>
-      <p data-reveal style="--i: 4">
+      <h3 id="cider2-title">Cider 2</h3>
+      <p class="row__meta">The rewrite, with a team of fourteen. 2022–2025</p>
+      <p class="row__fact">One of three core leads; 20,000+ users</p>
+      <p class="row__body">
         I rebuilt the macOS and Linux client around a typed module system that plugs into Izanami, our shared Node
         core, and ran the build and release pipeline on self-hosted runners for every platform.
       </p>
-      <p class="row__links" data-reveal style="--i: 5">
-        <a class="link" href="https://github.com/ciderapp/Cider-2">Cider 2 on GitHub</a>
-        <a class="link" href="/projects/cider">Write-up</a>
+      <p class="actions row__links">
+        <a class="btn btn--secondary btn--small" href="https://github.com/ciderapp/Cider-2">Cider 2 on GitHub</a>
+        <a class="btn btn--secondary btn--small" href="/projects/cider">Write-up</a>
       </p>
     </div>
   </article>
 
-  <article class="row" aria-labelledby="nixos-title">
-    <figure class="row__picture">
-      <img
-        src="/work/nixos-atlas.webp"
-        width="1920"
-        height="1080"
-        loading="lazy"
-        alt="The atlas desktop on Hyprland: flake.nix open in Neovim, fastfetch showing NixOS 26.05, and the flake's recent git history."
-      />
+  <article class="row grid12" aria-labelledby="nixos-title">
+    <figure class="window row__picture">
+      <div class="window__frame">
+        <img
+          src="/work/nixos-atlas.webp"
+          width="1920"
+          height="1080"
+          loading="lazy"
+          alt="The atlas desktop on Hyprland: flake.nix open in Neovim, fastfetch showing NixOS 26.05, and the flake's recent git history."
+        />
+      </div>
     </figure>
     <div class="row__text">
-      <h3 id="nixos-title" data-reveal style="--i: 1">nixos</h3>
-      <p class="row__meta" data-reveal style="--i: 2">One flake for a NixOS desktop and a MacBook. 2024–now</p>
-      <p class="row__fact" data-reveal style="--i: 3">Reproducible: a fresh machine is one command away</p>
-      <p data-reveal style="--i: 4">
+      <h3 id="nixos-title">nixos</h3>
+      <p class="row__meta">One flake for a NixOS desktop and a MacBook. 2024–<span class="on">now</span></p>
+      <p class="row__fact">Reproducible: a fresh machine is one command away</p>
+      <p class="row__body">
         Disko installs onto LUKS and btrfs, Secure Boot through Lanzaboote, and nix-darwin with Homebrew on the laptop,
         all from one repository.
       </p>
-      <p class="row__links" data-reveal style="--i: 5">
-        <a class="link" href={`${GITHUB_URL}/nixos`}>Source on GitHub</a>
-        <a class="link" href="/projects/nixos-configuration">Write-up</a>
+      <p class="actions row__links">
+        <a class="btn btn--secondary btn--small" href={`${GITHUB_URL}/nixos`}>Source on GitHub</a>
+        <a class="btn btn--secondary btn--small" href="/projects/nixos-configuration">Write-up</a>
       </p>
     </div>
   </article>
 </section>
 
 <style>
-  /*
-   * The peak of the page: the section title takes the display step, each project its head step,
-   * and the text sits on the floor of its screenshot, as the hero's push line does.
-   */
-  .work {
-    display: grid;
-    gap: clamp(2.5rem, 5vw, 4.5rem);
-  }
-
-  .work > .section-title {
-    font-size: var(--step-display);
-    letter-spacing: -0.04em;
-    line-height: 1;
-  }
-
-  .row + .row {
-    margin-top: clamp(2rem, 6vw, 5rem);
+  .work__title {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
   }
 
   .row {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    align-items: end;
+    align-items: center;
+  }
+
+  .row + .row {
+    margin-top: clamp(4.5rem, 9vw, 8rem);
   }
 
   .row__picture {
     grid-column: 1 / span 7;
-    margin: 0;
-    overflow: clip;
   }
 
   .row__text {
@@ -129,61 +119,54 @@ import { GITHUB_URL } from '../data/work';
   }
 
   .row__picture img {
-    width: 100%;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: 0 0;
   }
 
   .row__text h3 {
-    margin: 0 0 0.75rem;
-    font-size: var(--step-head);
+    font-size: var(--fs-h3);
   }
 
   .row__text p {
-    margin: 0 0 0.75rem;
+    margin: 0;
   }
 
-  .row__meta {
-    color: var(--muted);
+  .row__text .row__meta {
+    margin-top: 8px;
+    color: var(--text2);
+    font-size: 0.9375rem;
   }
 
   .row__text .row__fact {
-    margin-bottom: 1.25rem;
-    color: var(--accent);
-    font-size: var(--step-lead);
+    margin-top: 20px;
+    font-size: 1.1875rem;
     font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.3;
+    line-height: 1.35;
+  }
+
+  .row__text .row__body {
+    margin-top: 12px;
+    color: var(--text2);
   }
 
   .row__text .row__links {
-    display: flex;
-    gap: 1.5rem;
-    margin: 1.25rem 0 0;
+    margin-top: 24px;
   }
 
-  @media (max-width: 960px) {
-    .row__picture {
-      grid-column: 1 / span 6;
-    }
-
+  @media (max-width: 1100px) {
     .row__text {
-      grid-column: 7 / -1;
-    }
-
-    .row--flip .row__picture {
-      grid-column: 7 / -1;
+      grid-column: 8 / -1;
     }
 
     .row--flip .row__text {
-      grid-column: 1 / span 6;
+      grid-column: 1 / span 5;
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 900px) {
     .row {
-      row-gap: 1.5rem;
+      row-gap: 1.75rem;
     }
 
     .row__picture,

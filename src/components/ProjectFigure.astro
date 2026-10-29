@@ -3,6 +3,9 @@
  * A project's picture: its screenshot when given one. Without an image, nixos and the homelab
  * are shown through their own material: the flake as written, and the cluster's stack.
  */
+import { Code } from 'astro:components';
+import { meridianCode } from '../styles/meridian-code.mjs';
+
 interface Props {
   slug: string;
   image?: string;
@@ -43,18 +46,20 @@ const homelab = [
 
 {
   image ? (
-    <figure class="pf">
-      <img src={image} alt={imageAlt ?? ''} loading="lazy" />
+    <figure class="window pf">
+      <div class="window__frame">
+        <img src={image} alt={imageAlt ?? ''} loading="lazy" />
+      </div>
     </figure>
   ) : slug === 'nixos-configuration' ? (
-    <figure class="pf pf--panel" data-ui>
-      <pre><code>{flake}</code></pre>
-      <figcaption>flake.nix in coredev-uk/nixos</figcaption>
+    <figure class="pf pf--panel">
+      <figcaption class="label">flake.nix in coredev-uk/nixos</figcaption>
+      <Code code={flake} lang="nix" theme={meridianCode} />
     </figure>
   ) : slug === 'homelab' ? (
-    <figure class="pf pf--panel" data-ui>
+    <figure class="pf pf--panel plate">
       <table>
-        <caption class="sr-only">The homelab stack</caption>
+        <caption class="label">The cluster, layer by layer</caption>
         <tbody>
           {homelab.map(([layer, tool]) => (
             <tr>
@@ -64,7 +69,6 @@ const homelab = [
           ))}
         </tbody>
       </table>
-      <figcaption>The cluster, layer by layer</figcaption>
     </figure>
   ) : null
 }
@@ -75,55 +79,56 @@ const homelab = [
   }
 
   .pf img {
-    width: 100%;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: 0 0;
   }
 
-  .pf--panel {
-    padding: clamp(1.25rem, 3vw, 2.25rem);
-    background: #0b1729;
+  .pf--panel .label {
+    margin-bottom: 10px;
   }
 
-  pre {
+  /* The flake as written: Fira Code on the inset, in the Meridian syntax theme. */
+  .pf--panel :global(pre) {
     margin: 0;
+    padding: 16px 18px;
+    border: 1px solid var(--rule);
+    border-radius: var(--r-inset);
     font-family: var(--font-code);
-    font-size: clamp(0.8125rem, 0.75rem + 0.25vw, 0.9375rem);
+    font-feature-settings: normal;
+    font-size: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
     line-height: 1.6;
-    color: #b9c8db;
     overflow-x: auto;
+  }
+
+  .plate {
+    padding: 6px 16px;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--step-small);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  caption {
+    padding: 12px 0 8px;
+    text-align: left;
   }
 
   th,
   td {
-    padding: 0.7rem 0;
+    padding: 10px 0;
+    border-top: 1px solid var(--rule);
     text-align: left;
     vertical-align: top;
-    border-bottom: 1px solid var(--surface-2);
   }
 
   th {
-    width: 38%;
-    padding-right: 1rem;
-    color: var(--muted);
+    width: 36%;
+    padding-right: 16px;
+    color: var(--text2);
     font-weight: 400;
-  }
-
-  tr:last-child th,
-  tr:last-child td {
-    border-bottom: 0;
-  }
-
-  figcaption {
-    margin-top: 1.25rem;
-    color: var(--muted);
-    font-size: var(--step-small);
   }
 </style>

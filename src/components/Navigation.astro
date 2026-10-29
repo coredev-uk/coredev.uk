@@ -4,100 +4,129 @@ import { getCollection } from 'astro:content';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const hasPosts = (await getCollection('blog', ({ data }) => data.draft !== true)).length > 0;
 
-// Only pages. Home is the wordmark; its sections are reached by scrolling it, external profiles live in Contact and the footer.
+// The shell's bar: pages sit like workspace numerals, home first. Contact is the one action on the right.
 const links = [
+  { href: '/', label: 'Paul Thompson' },
   { href: '/projects', label: 'Projects' },
   ...(hasPosts ? [{ href: '/blog', label: 'Writing' }] : []),
 ];
 
-const current = (href: string) => (path === href ? 'page' : path.startsWith(`${href}/`) ? 'true' : undefined);
+const current = (href: string) =>
+  path === href ? 'page' : href !== '/' && path.startsWith(`${href}/`) ? 'true' : undefined;
 ---
 
-<header class="nav">
-  <div class="nav__inner wrap">
-    <a class="nav__mark" href="/" aria-current={path === '/' ? 'page' : undefined}>Paul Thompson</a>
-    <nav aria-label="Main" class="nav__bar">
-      <ul class="nav__links">
+<header class="bar">
+  <div class="bar__inner wrap">
+    <nav aria-label="Main" class="bar__nav">
+      <ul class="ws">
         {
           links.map((link) => (
             <li>
-              <a class="link nav__link" href={link.href} aria-current={current(link.href)}>
+              <a href={link.href} aria-current={current(link.href)}>
                 {link.label}
               </a>
             </li>
           ))
         }
       </ul>
-      <a class="link nav__link nav__action" href="/#contact">Contact</a>
     </nav>
+    <a class="bar__action" href="/#contact">Contact</a>
   </div>
 </header>
 
 <style>
-  .nav {
-    position: absolute;
-    inset: 0 0 auto 0;
+  .bar {
+    position: sticky;
+    top: 0;
     z-index: 20;
-    font-size: var(--step-small);
+    height: var(--bar-h);
+    border-bottom: 1px solid var(--rule);
+    background: var(--ground);
+    font-size: var(--fs-small);
   }
 
-  .nav__inner {
+  .bar__inner {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-between;
-    padding-block: 1.5rem;
+    height: 100%;
   }
 
-  .nav__mark {
-    display: inline-block;
-    padding-block: 0.5rem;
-    font-weight: 500;
-    text-decoration: none;
+  .bar__nav {
+    display: flex;
   }
 
-  .nav__bar,
-  .nav__links {
+  .ws {
+    display: flex;
+    align-items: stretch;
+    margin: 0 0 0 -10px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ws a,
+  .bar__action {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: clamp(1.25rem, 2.4vw, 2rem);
+    height: 100%;
+    padding: 0 10px;
+    color: var(--text2);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--t-state) var(--ease);
   }
 
-  .nav__links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  /* "Here": the current page is gilt and bold over a 14×2 rule on the bar's inner edge. */
+  .ws a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -1px;
+    width: 14px;
+    height: 2px;
+    translate: -50% 0;
+    background: transparent;
+    transition: background-color var(--t-state) var(--ease);
   }
 
-  .nav__link {
-    display: inline-block;
-    padding-block: 0.5rem;
-    color: var(--muted);
-    text-decoration-color: transparent;
+  .ws a[aria-current] {
+    color: var(--gilt);
+    font-weight: 700;
   }
 
-  .nav__link[aria-current] {
-    color: var(--ink);
-    text-decoration-color: currentColor;
+  .ws a[aria-current]::after {
+    background: var(--gilt);
   }
 
-  .nav__action {
-    color: var(--accent);
+  .bar__action {
+    margin-right: -10px;
+    color: var(--text);
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .nav__link:hover {
-      color: var(--ink);
+    .ws a:hover,
+    .bar__action:hover {
+      color: var(--text);
     }
 
-    .nav__action:hover {
-      color: var(--accent-strong);
+    .ws a[aria-current]:hover {
+      color: var(--gilt-hover);
     }
   }
 
-  @media (max-width: 480px) {
-    .nav__bar,
-    .nav__links {
-      gap: 1rem;
+  @media (max-width: 420px) {
+    .ws a,
+    .bar__action {
+      padding-inline: 8px;
+    }
+
+    .ws {
+      margin-left: -8px;
+    }
+
+    .bar__action {
+      margin-right: -8px;
     }
   }
 </style>

@@ -16,22 +16,24 @@ const projects = (await getCollection('projects')).sort((a, b) => {
 <Layout title="Projects, Paul Thompson (Core)">
   <Navigation />
   <main id="main-content">
-    <header class="head wrap">
+    <header class="head grid12 wrap">
       <div class="head__text">
-        <h1 data-reveal>Projects</h1>
-        <p data-reveal style="--i: 1">
+        <h1 class="display" data-reveal>Projects</h1>
+        <p class="lead" data-reveal style="--d: 90ms">
           Write-ups of the three I have spent the most time on, then everything else I have built, most of it public on
           GitHub.
         </p>
       </div>
-      <figure class="head__picture">
-        <img
-          src="/work/cider-2-settings.webp"
-          width="840"
-          height="509"
-          alt="Cider 2.3's settings over the library: the Visual page with General, Sweetener, Animated Artwork, Lyrics and Fonts."
-          fetchpriority="high"
-        />
+      <figure class="window head__picture" data-reveal="settle" style="--d: 180ms">
+        <div class="window__frame">
+          <img
+            src="/work/cider-2-settings.webp"
+            width="840"
+            height="509"
+            alt="Cider 2.3's settings over the library: the Visual page with General, Sweetener, Animated Artwork, Lyrics and Fonts."
+            fetchpriority="high"
+          />
+        </div>
         <figcaption>Cider 2, the settings window</figcaption>
       </figure>
     </header>
@@ -39,29 +41,30 @@ const projects = (await getCollection('projects')).sort((a, b) => {
     <div class="entries wrap section">
       {
         projects.map((project) => (
-          <article class="entry">
+          <article class="entry grid12">
             <div class="entry__text">
-              <h2 data-reveal>
+              <h2>
                 <a href={`/projects/${project.id}`}>{project.data.title}</a>
               </h2>
-              <p class="entry__desc" data-reveal style="--i: 1">
-                {project.data.description}
+              <p class="entry__meta">
+                {project.data.date && <span>{new Date(project.data.date).getFullYear()}</span>}
+                {project.data.status && (
+                  <span class:list={{ on: project.data.status === 'active' }}>
+                    {project.data.status === 'active' && <span class="on-dot" aria-hidden="true" />}
+                    {statusLabel[project.data.status]}
+                  </span>
+                )}
               </p>
-              <p class="entry__meta" data-reveal style="--i: 2">
-                {[
-                  project.data.date && new Date(project.data.date).getFullYear(),
-                  project.data.status && statusLabel[project.data.status],
-                  project.data.technologies?.slice(0, 4).join(', '),
-                ]
-                  .filter(Boolean)
-                  .join('. ')}
-              </p>
-              <p class="entry__links" data-reveal style="--i: 3">
-                <a class="link" href={`/projects/${project.id}`}>
+              <p class="entry__desc">{project.data.description}</p>
+              {project.data.technologies && (
+                <p class="entry__stack">{project.data.technologies.slice(0, 4).join(', ')}</p>
+              )}
+              <p class="actions entry__links">
+                <a class="btn btn--secondary btn--small" href={`/projects/${project.id}`}>
                   Read the write-up
                 </a>
                 {project.data.github && (
-                  <a class="link" href={project.data.github}>
+                  <a class="btn btn--secondary btn--small" href={project.data.github}>
                     Source on GitHub
                   </a>
                 )}
@@ -82,59 +85,37 @@ const projects = (await getCollection('projects')).sort((a, b) => {
 
 <style>
   .head {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    row-gap: 2.5rem;
     align-items: end;
-    padding-top: 8rem;
+    row-gap: 2.5rem;
+    padding-top: clamp(3rem, 7vw, 6rem);
   }
 
   .head__text {
-    grid-column: 1 / span 4;
+    grid-column: 1 / span 5;
   }
 
-  .head h1 {
-    margin: 0;
-    font-size: var(--step-display);
-    line-height: 1;
-  }
-
-  .head__text p {
+  .head__text .lead {
     max-width: 30ch;
     margin: 1.5rem 0 0;
-    font-size: var(--step-lead);
-    line-height: 1.4;
   }
 
   .head__picture {
-    grid-column: 5 / -1;
-    margin: 0;
+    grid-column: 7 / -1;
   }
 
   .head__picture img {
-    width: 100%;
     aspect-ratio: 840 / 509;
     object-fit: cover;
   }
 
-  .head__picture figcaption {
-    margin-top: 0.75rem;
-    color: var(--muted);
-    font-size: var(--step-small);
-  }
-
   .entries {
     display: grid;
-    gap: clamp(4rem, 8vw, 6rem);
+    gap: clamp(4.5rem, 9vw, 7rem);
   }
 
   .entry {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    row-gap: 1.5rem;
     align-items: center;
+    row-gap: 1.75rem;
   }
 
   .entry__text {
@@ -146,48 +127,58 @@ const projects = (await getCollection('projects')).sort((a, b) => {
   }
 
   .entry h2 {
-    margin: 0 0 0.75rem;
-    font-size: var(--step-head);
+    font-size: var(--fs-h2);
   }
 
   .entry h2 a {
-    text-decoration: none;
-    transition: color var(--t-hover) ease;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
+    transition: text-decoration-color var(--t-state) var(--ease);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .entry h2 a:hover {
-      color: var(--accent);
+      text-decoration-color: var(--rule);
     }
   }
 
-  .entry__desc {
-    margin: 0 0 0.75rem;
-    font-size: var(--step-lead);
-    line-height: 1.4;
-  }
-
-  .entry__meta {
-    margin: 0 0 1.25rem;
-    color: var(--muted);
-  }
-
-  .entry__links {
-    display: flex;
-    gap: 1.5rem;
+  .entry__text p {
     margin: 0;
   }
 
-  @media (max-width: 640px) {
+  .entry__text .entry__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin-top: 10px;
+    color: var(--text2);
+    font-size: 0.9375rem;
+  }
+
+  .entry__text .entry__desc {
+    margin-top: 18px;
+    font-size: 1.1875rem;
+    line-height: 1.45;
+  }
+
+  .entry__text .entry__stack {
+    margin-top: 12px;
+    color: var(--text2);
+    font-size: 0.9375rem;
+  }
+
+  .entry__text .entry__links {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 900px) {
     .head__text,
     .head__picture,
     .entry__text,
     .entry__figure {
       grid-column: 1 / -1;
-    }
-
-    .head {
-      padding-top: 6.5rem;
     }
   }
 </style>

@@ -4,8 +4,8 @@
   "description": "Paul Thompson, known online as Core: Graduate Software Engineer. Four years on the Cider music app, plus NixOS flakes and a Kubernetes homelab.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#081221",
-  "theme_color": "#081221",
+  "background_color": "#151920",
+  "theme_color": "#151920",
   "orientation": "portrait-primary",
   "icons": [
     {
