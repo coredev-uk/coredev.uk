@@ -3,6 +3,7 @@ import { defineConfig, envField } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import { satteri } from '@astrojs/markdown-satteri';
 import { readingTimePlugin } from './scripts/reading-time.mjs';
+import { imageSizePlugin } from './scripts/image-size.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,7 +18,7 @@ export default defineConfig({
   },
 
   markdown: {
-    processor: satteri({ mdastPlugins: [readingTimePlugin] }),
+    processor: satteri({ mdastPlugins: [readingTimePlugin, imageSizePlugin] }),
     shikiConfig: {
       theme: "catppuccin-mocha",
     },
