@@ -42,26 +42,28 @@ const tools = [
 ---
 
 <section class="about wrap section field" id="about" aria-labelledby="about-title">
-  <div class="about__intro">
-    <h2 id="about-title" class="section-title" data-reveal>About</h2>
-    <p class="about__lead" data-reveal style="--i: 1">
-      I build desktop software and the infrastructure it ships on. These days most of my own time goes on my NixOS setup and my homelab.
-    </p>
-    <p class="about__links" data-reveal style="--i: 2">
-      <a class="link" href={GITHUB_URL} rel="me">GitHub</a>
-      <a class="link" href={LINKEDIN_URL} rel="me">LinkedIn</a>
-    </p>
+  <div class="about__main">
+    <div class="about__intro">
+      <h2 id="about-title" class="section-title" data-reveal>About</h2>
+      <p class="about__lead" data-reveal style="--i: 1">
+        I build desktop software and the infrastructure it ships on. These days most of my own time goes on my NixOS setup and my homelab.
+      </p>
+      <p class="about__links" data-reveal style="--i: 2">
+        <a class="link" href={GITHUB_URL} rel="me">GitHub</a>
+        <a class="link" href={LINKEDIN_URL} rel="me">LinkedIn</a>
+      </p>
 
-    <h3 class="about__label" data-reveal style="--i: 3">Education</h3>
-    <Timeline items={education} start={4} />
-  </div>
+      <h3 class="about__label" data-reveal style="--i: 3">Education</h3>
+      <Timeline items={education} start={4} />
+    </div>
 
-  <div class="about__record">
-    <h3 class="about__label" data-reveal>Experience</h3>
-    <Timeline items={experience} />
+    <div class="about__record">
+      <h3 class="about__label" data-reveal>Experience</h3>
+      <Timeline items={experience} />
 
-    <h3 class="about__label" data-reveal style={`--i: ${experience.length + 1}`}>Certifications</h3>
-    <Timeline items={certifications} start={experience.length + 2} />
+      <h3 class="about__label" data-reveal style={`--i: ${experience.length + 1}`}>Certifications</h3>
+      <Timeline items={certifications} start={experience.length + 2} />
+    </div>
   </div>
 
   <div class="about__tools">
@@ -83,11 +85,20 @@ const tools = [
   /*
    * Fixed on the left: intro and the one degree. The lists that grow (experience, certifications) share the right column,
    * and the left column stays in view beside them on wide screens, so a longer right column never leaves a gap.
+   * Both columns sit in .about__main, which bounds the sticky intro so it never rides over Tools below.
    */
   .about {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     column-gap: var(--gutter);
+    row-gap: clamp(3rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .about__main {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
     row-gap: clamp(3rem, 5vw, 4rem);
     align-items: start;
   }

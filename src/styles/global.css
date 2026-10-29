@@ -51,6 +51,7 @@
     background: var(--bg);
     color: var(--ink);
     -webkit-text-size-adjust: 100%;
+    scrollbar-color: var(--surface-2) var(--bg);
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -270,6 +271,13 @@
 .prose-room :where(code):not(pre code)::before,
 .prose-room :where(code):not(pre code)::after {
   content: none;
+}
+
+.prose-room :where(code):not(pre code) {
+  padding: 0.1em 0.3em;
+  background: var(--surface);
+  font-size: 0.875em;
+  font-weight: 500;
 }
 
 /* Motion: hidden states only exist when script runs and motion is welcome. */
