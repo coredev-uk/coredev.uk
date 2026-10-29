@@ -262,6 +262,25 @@
   font-size: var(--step-body);
 }
 
+/* Body links underline the way .link does elsewhere: a quiet line that firms up under the pointer. */
+.prose-room :where(a) {
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color var(--t-hover) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .prose-room :where(a):hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* Shiki paints its theme's own ground inline; code sits on the site's surface instead. */
+.prose-room pre.astro-code {
+  background-color: var(--surface) !important;
+}
+
 .prose-room :where(pre) {
   border-radius: 0;
   white-space: pre-wrap;
