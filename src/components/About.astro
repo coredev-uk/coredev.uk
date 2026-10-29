@@ -41,66 +41,52 @@ const tools = [
 ];
 ---
 
-<section class="about wrap section field" id="about" aria-labelledby="about-title">
-  <div class="about__main">
+<section class="about wrap section" id="about" aria-labelledby="about-title">
+  <div class="about__main grid12">
     <div class="about__intro">
-      <h2 id="about-title" class="section-title" data-reveal>About</h2>
-      <p class="about__lead" data-reveal style="--i: 1">
+      <h2 id="about-title" class="section-title">About</h2>
+      <p class="about__lead lead">
         I build desktop software and the infrastructure it ships on. These days most of my own time goes on my NixOS setup and my homelab.
       </p>
-      <p class="about__links" data-reveal style="--i: 2">
-        <a class="link" href={GITHUB_URL} rel="me">GitHub</a>
-        <a class="link" href={LINKEDIN_URL} rel="me">LinkedIn</a>
+      <p class="actions about__links">
+        <a class="btn btn--secondary btn--small" href={GITHUB_URL} rel="me">GitHub</a>
+        <a class="btn btn--secondary btn--small" href={LINKEDIN_URL} rel="me">LinkedIn</a>
       </p>
 
-      <h3 class="about__label" data-reveal style="--i: 3">Education</h3>
-      <Timeline items={education} start={4} />
+      <h3 class="label about__label">Education</h3>
+      <Timeline items={education} />
     </div>
 
     <div class="about__record">
-      <h3 class="about__label" data-reveal>Experience</h3>
+      <h3 class="label about__label">Experience</h3>
       <Timeline items={experience} />
 
-      <h3 class="about__label" data-reveal style={`--i: ${experience.length + 1}`}>Certifications</h3>
-      <Timeline items={certifications} start={experience.length + 2} />
+      <h3 class="label about__label">Certifications</h3>
+      <Timeline items={certifications} />
     </div>
   </div>
 
-  <div class="about__tools">
-    <h3 class="about__label" data-reveal>Tools</h3>
-    <dl class="tools">
-      {
-        tools.map((tool, i) => (
-          <div data-reveal style={`--i: ${i + 1}`}>
-            <dt>{tool.group}</dt>
-            <dd>{tool.items}</dd>
-          </div>
-        ))
-      }
-    </dl>
-  </div>
+  <dl class="tools plate" aria-label="Tools">
+    {
+      tools.map((tool) => (
+        <div>
+          <dt class="label">{tool.group}</dt>
+          <dd>{tool.items}</dd>
+        </div>
+      ))
+    }
+  </dl>
 </section>
 
 <style>
   /*
    * Fixed on the left: intro and the one degree. The lists that grow (experience, certifications) share the right column,
-   * and the left column stays in view beside them on wide screens, so a longer right column never leaves a gap.
-   * Both columns sit in .about__main, which bounds the sticky intro so it never rides over Tools below.
+   * and the left column stays in view beside them on wide screens. Both sit in .about__main, which bounds the sticky
+   * intro so it never rides over Tools below.
    */
-  .about {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    row-gap: clamp(3rem, 5vw, 4rem);
-    align-items: start;
-  }
-
   .about__main {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: subgrid;
-    row-gap: clamp(3rem, 5vw, 4rem);
     align-items: start;
+    row-gap: 3rem;
   }
 
   .about__intro {
@@ -111,65 +97,57 @@ const tools = [
     grid-column: 7 / -1;
   }
 
-  .about__tools {
-    grid-column: 1 / -1;
-  }
-
   .about__lead {
-    max-width: 34ch;
+    max-width: 32ch;
     margin: 1.25rem 0 0;
-    font-size: var(--step-lead);
-    line-height: 1.4;
   }
 
   .about__links {
-    display: flex;
-    gap: 1.5rem;
-    margin: 1.25rem 0 0;
+    margin-top: 1.5rem;
   }
 
   .about__label {
-    margin: 0 0 1.25rem;
-    color: var(--muted);
-    font-size: var(--step-body);
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    margin-bottom: 6px;
   }
 
-  .about__label:not(:first-child) {
+  .about__intro .about__label {
     margin-top: 3rem;
+  }
+
+  .about__record .about__label ~ .about__label {
+    margin-top: 2.5rem;
   }
 
   .tools {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.5rem var(--gutter);
-    margin: 0;
+    margin: clamp(3rem, 5vw, 4rem) 0 0;
+    padding: 20px 24px;
   }
 
   .tools dt {
-    margin-bottom: 0.35rem;
-    color: var(--muted);
+    margin-bottom: 6px;
   }
 
   .tools dd {
     margin: 0;
   }
 
-  @media (max-width: 960px) {
+  @media (min-width: 901px) {
+    .about__intro {
+      position: sticky;
+      top: calc(var(--bar-h) + 24px);
+    }
+  }
+
+  @media (max-width: 1100px) {
     .tools {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (min-width: 861px) {
-    .about__intro {
-      position: sticky;
-      top: var(--margin);
-    }
-  }
-
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     .about__intro,
     .about__record {
       grid-column: 1 / -1;

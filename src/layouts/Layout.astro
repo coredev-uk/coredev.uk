@@ -1,5 +1,8 @@
 ---
+import '@fontsource-variable/atkinson-hyperlegible-next/wght.css';
+import '@fontsource-variable/fira-code/wght.css';
 import '../styles/global.css';
+import atkinsonLatin from '@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-normal.woff2?url';
 import { ClientRouter } from 'astro:transitions';
 
 export interface Props {
@@ -28,7 +31,7 @@ const {
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <meta name="theme-color" content="#081221" />
+    <meta name="theme-color" content="#151920" />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -48,9 +51,7 @@ const {
 
     <title>{title}</title>
 
-    <link rel="preconnect" href="https://api.fontshare.com" />
-    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
-    <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preload" href={atkinsonLatin} as="font" type="font/woff2" crossorigin />
 
     <script is:inline>
       document.documentElement.classList.add('js');
@@ -62,21 +63,5 @@ const {
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <slot />
-    <script>
-      // Section entrances: each [data-reveal] rises once as it enters.
-      document.addEventListener('astro:page-load', () => {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (!entry.isIntersecting) continue;
-              entry.target.classList.add('is-in');
-              io.unobserve(entry.target);
-            }
-          },
-          { rootMargin: '0px 0px -10% 0px', threshold: 0 },
-        );
-        document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
-      });
-    </script>
   </body>
 </html>

@@ -7,7 +7,7 @@ const hasPosts = (await getCollection('blog', ({ data }) => data.draft !== true)
 ---
 
 <footer class="footer">
-  <div class="footer__inner wrap">
+  <div class="wrap">
     <div class="footer__cols">
       <ul>
         <li>Paul Thompson</li>
@@ -16,18 +16,18 @@ const hasPosts = (await getCollection('blog', ({ data }) => data.draft !== true)
       </ul>
       <ul>
         <li>Pages</li>
-        <li><a class="link" href="/#work">Work</a></li>
-        <li><a class="link" href="/projects">Projects</a></li>
-        {hasPosts && <li><a class="link" href="/blog">Writing</a></li>}
-        <li><a class="link" href="/#about">About</a></li>
-        <li><a class="link" href="/#contact">Contact</a></li>
+        <li><a class="quiet-link" href="/#work">Work</a></li>
+        <li><a class="quiet-link" href="/projects">Projects</a></li>
+        {hasPosts && <li><a class="quiet-link" href="/blog">Writing</a></li>}
+        <li><a class="quiet-link" href="/#about">About</a></li>
+        <li><a class="quiet-link" href="/#contact">Contact</a></li>
       </ul>
       <ul>
         <li>Elsewhere</li>
-        <li><a class="link" href={GITHUB_URL} rel="me">GitHub</a></li>
-        <li><a class="link" href={LINKEDIN_URL} rel="me">LinkedIn</a></li>
-        <li><a class="link" href={X_URL} rel="me">X @core_hdd</a></li>
-        <li><a class="link" href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
+        <li><a class="quiet-link" href={GITHUB_URL} rel="me">GitHub</a></li>
+        <li><a class="quiet-link" href={LINKEDIN_URL} rel="me">LinkedIn</a></li>
+        <li><a class="quiet-link" href={X_URL} rel="me">X @core_hdd</a></li>
+        <li><a class="quiet-link" href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
       </ul>
       <ul>
         <li>This site</li>
@@ -36,7 +36,7 @@ const hasPosts = (await getCollection('blog', ({ data }) => data.draft !== true)
           COMMIT_SHA !== 'unset' && (
             <li>
               Built from{' '}
-              <a class="link" href={`https://github.com/coredev-uk/coredev.uk/commit/${COMMIT_SHA}`}>
+              <a class="quiet-link footer__sha" href={`https://github.com/coredev-uk/coredev.uk/commit/${COMMIT_SHA}`}>
                 {COMMIT_SHA.substring(0, 7)}
               </a>
             </li>
@@ -51,9 +51,11 @@ const hasPosts = (await getCollection('blog', ({ data }) => data.draft !== true)
 
 <style>
   .footer {
-    padding-block: 4rem 2rem;
-    background: #050c17;
-    color: var(--ink);
+    margin-top: var(--section-gap);
+    padding-block: 3.5rem 2rem;
+    border-top: 1px solid var(--rule);
+    color: var(--text2);
+    font-size: var(--fs-small);
   }
 
   .footer__cols {
@@ -62,24 +64,29 @@ const hasPosts = (await getCollection('blog', ({ data }) => data.draft !== true)
     gap: 2rem var(--gutter);
   }
 
-  .footer__cols ul {
+  .footer ul {
+    display: grid;
+    align-content: start;
+    gap: 6px;
     margin: 0;
     padding: 0;
     list-style: none;
-    font-size: var(--step-small);
-    line-height: 1.8;
-    color: var(--muted);
   }
 
-  .footer__cols li:first-child {
-    color: var(--ink);
-    font-weight: 500;
+  .footer li:first-child {
+    margin-bottom: 4px;
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .footer__sha {
+    color: var(--text);
   }
 
   .footer__legal {
-    margin: 4rem 0 0;
-    font-size: var(--step-small);
-    color: var(--muted);
+    margin: 3.5rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
   }
 
   @media (max-width: 760px) {

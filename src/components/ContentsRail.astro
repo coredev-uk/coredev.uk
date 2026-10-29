@@ -1,0 +1,135 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+// The sections of a write-up or post. The one being read is "here": gilt, with the shell's one index gliding to it.
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const sections = Astro.props.headings.filter((h) => h.depth === 2);
+---
+
+{
+  sections.length > 1 && (
+    <nav class="rail" aria-labelledby="rail-title" data-rail>
+      <h2 class="label rail__label" id="rail-title">On this page</h2>
+      <div class="rail__list">
+        <ol>
+          {sections.map((h) => (
+            <li>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ol>
+        <span class="rail__index" aria-hidden="true" />
+      </div>
+    </nav>
+  )
+}
+
+<script>
+  let stop: (() => void) | undefined;
+
+  document.addEventListener('astro:page-load', () => {
+    stop?.();
+    const rail = document.querySelector<HTMLElement>('[data-rail]');
+    if (!rail) return;
+    const links = [...rail.querySelectorAll<HTMLAnchorElement>('a')];
+    const index = rail.querySelector<HTMLElement>('.rail__index')!;
+    const sections = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))));
+
+    // The current section is the last one whose heading has passed the top third of the viewport.
+    const mark = () => {
+      const line = innerHeight * 0.3;
+      let current = -1;
+      sections.forEach((s, i) => {
+        if (s && s.getBoundingClientRect().top <= line) current = i;
+      });
+      links.forEach((a, i) => (i === current ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+      const a = links[current];
+      index.style.setProperty('--y', a ? `${a.offsetTop}px` : '0px');
+      index.style.setProperty('--h', a ? `${a.offsetHeight}px` : '0px');
+    };
+
+    addEventListener('scroll', mark, { passive: true });
+    addEventListener('resize', mark);
+    mark();
+    stop = () => {
+      removeEventListener('scroll', mark);
+      removeEventListener('resize', mark);
+    };
+  });
+</script>
+
+<style>
+  .rail {
+    position: sticky;
+    top: calc(var(--bar-h) + 24px);
+  }
+
+  .rail__label {
+    margin-bottom: 10px;
+  }
+
+  .rail__list {
+    position: relative;
+    border-left: 1px solid var(--rule);
+  }
+
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: block;
+    padding: 6px 0 6px 16px;
+    color: var(--text2);
+    font-size: var(--fs-small);
+    line-height: 1.4;
+    text-decoration: none;
+    transition: color var(--t-state) var(--ease);
+  }
+
+  a[aria-current] {
+    color: var(--gilt);
+    font-weight: 700;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    a:hover {
+      color: var(--text);
+    }
+
+    a[aria-current]:hover {
+      color: var(--gilt-hover);
+    }
+  }
+
+  /* One index for the list: it glides to the section being read. */
+  .rail__index {
+    position: absolute;
+    left: -1px;
+    top: 0;
+    width: 2px;
+    height: var(--h, 0);
+    translate: 0 var(--y, 0);
+    background: var(--gilt);
+    transition:
+      translate var(--t-move) var(--ease),
+      height var(--t-move) var(--ease);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rail__index {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .rail {
+      display: none;
+    }
+  }
+</style>

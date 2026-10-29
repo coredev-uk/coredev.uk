@@ -3,27 +3,45 @@ import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import { GITHUB_URL } from '../data/work';
+
+const places = [
+  { href: '/projects', title: 'Projects', text: 'and their write-ups' },
+  { href: '/blog', title: 'Writing', text: 'starting with four years of Cider' },
+  { href: '/#about', title: 'About me', text: 'my experience and education' },
+  { href: GITHUB_URL, title: 'GitHub', text: 'where all of my public code lives', rel: 'me' },
+];
 ---
 
 <Layout title="Page not found, Paul Thompson (Core)">
   <Navigation />
-  <main id="main-content" class="missing wrap">
+  <main id="main-content" class="missing grid12 wrap">
     <div class="missing__text">
-      <h1 data-reveal>Page not found</h1>
-      <p class="missing__lead" data-reveal style="--i: 1">
+      <h1 class="display" data-reveal>Page not found</h1>
+      <p class="lead missing__lead" data-reveal style="--d: 90ms">
         There's nothing at this address. It may have moved when the site was rebuilt, or the link may be mistyped.
       </p>
-      <p class="missing__actions" data-reveal style="--i: 2">
-        <a class="button" href="/">Back to the home page</a>
+      <p class="actions missing__actions" data-reveal style="--d: 180ms">
+        <a class="btn btn--primary" href="/">Back to the home page</a>
       </p>
     </div>
-    <nav class="missing__links" aria-label="Places to go instead">
-      <h2 data-reveal>Try one of these</h2>
+    <nav class="missing__links plate" aria-labelledby="places-title">
+      <h2 class="label missing__label" id="places-title">Try one of these</h2>
       <ul>
-        <li data-reveal style="--i: 1"><a class="link" href="/projects">Projects</a> and their write-ups</li>
-        <li data-reveal style="--i: 2"><a class="link" href="/blog">Writing</a>, starting with four years of Cider</li>
-        <li data-reveal style="--i: 3"><a class="link" href="/#about">About me</a>, my experience and education</li>
-        <li data-reveal style="--i: 4"><a class="link" href={GITHUB_URL} rel="me">GitHub</a>, where all of my public code lives</li>
+        {
+          places.map((place) => (
+            <li>
+              <a href={place.href} rel={place.rel}>
+                <span>
+                  <strong>{place.title}</strong>
+                  <span>{place.text}</span>
+                </span>
+                <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
   </main>
@@ -32,57 +50,73 @@ import { GITHUB_URL } from '../data/work';
 
 <style>
   .missing {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    row-gap: 3rem;
     align-items: end;
-    min-height: min(80svh, 44rem);
-    padding-top: 9rem;
-    padding-bottom: var(--section-gap);
+    row-gap: 3rem;
+    padding-top: clamp(3rem, 8vw, 7rem);
   }
 
   .missing__text {
     grid-column: 1 / span 6;
   }
 
-  .missing h1 {
-    margin: 0;
-    font-size: var(--step-display);
-    line-height: 1;
-  }
-
   .missing__lead {
     max-width: 36ch;
     margin: 1.5rem 0 0;
-    font-size: var(--step-lead);
-    line-height: 1.4;
   }
 
   .missing__actions {
-    margin: 2rem 0 0;
+    margin-top: 2rem;
   }
 
   .missing__links {
     grid-column: 8 / -1;
+    padding: 6px;
   }
 
-  .missing__links h2 {
-    margin: 0 0 1rem;
-    color: var(--muted);
-    font-size: var(--step-body);
-    font-weight: 500;
+  .missing__label {
+    padding: 12px 12px 6px;
   }
 
-  .missing__links ul {
-    display: grid;
-    gap: 0.9rem;
+  ul {
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  @media (max-width: 760px) {
+  /* Panel rows: bold title over a secondary line, a muted chevron, the hover fill under the pointer. */
+  .missing__links a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 16px;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 8px 12px;
+    border-radius: var(--r-row);
+    text-decoration: none;
+    transition: background-color var(--t-state) var(--ease);
+  }
+
+  .missing__links a strong {
+    display: block;
+    font-weight: 700;
+  }
+
+  .missing__links a span span {
+    color: var(--text2);
+    font-size: var(--fs-small);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .missing__links a:hover {
+      background: var(--hover);
+    }
+
+    .missing__links a:hover .chevron {
+      color: var(--text);
+    }
+  }
+
+  @media (max-width: 900px) {
     .missing__text,
     .missing__links {
       grid-column: 1 / -1;
