@@ -87,6 +87,7 @@ export const workGroups: WorkGroup[] = [
         stack: "Kubernetes, Flux",
         years: "2025–now",
         slug: "homelab",
+        href: `${GITHUB_URL}/home-ops`,
       },
       {
         name: "dotfiles",
