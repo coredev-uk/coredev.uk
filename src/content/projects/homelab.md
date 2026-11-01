@@ -3,6 +3,7 @@ title: "Homelab"
 description: "A three-node Talos Linux Kubernetes cluster run by Flux from Git, with Rook Ceph storage, CloudNativePG, External Secrets and Prometheus, Grafana and VictoriaLogs"
 date: "2025-09-01"
 technologies: ["Kubernetes", "Talos Linux", "Flux", "Helm", "Cilium", "Rook Ceph", "CloudNativePG", "External Secrets", "Prometheus", "Grafana", "VictoriaLogs", "Kritika", "AI agents"]
+github: "https://github.com/coredev-uk/home-ops"
 status: "active"
 image: "/work/homelab-cluster.webp"
 imageAlt: "Three terminals on the atlas desktop: Flux listing the cluster's platform HelmReleases, kubectl showing the three Talos nodes and their load, and a passing talosctl health check."
@@ -29,7 +30,7 @@ badges:
 
 My homelab is a small Kubernetes cluster that runs the services I use at home. Everything about it lives in one Git repository: the operating system configuration for each machine, the cluster's platform components and every application. Flux watches that repository and makes the cluster match it, so a change is a commit and a rollback is a revert.
 
-The repository is private because it describes my home network, but the setup follows the patterns of the public home-ops community, and in particular [onedr0p/home-ops](https://github.com/onedr0p/home-ops).
+The repository is public as [coredev-uk/home-ops](https://github.com/coredev-uk/home-ops). The setup follows the patterns of the home-ops community, and in particular [onedr0p/home-ops](https://github.com/onedr0p/home-ops).
 
 ## Hardware
 
