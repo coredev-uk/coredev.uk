@@ -22,7 +22,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^26.6.5",
-    "wrangler": "^4.152.0"
+    "wrangler": "^4.156.0"
   },
   "trustedDependencies": [
     "@tailwindcss/oxide"
